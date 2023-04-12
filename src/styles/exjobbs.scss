@@ -1,0 +1,61 @@
+.exjobb {
+	&-list {
+		text-align: left;
+		padding: 64px var(--content-padding) 32px;
+
+		h1 {
+			margin-top: 0;
+
+			font-style: normal;
+			font-weight: 700;
+			font-size: 32px;
+			line-height: 120%;
+
+			letter-spacing: -0.41px;
+			text-transform: capitalize;
+
+			color: var(--color-text-dark);
+		}
+
+		&ing {
+			margin: 32px var(--invert-content-padding);
+			@apply grid gap-y-6;
+		}
+	}
+
+	&-box {
+		display: flex;
+		flex-direction: column;
+		padding: 16px var(--content-padding);
+
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 150ms;
+		row-gap: 16px;
+		color: black;
+
+		text-decoration: none;
+
+		&:nth-child(odd) {
+			@apply bg-zinc-200;
+		}
+
+		&:hover {
+			@apply bg-zinc-300;
+		}
+
+		& [role=name] {
+			@apply m-0 text-lg font-bold tracking-tight;
+		}
+
+		& [role=description] {
+			@apply m-0 text-zinc-600;
+		}
+
+		& [role=skills] {
+			@apply m-0 font-bold tracking-tight;
+		}
+	}
+
+	// &-single {}
+}

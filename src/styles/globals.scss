@@ -1,0 +1,165 @@
+@use 'header';
+@use 'footer';
+
+@use 'home';
+@use 'projects';
+@use 'funding';
+@use 'personnel';
+@use 'publications';
+@use 'courses';
+@use 'exjobbs';
+
+
+:root {
+	--max-width: 1024px;
+	--content-padding: 64px;
+	--invert-content-padding: -64px;
+
+	--color-background: #F2F2F2;
+	--color-header-background: #272727;
+	--color-header-border: #0078B3;
+	--color-personnel-border: #9CB0C977;
+	--color-text-dark: #1A1A1A;
+
+	--white: #FFFFFF;
+	--gray-80: #CCCCCC;
+	--gray-60: #999999;
+	--gray-40: #666666;
+	--gray-20: #333333;
+	--black: #000000;
+}
+
+@media (max-width: 960px) {
+	:root {
+		--content-padding: 32px;
+		--invert-content-padding: -32px;
+	}
+}
+
+@media (max-width: 600px) {
+	:root {
+		--content-padding: 16px;
+		--invert-content-padding: -16px;
+	}
+}
+
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: var(--color-background);
+}
+
+hr {
+	border: none;
+	border-top: 1px solid var(--color-personnel-border);
+
+	margin-left: var(--invert-content-padding);
+	margin-right: var(--invert-content-padding);
+}
+
+p {
+	@apply leading-6
+}
+
+
+/* Main content */
+
+.page-wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+
+.page-content {
+	width: 100%;
+	max-width: var(--max-width);
+	margin: 44px auto 0;
+	flex: 1 1 0%;
+	// padding: var(--content-padding);
+}
+
+.page-padding {
+	padding-left: var(--content-padding);
+	padding-right: var(--content-padding);
+}
+
+
+// Imported .mdx markdown content
+
+.mdx-content {
+	h1 {
+		font-size: 2em;
+		margin-block-start: 1.2em;
+		margin-block-end: 0.6em;
+	}
+
+	img {
+		max-width: 100%;
+	}
+
+	table {
+		width: 100%;
+		margin-bottom: 1rem;
+		background-color: transparent;
+	}
+
+	thead {
+		display: table-header-group;
+		vertical-align: middle;
+		border-color: inherit;
+	}
+
+	tbody {
+		display: table-row-group;
+		vertical-align: middle;
+		border-color: inherit;
+	}
+
+	tr {
+		display: table-row;
+		vertical-align: inherit;
+		border-color: inherit;
+	}
+
+	th {
+		text-align: inherit;
+	}
+
+	thead th {
+		vertical-align: bottom;
+		border-bottom: 2px solid #dee2e6;
+	}
+
+	td,
+	th {
+		padding: 0.75rem;
+		vertical-align: top;
+		border-top: 1px solid #dee2e6;
+	}
+
+	td,
+	th {
+		padding: 0.75rem;
+		vertical-align: top;
+		border-top: 1px solid #dee2e6;
+	}
+}
+
+
+.skill-list {
+	@apply flex flex-wrap gap-x-3 gap-y-2 text-white;
+
+	&-item {
+		@apply bg-zinc-400 col-span-1 px-3 py-1 rounded-full text-center;
+	}
+}

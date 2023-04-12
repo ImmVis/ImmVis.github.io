@@ -1,0 +1,23 @@
+.list {
+	@apply flex gap-2;
+}
+
+.item {
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+
+	font-size: 1.5rem;
+	line-height: 60px;
+	text-align: center;
+	text-transform: uppercase;
+
+	user-select: none;
+
+	& img {
+		width: 100%;
+		height: unset;
+		object-fit: contain;
+		aspect-ratio: 1 / 1;
+	}
+}
