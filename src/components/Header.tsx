@@ -1,31 +1,31 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 
-function NavLink({ children, ...props }: any) {
+function NavLink({ children, href }: { children: any, href: string }) {
 	const router = useRouter();
-	const ref = useRef<HTMLAnchorElement>();
+	const ref = useRef<HTMLAnchorElement>(null);
 
 	useEffect(() => {
 		const anchor = ref.current as HTMLAnchorElement;
 
 		anchor.classList.toggle("active", false);
 
-		if (props.href == "/") {
-			if (router.pathname == props.href) {
+		if (href == "/") {
+			if (router.pathname == href) {
 				anchor.classList.toggle("active", true);
 			}
 		}
-		else if (router.pathname.startsWith(props.href)) {
+		else if (router.pathname.startsWith(href)) {
 			anchor.classList.toggle("active", true);
 		}
-	}, [router]);
+	}, [router, href]);
 
 
 	return (
-		<Link className="header-tab" {...props} ref={ref} >
+		<Link className="header-tab" href={href} ref={ref} >
 			<span className="header-tab-text">{children}</span>
 		</Link>
 	);
