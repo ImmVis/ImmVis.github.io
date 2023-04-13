@@ -6,29 +6,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
-export default function PublicationList({ publications }: { publications: PublicationData[] }) {
+export default function PublicationPage({ publications }: { publications: PublicationData[] }) {
 	return (
 		<>
 			<Head>
 				<title>Publications - ImmVis</title>
 			</Head>
 
-			<main className="publication-list">
-				<h1>Latest publications</h1>
-				<hr />
+			<main className="publication-page">
+				<h1>Publications</h1>
+				<p>Nostrud nisi consequat elit ex laborum culpa ipsum. Est sit amet voluptate et aute amet consectetur nulla occaecat do reprehenderit et consequat. Velit nisi id fugiat veniam exercitation fugiat est mollit sunt cillum eu. Consectetur pariatur pariatur fugiat laborum id magna sit laborum. Elit aute ullamco commodo nisi veniam laborum quis veniam ex mollit duis qui culpa. Sit minim ut minim ut commodo adipisicing fugiat cupidatat commodo eu adipisicing ad elit. Ex occaecat sunt elit id do occaecat excepteur nisi.</p>
 
-				<div className="publication-listing">
-					{publications.map((post) => (
-						<PublicationItem key={post.slug} post={post} />
-					))}
-				</div>
+				<PublicationList publications={publications} />
 			</main>
 		</>
 	);
 }
 
 
-function PublicationItem({ post }: { post: PublicationData }) {
+export function PublicationList({ publications }: { publications: PublicationData[] }) {
+	return (
+		<div className="publication-list">
+			{publications.map((post) => (
+				<PublicationItem key={post.slug} post={post} />
+			))}
+		</div>
+	);
+}
+
+
+export function PublicationItem({ post }: { post: PublicationData }) {
 	const { slug, data } = post;
 
 	return (

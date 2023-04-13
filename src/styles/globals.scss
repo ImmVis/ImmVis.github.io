@@ -85,7 +85,6 @@ p {
 	max-width: var(--max-width);
 	margin: 44px auto 0;
 	flex: 1 1 0%;
-	// padding: var(--content-padding);
 }
 
 .page-padding {
@@ -107,10 +106,20 @@ p {
 		max-width: 100%;
 	}
 
+	figure {
+		@apply text-sm text-zinc-500 italic;
+
+		p {
+			@apply mt-0;
+		}
+	}
+
+
 	table {
 		width: 100%;
 		margin-bottom: 1rem;
 		background-color: transparent;
+		border-spacing: 0;
 	}
 
 	thead {
@@ -137,21 +146,16 @@ p {
 
 	thead th {
 		vertical-align: bottom;
-		border-bottom: 2px solid #dee2e6;
+		border-bottom: 2px solid;
+		@apply border-zinc-400;
 	}
 
 	td,
 	th {
-		padding: 0.75rem;
+		padding: 0.7rem;
 		vertical-align: top;
-		border-top: 1px solid #dee2e6;
-	}
-
-	td,
-	th {
-		padding: 0.75rem;
-		vertical-align: top;
-		border-top: 1px solid #dee2e6;
+		border-bottom: 1px solid;
+		@apply border-zinc-300;
 	}
 }
 

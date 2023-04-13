@@ -6,14 +6,20 @@ import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper
 import { getCustomComponents } from "@/components/CustomComponents";
 import SkillList from "@/components/SkillList";
 import SocialList from "@/components/SocialList";
-import PublicationList from "../publications";
+import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
+import { ProjectList } from "../projects";
+import { PublicationList } from "../publications";
 
 
 // Individual personnel page component
-export default function Personnel({ personnel, publications }: { personnel: PersonnelData, publications: PublicationData[] }) {
+export default function Personnel({ personnel, projects, publications }: { personnel: PersonnelData, projects: ProjectData[], publications: PublicationData[] }) {
 	const { data, content, mdxPath } = personnel;
 	const { email, phone, address, orcid } = data.contact_info || {};
 	const webpage = data.personal_webpage;
+
+	const myProjects = projects.filter(project =>
+		project.data.people.includes(data.id)
+	);
 
 	const myPublications = publications.filter(publication =>
 		publication.data.liu_authors.includes(data.id)
@@ -39,9 +45,9 @@ export default function Personnel({ personnel, publications }: { personnel: Pers
 						<p role="position">{data.position.join(", ")}</p>
 						<p role="name">{data.name}</p>
 
-						{/* <p>
-							Id ad eiusmod qui non deserunt aliqua et ipsum voluptate reprehenderit dolor enim excepteur. Sint eiusmod dolor adipisicing ullamco qui commodo in laborum mollit.
-						</p> */}
+						<p>
+							Id ad eiusmod qui non deserunt aliqua et ipsum voluptate reprehenderit dolor enim excepteur.
+						</p>
 
 						<div className="flex flex-row items-center mb-3">
 							<span className="text-lg font-bold mr-4">Contact</span>
@@ -69,14 +75,24 @@ export default function Personnel({ personnel, publications }: { personnel: Pers
 
 				{/* Markdown content */}
 				<div className="personnel-single-markdown mdx-content">
-					{/* {JSON.stringify(content)} */}
 					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
-				</div>
 
-				{/* Publications */}
-				{myPublications.length > 0 &&
-					<PublicationList publications={myPublications} />
-				}
+					{/* Projects */}
+					{myProjects.length > 0 &&
+						<>
+							<h1>Projects</h1>
+							<ProjectList projects={myProjects} />
+						</>
+					}
+
+					{/* Publications */}
+					{myPublications.length > 0 &&
+						<>
+							<h1>Publications</h1>
+							<PublicationList publications={myPublications} />
+						</>
+					}
+				</div>
 			</main>
 		</>
 	);
@@ -101,6 +117,7 @@ export async function getStaticProps({ params }: { params: { slug: string; } }) 
 	return {
 		props: {
 			personnel: await getPersonnel(params.slug),
+			projects: await getAllProjects(),
 			publications: await getAllPublications(),
 		}
 	};

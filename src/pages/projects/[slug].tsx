@@ -3,15 +3,21 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import { getCustomComponents } from "@/components/CustomComponents"
 import { ProjectData, getAllProjects, getProject } from "@/helpers/ProjectHelper";
-import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
+import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
+import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper";
+import { PublicationList } from "../publications";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
 
 
 // Individual project page component
-export default function Project({ project, personnel, fundings }: { project: ProjectData, personnel: PersonnelData[], fundings: FundingData[] }) {
+export default function Project({ project, fundings, personnel, publications }: { project: ProjectData, fundings: FundingData[], personnel: PersonnelData[], publications: PublicationData[] }) {
 	const { data, content, mdxPath } = project;
+
+	const myPublications = publications.filter(publication =>
+		publication.data.projects.includes(data.id)
+	);
 
 	return (
 		<>
@@ -52,6 +58,14 @@ export default function Project({ project, personnel, fundings }: { project: Pro
 				<div className="project-single-markdown mdx-content">
 					{/* {JSON.stringify(content)} */}
 					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+
+					{/* Publications */}
+					{myPublications.length > 0 &&
+						<>
+							<h1>Publications</h1>
+							<PublicationList publications={myPublications} />
+						</>
+					}
 				</div>
 			</main>
 		</>
@@ -77,8 +91,9 @@ export async function getStaticProps({ params }: { params: { slug: string; } }) 
 	return {
 		props: {
 			project: await getProject(params.slug),
-			personnel: await getAllPersonnels(),
 			fundings: await getAllFundings(),
+			personnel: await getAllPersonnels(),
+			publications: await getAllPublications(),
 		}
 	};
 }

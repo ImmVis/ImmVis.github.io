@@ -3,19 +3,23 @@
 }
 
 .item {
-	width: 60px;
-	height: 60px;
+	width: 48px;
+	height: 48px;
 	overflow: hidden;
 
 	font-size: 1.5rem;
-	line-height: 60px;
+	line-height: 48px;
 	text-align: center;
 	text-transform: uppercase;
 
 	user-select: none;
 
-	@apply bg-zinc-500 text-white;
+	@apply text-white;
 	@apply rounded-full;
+
+	div {
+		@apply bg-zinc-400;
+	}
 
 	& img {
 		width: 100%;

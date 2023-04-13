@@ -13,6 +13,7 @@ const PublicationMeta = z.object({
 	title: z.string(),
 	authors: z.string(),
 	liu_authors: z.array(z.string()),
+	projects: z.array(z.string()),
 	venue: z.string(),
 	year: z.number(),
 	date: z.string(),

@@ -1,5 +1,5 @@
 .publication {
-	&-list {
+	&-page {
 		text-align: left;
 		padding: 64px var(--content-padding) 32px;
 
@@ -16,11 +16,11 @@
 
 			color: var(--color-text-dark);
 		}
+	}
 
-		&ing {
-			margin: 32px var(--invert-content-padding);
-			@apply grid gap-y-6;
-		}
+	&-list {
+		margin: 32px var(--invert-content-padding);
+		@apply grid gap-y-6;
 	}
 
 	&-box {
@@ -49,7 +49,7 @@
 		}
 
 		// &:nth-child(odd) {
-			// @apply bg-slate-200;
+			// @apply bg-zinc-200;
 		// }
 
 		// &:hover {

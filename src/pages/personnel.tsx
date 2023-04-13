@@ -13,8 +13,7 @@ export default function PersonnelList({ personnel }: { personnel: PersonnelData[
 
 			<main className="personnel-list">
 				<h1>Staff</h1>
-
-				<hr />
+				<p>Ullamco laboris mollit quis cupidatat qui exercitation Lorem cupidatat. Consequat minim minim dolor nulla minim pariatur. Eiusmod voluptate duis qui in elit nulla. Amet est labore adipisicing ad.</p>
 
 				<div className="personnel-listing">
 					{personnel.map((post) => (

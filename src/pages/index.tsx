@@ -18,7 +18,7 @@ export default function Home() {
 							<p className="text-lg leading-8">Welcome to the immersive visualizations team at Linköping University , where we take your ... to a whole new level! (Here to show the key message / unique selling point of our work as a team)</p>
 						</div>
 						<div className="col-span-1">
-							<Image width="500" height="2000" alt="image" src="https://picsum.photos/500/2000" />
+							<Image width="1000" height="1000" alt="image" src="https://picsum.photos/1000/1000" />
 						</div>
 					</div>
 				</div>
@@ -27,7 +27,7 @@ export default function Home() {
 					<h2 className="mt-0">Highlighted project</h2>
 					<div className="home-highlight-grid">
 						<div className="col-span-1">
-							<Image width="600" height="1300" alt="image" src="https://picsum.photos/600/1300" />
+							<Image width="800" height="800" alt="image" src="https://picsum.photos/800/800" />
 						</div>
 						<div className="col-span-1">
 							<h4>Project title</h4>
