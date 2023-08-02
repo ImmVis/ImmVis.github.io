@@ -14,7 +14,7 @@ const ProjectMeta = z.object({
 	name: z.string(),
 	description: z.string(),
 	image: z.string(),
-	homepage: z.string(),
+	homepage: z.optional(z.string()),
 	people: z.array(z.string()),
 	funding: z.array(z.string()),
 });
