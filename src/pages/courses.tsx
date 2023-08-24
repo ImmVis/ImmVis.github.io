@@ -18,6 +18,8 @@ export default function CoursePage({ courses }: { courses: CourseData[] }) {
 					Do eu exercitation ea id ullamco dolor in non pariatur consequat. Ea voluptate aliquip fugiat magna aliquip fugiat incididunt proident esse nulla velit tempor cillum dolor. Qui ad ipsum sint reprehenderit quis esse ipsum. Minim aliquip anim nulla pariatur id ut Lorem do dolor amet nostrud irure. Duis ipsum tempor enim quis consectetur aliqua do in nostrud fugiat nostrud cillum aliqua. Pariatur est aliquip eu sit elit veniam. Aliqua et excepteur eiusmod proident velit excepteur excepteur deserunt magna pariatur.
 				</p>
 
+				<hr />
+
 				<CourseList courses={courses} />
 			</main>
 		</>

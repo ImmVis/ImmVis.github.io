@@ -15,6 +15,8 @@ export default function PersonnelList({ personnel }: { personnel: PersonnelData[
 				<h1>Staff</h1>
 				<p>Ullamco laboris mollit quis cupidatat qui exercitation Lorem cupidatat. Consequat minim minim dolor nulla minim pariatur. Eiusmod voluptate duis qui in elit nulla. Amet est labore adipisicing ad.</p>
 
+				<hr />
+
 				<div className="personnel-listing">
 					{personnel.map((post) => (
 						<PersonnelItem key={post.slug} post={post} />

@@ -15,6 +15,8 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 				<h1>Funding</h1>
 				<p>Nisi veniam et nostrud mollit do adipisicing magna id sunt. Ea mollit cupidatat aliquip ipsum velit voluptate veniam. Aliqua non magna consequat exercitation officia duis est et sunt. Duis laborum sint ut velit et sunt consectetur voluptate proident cillum enim labore non.</p>
 
+				<hr />
+
 				<div className="funding-listing">
 					{fundings.map((post) => (
 						<FundingItem key={post.slug} post={post} />
