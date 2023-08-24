@@ -44,16 +44,36 @@
 			@apply bg-zinc-300;
 		}
 
-		& [role=name] {
+		& [role="name"] {
 			@apply m-0 text-lg font-bold tracking-tight;
 		}
 
-		& [role=description] {
+		& [role="description"] {
 			@apply m-0 text-zinc-600;
 		}
 
-		& [role=skills] {
+		& [role="skills"] {
 			@apply m-0 font-bold tracking-tight;
+		}
+
+		&-details {
+			@apply flex flex-wrap gap-2 justify-between text-zinc-500;
+
+			&-list {
+				@apply flex flex-wrap justify-end gap-x-3 gap-y-2;
+			}
+
+			&-info {
+				@apply text-lg;
+				& svg {
+					@apply mr-3 text-zinc-400;
+				}
+			}
+
+			&-tag {
+				@apply bg-zinc-400 text-white text-center;
+				@apply col-span-1 px-3 py-1 rounded-full;
+			}
 		}
 	}
 

@@ -6,6 +6,7 @@ This collection contains a list of the exjobbs that we are currently offering or
 The following fields in the header are recognized:
  - `name` (string): The human-readable name for the exjobb.  It should be somewhat descriptive, but not overly lengthy.  In the best case, this name would be the title of the student's exjobb report
  - `location` (string): The physical location where the exjobb is supposed to be carried out.  This could be either the name of a city, or the name of an institution, or the name of a company
+ - `period` (string): The date when the exjobb is supposed to be carried out
  - `number_of_people` (string): The number of students for which this exjobb is designed.  In the overwhelming majority of cases, this is either `1`, `2`, or `1-2`
  - `contact` (array{string}): The list of LiU ids for the people that are responsible for this exjobb.  In general, this would be the examiner, supervisor, or a combination of both
  - `finished` (boolean): Determines whether the exjobb has been completed and does not accept any new applications
@@ -21,6 +22,7 @@ This example can be used to create a new exjobb file:
 ---
 name: "Perpetual Motion Visualization"
 location: "Narnia"
+period: "Fall 2025"
 number_of_people: "1-2"
 contact: [ "erier01", "maxmu02" ]
 finished: false
