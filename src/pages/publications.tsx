@@ -54,14 +54,24 @@ export function PublicationItem({ post }: { post: PublicationData }) {
 						<FontAwesomeIcon icon={solidIcons.faFeather} />
 						<span>BibTex</span>
 					</a>
-					<a href={data.code} target="_blank">
-						<FontAwesomeIcon icon={solidIcons.faCode} />
-						<span>Source</span>
-					</a>
-					<a href={data.video} target="_blank">
-						<FontAwesomeIcon icon={solidIcons.faVideo} />
-						<span>Video</span>
-					</a>
+					{data.code && (
+						<a href={data.code} target="_blank">
+							<FontAwesomeIcon icon={solidIcons.faCode} />
+							<span>Source</span>
+						</a>
+					)}
+					{data.video && (
+						<a href={data.video} target="_blank">
+							<FontAwesomeIcon icon={solidIcons.faVideo} />
+							<span>Video</span>
+						</a>
+					)}
+					{data.tags && (
+						<div>
+							<FontAwesomeIcon icon={solidIcons.faTag} />
+							<span>{data.tags?.join(", ")}</span>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

@@ -48,13 +48,13 @@
 			margin: 4px 0px;
 		}
 
-		// &:nth-child(odd) {
-			// @apply bg-zinc-200;
-		// }
+		&:nth-child(odd) {
+			@apply bg-zinc-200;
+		}
 
-		// &:hover {
-			// @apply bg-zinc-300;
-		// }
+		&:hover {
+			@apply bg-zinc-300;
+		}
 
 		& [role=title] {
 			@apply m-0 text-lg font-bold tracking-tight;
@@ -70,12 +70,10 @@
 
 
 		&-links {
-			@apply flex gap-3;
+			@apply flex flex-wrap gap-x-3 gap-y-1;
 
-			a {
-				span {
-					@apply ml-1;
-				}
+			span {
+				@apply ml-1;
 			}
 		}
 	}
