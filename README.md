@@ -6,7 +6,13 @@ This is the source for the Immersive Visualization group webpage hosted [here](h
  - [Personnel](public/content/personnel/README.md)
  - [Publications](public/content/publications/README.md)
 
-In order to edit the page, you checkout the Git repository locally, make the necessary changes, and then commit the changes back to this repository.  All files in the repository are written in [MDX](https://mdxjs.com/), which is an enhanced version of Markdown that can contain JavaScript and includes a header that specifies meta information in [YAML](https://en.wikipedia.org/wiki/YAML) about the page that is used to tie everything together.   As soon as anything is pushed to this repository, GitHub will build the webpage and serve it at https://immvis.github.io.  Making small changes to a category can be done by the page responsible person directly, but larger changes should be done using the Pull Requests system.  Additionally, it can be useful to test the changes locally following the instructions included in the rest of this file:
+In order to edit the page, you checkout the Git repository locally, make the necessary changes, and then commit the changes back to this repository.  All files in the repository are written in [MDX](https://mdxjs.com/), which is an enhanced version of Markdown that can contain JavaScript and includes a header that specifies meta information about the page that is used to tie everything together.   As soon as anything is pushed to this repository, GitHub will build the webpage and serve it at https://immvis.github.io.  Making small changes to a category can be done by the page responsible person directly, but larger changes should be done using the Pull Requests system.  Additionally, it can be useful to test the changes locally following the instructions included in the rest of this file.
+
+In case the are errors with the backend page generation or the content, create a new [Issue](https://github.com/ImmVis/ImmVis.github.io/issues/new) and provide a description on how to recreate or find the issue.
+
+## Good to know
+ - Files with the extension `.mdx` inside the public subfolders will result in published pages that won't change their URL for the forseeable future.  Files with other extensions will by default be ignored unless explicitly mentioned inside MDX files
+ - To reference a file from an MDX file, you have to prepend the name by `./`.  For example if we have two files `example.mdx` and `example.png` and we want to use the image inside the mdx, we would provide `./example.png` as the path to the image.
 
 
 # Local testing
