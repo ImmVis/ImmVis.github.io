@@ -46,8 +46,8 @@ export function ExjobbItem({ post }: { post: ExjobbData }) {
 		<Link href={`exjobbs/${slug}`} className="exjobb-box">
 			<p role="name">{data.name}</p>
 			<p role="description">Adipisicing nisi nisi velit exercitation aute excepteur consequat aliqua velit. Sint excepteur ad elit Lorem velit irure laborum ad reprehenderit anim eiusmod exercitation proident nulla. Excepteur commodo Lorem eu incididunt.</p>
-			<p role="skills">Required skills</p>
-			<SkillList skills={data.skills} />
+			{/* <p role="skills">Required skills</p> */}
+			<SkillList skills={data.skills} peopleCounter={data.number_of_people} />
 		</Link>
 	);
 }
