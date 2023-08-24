@@ -21,9 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
 				<meta property="og:title" content="ImmVis" />
 				<meta property="og:description" content="ImmVis is insert catchphrase here" />
-				<meta property="og:image" content="https://immvis.github.io/" />
-				<meta property="og:image:secure_url" content="https://immvis.github.io/dummy_image.gif" />
-				<meta property="og:url" content="https://immvis.github.io/dummy_image.gif" />
+				<meta property="og:image" content="https://immvis.github.io/dummy_image.png" />
+				<meta property="og:image:secure_url" content="https://immvis.github.io/dummy_image.png" />
+				<meta property="og:url" content="https://immvis.github.io/dummy_image.png" />
 				<meta property="og:type" content="website" />
 			</Head>
 

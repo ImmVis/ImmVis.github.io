@@ -40,7 +40,7 @@ function Header() {
 				<div className="header-group-brand">
 					<NavLink href="/">
 						<div className="flex items-center">
-							{/* <Image className="invert mr-2" width={16} height={16} alt="ImmVis logo" src="/dummy_image.gif" /> */}
+							{/* <Image className="invert mr-2" width={16} height={16} alt="ImmVis logo" src="/dummy_image.png" /> */}
 							<span>ImmVis</span>
 						</div>
 					</NavLink>
@@ -49,11 +49,11 @@ function Header() {
 				<div className="header-group-link">
 					{/* <NavLink href="/">Home</NavLink> */}
 					<NavLink href="/projects">Projects</NavLink>
-					<NavLink href="/funding">Funding</NavLink>
 					<NavLink href="/personnel">Staff</NavLink>
 					<NavLink href="/publications">Publications</NavLink>
 					<NavLink href="/courses">Courses</NavLink>
 					<NavLink href="/exjobbs">Exjobbs</NavLink>
+					<NavLink href="/funding">Funding</NavLink>
 				</div>
 
 				<div className="header-group-sublink">

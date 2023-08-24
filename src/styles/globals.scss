@@ -59,11 +59,7 @@ body {
 }
 
 hr {
-	border: none;
-	border-top: 1px solid var(--color-personnel-border);
-
-	margin-left: var(--invert-content-padding);
-	margin-right: var(--invert-content-padding);
+	@apply mt-8 border-0 border-b-4 border-dotted border-zinc-200;
 }
 
 p {
@@ -156,14 +152,5 @@ p {
 		vertical-align: top;
 		border-bottom: 1px solid;
 		@apply border-zinc-300;
-	}
-}
-
-
-.skill-list {
-	@apply flex flex-wrap gap-x-3 gap-y-2 text-white;
-
-	&-item {
-		@apply bg-zinc-400 col-span-1 px-3 py-1 rounded-full text-center;
 	}
 }

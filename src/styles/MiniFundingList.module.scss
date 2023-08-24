@@ -1,10 +1,10 @@
 .list {
-	@apply flex gap-2;
+	@apply flex flex-wrap gap-4;
 }
 
 .item {
-	width: 48px;
-	height: 48px;
+	width: 128px;
+	height: 64px;
 	overflow: hidden;
 
 	font-size: 1.5rem;
@@ -15,8 +15,8 @@
 
 	& img {
 		width: 100%;
-		height: unset;
+		height: 100%;
 		object-fit: contain;
-		aspect-ratio: 1 / 1;
+		aspect-ratio: 2 / 1;
 	}
 }

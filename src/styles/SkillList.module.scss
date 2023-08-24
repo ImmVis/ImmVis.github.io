@@ -1,0 +1,8 @@
+.list {
+	@apply flex flex-wrap justify-end gap-x-3 gap-y-2 text-zinc-500;
+}
+
+.item {
+	@apply bg-zinc-400 text-white text-center;
+	@apply col-span-1 px-3 py-1 rounded-full;
+}

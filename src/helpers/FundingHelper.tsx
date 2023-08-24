@@ -49,7 +49,7 @@ function validateData(matter: FundingData): FundingData {
 	matter.data = parseFrontmatter<FundingMeta>(FundingMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images
-	matter.data.icon = convertRelativeImagePath(matter.mdxPath, matter.data.icon, "/dummy_image.gif");
+	matter.data.icon = convertRelativeImagePath(matter.mdxPath, matter.data.icon, "/dummy_image.png");
 
 	return matter;
 }

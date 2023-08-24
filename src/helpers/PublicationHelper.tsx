@@ -59,7 +59,7 @@ function validateData(matter: PublicationData): PublicationData {
 	matter.data = parseFrontmatter<PublicationMeta>(PublicationMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images
-	matter.data.thumbnail = convertRelativeImagePath(matter.mdxPath, matter.data.thumbnail, "/dummy_image.gif");
+	matter.data.thumbnail = convertRelativeImagePath(matter.mdxPath, matter.data.thumbnail, "/dummy_image.png");
 
 	return matter;
 }

@@ -27,7 +27,7 @@ export default function SocialList({ social }: { social?: { [key: string]: strin
 			<div className="flex flex-wrap gap-3">
 				{brands.map(brand =>
 					social[brand] && (
-						<a key={brand} href={social[brand]} className="text-zinc-500" target="_blank">
+						<a key={brand} title={brand} href={social[brand]} className="text-zinc-500" target="_blank">
 							<FontAwesomeIcon icon={icons[brand]} size="2x" />
 						</a>
 					)

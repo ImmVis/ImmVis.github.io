@@ -12,7 +12,8 @@ export const folderPath = "/content/exjobbs/";
 const ExjobbMeta = z.object({
 	name: z.string(),
 	location: z.string(),
-	number_of_people: z.string(),
+	period: z.string(),
+	number_of_students: z.string(),
 	contact: z.array(z.string()),
 	finished: z.boolean(),
 	skills: z.optional(z.array(z.string())),
@@ -50,7 +51,7 @@ function validateData(matter: ExjobbData): ExjobbData {
 	matter.data = parseFrontmatter<ExjobbMeta>(ExjobbMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images
-	// matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.gif");
+	// matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
 	return matter;
 }

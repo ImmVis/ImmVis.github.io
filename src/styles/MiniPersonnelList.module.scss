@@ -1,14 +1,14 @@
 .list {
-	@apply flex gap-2;
+	@apply flex flex-wrap gap-4;
 }
 
 .item {
-	width: 48px;
-	height: 48px;
+	width: 64px;
+	height: 64px;
 	overflow: hidden;
 
 	font-size: 1.5rem;
-	line-height: 48px;
+	line-height: 64px;
 	text-align: center;
 	text-transform: uppercase;
 

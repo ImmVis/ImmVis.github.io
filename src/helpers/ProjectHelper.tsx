@@ -12,6 +12,7 @@ export const folderPath = "/content/projects/";
 const ProjectMeta = z.object({
 	id: z.string(),
 	name: z.string(),
+	date: z.string(),
 	description: z.string(),
 	image: z.string(),
 	homepage: z.optional(z.string()),
@@ -51,7 +52,7 @@ function validateData(matter: ProjectData): ProjectData {
 	matter.data = parseFrontmatter<ProjectMeta>(ProjectMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images
-	matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.gif");
+	matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
 	return matter;
 }
