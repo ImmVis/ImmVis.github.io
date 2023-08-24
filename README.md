@@ -1,9 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ImmVis webpage
+This is the source for the Immersive Visualization group webpage hosted [here](https://immvis.github.io).  The content of the page is found in the `/public` folder and its subfolders that each correspond to categories displayed on the webpage.  Each subfolder contains a README that explains the structure of the category, how to organize the files within, and which options are available for a page.  Here is a list of the available READMEs:
+ - [Courses](public/content/courses/README.md)
+ - [Exjobbs](public/content/exjobbs/README.md)
+ - [Funding](public/content/fundings/README.md)
+ - [Personnel](public/content/personnel/README.md)
+ - [Publications](public/content/publications/README.md)
 
-## Getting Started
+In order to edit the page, you checkout the Git repository locally, make the necessary changes, and then commit the changes back to this repository.  All files in the repository are written in [MDX](https://mdxjs.com/), which is an enhanced version of Markdown that can contain JavaScript and includes a header that specifies meta information about the page that is used to tie everything together.   As soon as anything is pushed to this repository, GitHub will build the webpage and serve it at https://immvis.github.io.  Making small changes to a category can be done by the page responsible person directly, but larger changes should be done using the Pull Requests system.  Additionally, it can be useful to test the changes locally following the instructions included in the rest of this file.
 
+In case the are errors with the backend page generation or the content, create a new [Issue](https://github.com/ImmVis/ImmVis.github.io/issues/new) and provide a description on how to recreate or find the issue.
+
+## Good to know
+ - Files with the extension `.mdx` inside the public subfolders will result in published pages that won't change their URL for the forseeable future.  Files with other extensions will by default be ignored unless explicitly mentioned inside MDX files
+ - To reference a file from an MDX file, you have to prepend the name by `./`.  For example if we have two files `example.mdx` and `example.png` and we want to use the image inside the mdx, we would provide `./example.png` as the path to the image.
+
+
+# Local testing
 First, run the development server:
-
 ```bash
 npm run dev
 # or
@@ -11,28 +24,12 @@ yarn dev
 # or
 pnpm dev
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.  Editing the files will autoupdate the webpage
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
+# Learn More
 To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
