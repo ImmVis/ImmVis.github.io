@@ -32,7 +32,7 @@
 
 	&-read-more {
 		@apply text-sm text-white no-underline;
-		@apply bg-sky-700 hover:bg-slate-600 cursor-pointer;
+		@apply bg-sky-700 hover:bg-sky-900 cursor-pointer;
 		@apply px-4 py-0.5 rounded-full;
 		@apply float-right mt-4;
 	}
