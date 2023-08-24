@@ -43,6 +43,7 @@ export function PublicationItem({ post }: { post: PublicationData }) {
 			<Image width={512} height={512} alt={data.thumbnail} src={data.thumbnail} />
 			<div>
 				<p role="title">{data.title}</p>
+				<p>{data.authors}</p>
 				<p><i>{data.venue}, {data.year}</i></p>
 				<p><a href={data.doi}>doi:{data.doi}</a></p>
 				<div className="publication-box-links">
