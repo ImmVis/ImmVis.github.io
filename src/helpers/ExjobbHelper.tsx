@@ -50,7 +50,7 @@ function validateData(matter: ExjobbData): ExjobbData {
 	matter.data = parseFrontmatter<ExjobbMeta>(ExjobbMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images
-	// matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.gif");
+	// matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
 	return matter;
 }

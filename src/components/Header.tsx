@@ -40,7 +40,7 @@ function Header() {
 				<div className="header-group-brand">
 					<NavLink href="/">
 						<div className="flex items-center">
-							{/* <Image className="invert mr-2" width={16} height={16} alt="ImmVis logo" src="/dummy_image.gif" /> */}
+							{/* <Image className="invert mr-2" width={16} height={16} alt="ImmVis logo" src="/dummy_image.png" /> */}
 							<span>ImmVis</span>
 						</div>
 					</NavLink>

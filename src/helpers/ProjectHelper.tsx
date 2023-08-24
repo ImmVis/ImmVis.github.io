@@ -51,7 +51,7 @@ function validateData(matter: ProjectData): ProjectData {
 	matter.data = parseFrontmatter<ProjectMeta>(ProjectMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images
-	matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.gif");
+	matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
 	return matter;
 }
