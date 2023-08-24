@@ -18,11 +18,7 @@ In case the are errors with the backend page generation or the content, create a
 # Local testing
 First, run the development server:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm run build
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.  Editing the files will autoupdate the webpage
 
