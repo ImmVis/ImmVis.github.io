@@ -33,7 +33,7 @@ function FundingItem({ post }: { post: FundingData }) {
 
 	return (
 		<a href={data.link} className="funding-box" target="_blank">
-			<Image width={512} height={512} alt={data.name} src={data.icon!} />
+			<Image width={512} height={512} alt={data.name} src={data.icon} />
 			<span role="name">
 				{data.name}
 			</span>

@@ -19,7 +19,7 @@ export default function Exjobb({ data, content, mdxPath }: ExjobbData) {
 				<ul className="m-5 p-5 bg-blue-100">
 					<u>Name</u> <ul>{data.name}</ul>
 					<u>Location</u> <ul>{data.location}</ul>
-					<u>Number_of_people</u> <ul>{data.number_of_people}</ul>
+					<u>Number_of_students</u> <ul>{data.number_of_students}</ul>
 					<u>Contact</u> <ul>{data.contact.join(', ')}</ul>
 				</ul>
 
