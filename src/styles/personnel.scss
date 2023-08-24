@@ -113,7 +113,11 @@
 				}
 
 				& [role=name] {
-					@apply text-5xl font-semibold mt-0 mb-10;
+					@apply text-5xl font-semibold mt-0 mb-8;
+				}
+
+				& .contact {
+					@apply grid grid-cols-[auto_1fr] gap-x-3 gap-y-3;
 				}
 			}
 		}

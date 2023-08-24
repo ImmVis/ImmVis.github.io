@@ -9,6 +9,9 @@ import SocialList from "@/components/SocialList";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
 import { ProjectList } from "../projects";
 import { PublicationList } from "../publications";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/free-solid-svg-icons";
+import * as brandIcons from "@fortawesome/free-brands-svg-icons";
 
 
 // Individual personnel page component
@@ -45,19 +48,62 @@ export default function Personnel({ personnel, projects, publications }: { perso
 						<p role="position">{data.position.join(", ")}</p>
 						<p role="name">{data.name}</p>
 
-						<p>
-							Id ad eiusmod qui non deserunt aliqua et ipsum voluptate reprehenderit dolor enim excepteur.
-						</p>
-
-						<div className="flex flex-row items-center mb-3">
+						{/* <div className="flex flex-row items-center mb-3">
 							<span className="text-lg font-bold mr-4">Contact</span>
-						</div>
+						</div> */}
 
-						{email && <p className="my-1">Email: <a href={`mailto:${email}`}>{email}</a></p>}
-						{phone && <p className="my-1">Phone: <a href={`tel:${phone}`}>{phone}</a></p>}
-						{address && <p className="my-1">Address: {address}</p>}
-						{orcid && <p className="my-1">Orcid: <a href={`https://orcid.org/${orcid}`}>{orcid}</a></p>}
-						{webpage && <p className="my-1">Webpage: <a href={data.personal_webpage}>{webpage}</a></p>}
+						<div className="contact">
+							{email && (
+								<>
+									<div title="Email">
+										<FontAwesomeIcon icon={solidIcons.faEnvelope} fixedWidth />
+									</div>
+									<div>
+										<a href={`mailto:${email}`}>{email}</a>
+									</div>
+								</>
+							)}
+							{phone && (
+								<>
+									<div title="Phone">
+										<FontAwesomeIcon icon={solidIcons.faPhone} fixedWidth />
+									</div>
+									<div>
+										<a href={`tel:${phone}`}>{phone}</a>
+									</div>
+								</>
+							)}
+							{address && (
+								<>
+									<div title="Address">
+										<FontAwesomeIcon icon={solidIcons.faLocationDot} fixedWidth />
+									</div>
+									<div>
+										<span>{address}</span>
+									</div>
+								</>
+							)}
+							{orcid && (
+								<>
+									<div title="ORCID">
+										<FontAwesomeIcon icon={brandIcons.faOrcid} fixedWidth />
+									</div>
+									<div>
+										<a href={`https://orcid.org/${orcid}`}>{orcid}</a>
+									</div>
+								</>
+							)}
+							{webpage && (
+								<>
+									<div title="Personal webpage">
+										<FontAwesomeIcon icon={solidIcons.faLink} fixedWidth />
+									</div>
+									<div>
+										<a href={data.personal_webpage}>{webpage}</a>
+									</div>
+								</>
+							)}
+						</div>
 
 						{/* Socials */}
 						<div className="mt-8">
