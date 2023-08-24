@@ -20,7 +20,7 @@
 		&ing {
 			margin: 32px 0;
 			display: grid;
-			@apply grid-cols-1 sm:grid-cols-2;
+			@apply grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
 			// @apply gap-x-1 gap-y-2 sm:gap-x-3 sm:gap-y-6;
 		}
 	}

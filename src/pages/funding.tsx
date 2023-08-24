@@ -22,7 +22,7 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 				</div>
 			</main>
 		</>
-	);	
+	);
 }
 
 
