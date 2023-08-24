@@ -9,6 +9,8 @@ import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper
 import { PublicationList } from "../publications";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
 // Individual project page component
@@ -29,27 +31,36 @@ export default function Project({ project, fundings, personnel, publications }: 
 
 				<div className="project-single-profile">
 
-					{/* Left profile info */}
+					{/* Left project info */}
 					<div className="left">
 						<Image width={512} height={512} quality={100} alt={data.image!} src={data.image!} />
 					</div>
 
-					{/* Right profile info */}
+					{/* Right project info */}
 					<div className="right">
 						<p role="name">{data.name}</p>
 
-						{/* People */}
-						<div className="mt-8">
-							<h3>Contributors</h3>
-							<MiniPersonnelList personnel={personnel} liuidList={data.people} />
-							{data.funding.length > 0 && <>
-								<h3>Funding</h3>
-								<MiniFundingList fundings={fundings} fundingIdList={data.funding} />
-							</>}
-							{data.homepage && <>
-								<h3>Homepage</h3>
-								<a href={data.homepage}>{data.homepage}</a>
-							</>}
+						{/* Links */}
+						<div className="contributors">
+							<div>
+								<h3>Contributors</h3>
+								<MiniPersonnelList personnel={personnel} liuidList={data.people} />
+							</div>
+							<div>
+								{data.funding.length > 0 && <>
+									<h3>Funding</h3>
+									<MiniFundingList fundings={fundings} fundingIdList={data.funding} />
+								</>}
+							</div>
+							<div>
+								{data.homepage && <>
+									<h3>Homepage</h3>
+									<div className="homepage">
+										<FontAwesomeIcon icon={solidIcons.faLink} fixedWidth />
+										<a href={data.homepage}>{data.homepage}</a>
+									</div>
+								</>}
+							</div>
 						</div>
 					</div>
 				</div>

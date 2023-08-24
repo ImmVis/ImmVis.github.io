@@ -95,7 +95,7 @@
 				@apply flex flex-col items-center;
 
 				@media (max-width: 640px) {
-					@apply pb-10 mx-8 border-0 border-b-8 border-dotted border-zinc-400;
+					@apply pb-10 mx-8 border-0 border-b-4 border-dotted border-zinc-400;
 				}
 
 				img {
@@ -114,7 +114,7 @@
 				@apply flex-1 self-center;
 
 				@media (min-width: 640px) {
-					@apply pl-8 border-0 border-l-8 border-dotted border-zinc-400;
+					@apply pl-8 border-0 border-l-4 border-dotted border-zinc-400;
 				}
 
 				& [role=position] {
