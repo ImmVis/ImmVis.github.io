@@ -13,7 +13,7 @@ const ExjobbMeta = z.object({
 	name: z.string(),
 	location: z.string(),
 	period: z.string(),
-	number_of_people: z.string(),
+	number_of_students: z.string(),
 	contact: z.array(z.string()),
 	finished: z.boolean(),
 	skills: z.optional(z.array(z.string())),

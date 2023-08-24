@@ -53,7 +53,7 @@ export function ExjobbItem({ post }: { post: ExjobbData }) {
 				<div className="exjobb-box-details-list">
 					<div className="exjobb-box-details-info mr-3" title="The number of students for this exjobb">
 						<FontAwesomeIcon icon={solidIcons.faUser} />
-						{data.number_of_people}
+						{data.number_of_students}
 					</div>
 
 					<div className="exjobb-box-details-info" title="The date when the exjobb is to be carried out">
@@ -70,8 +70,6 @@ export function ExjobbItem({ post }: { post: ExjobbData }) {
 					)}
 				</div>
 			</div>
-
-			{/* <SkillList skills={data.skills} peopleCounter={data.number_of_people} /> */}
 		</Link>
 	);
 }
