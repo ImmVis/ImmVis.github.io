@@ -12,6 +12,7 @@ export const folderPath = "/content/projects/";
 const ProjectMeta = z.object({
 	id: z.string(),
 	name: z.string(),
+	date: z.string(),
 	description: z.string(),
 	image: z.string(),
 	homepage: z.optional(z.string()),
