@@ -12,7 +12,7 @@ export const folderPath = "/content/fundings/";
 const FundingMeta = z.object({
 	id: z.string(),
 	name: z.string(),
-	icon: z.optional(z.string()),
+	icon: z.string(),
 	grants: z.optional(z.array(z.string())),
 	link: z.string(),
 });
