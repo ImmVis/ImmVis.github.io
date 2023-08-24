@@ -49,11 +49,11 @@ function Header() {
 				<div className="header-group-link">
 					{/* <NavLink href="/">Home</NavLink> */}
 					<NavLink href="/projects">Projects</NavLink>
-					<NavLink href="/funding">Funding</NavLink>
 					<NavLink href="/personnel">Staff</NavLink>
 					<NavLink href="/publications">Publications</NavLink>
 					<NavLink href="/courses">Courses</NavLink>
 					<NavLink href="/exjobbs">Exjobbs</NavLink>
+					<NavLink href="/funding">Funding</NavLink>
 				</div>
 
 				<div className="header-group-sublink">
