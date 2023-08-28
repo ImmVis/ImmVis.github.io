@@ -17,7 +17,7 @@ The following fields in the header are recognized:
  - `code` (string, optional): The URL where a reader can find the source code underlying the implementation of a publication where applicable
  - `video` (string, optional): The URL to a video hosting service where the contents of the publication are demonstrated.  This can either be a video specifically created for the submission or a recording of the talk, whichever fits the publication best
  - `thumbnail` (string): The URL to an image that exemplifies the publication and is used as the image in the list of publications
- - `tags` (array{string}, optional): A list of tags that fit this publication to tie different publications of the same field together on the webpage.  It is generally more useful to use these tags sparingly and only describe the more general techniques this way
+ - `tags` (array{string}, optional): A list of additional informational tags that describe something unique about this publication.  This can be used to highlight a paper as the best paper, honorable mentions, invited papers, etc
 
 ## Content
 There is no content for files of this type
