@@ -49,7 +49,7 @@ export function ProjectItem({ post }: { post: ProjectData }) {
 				<p role="description">{data.description}</p>
 
 				{/* <Link role="read-more" href={`/projects/${slug}`}>Read more</Link> */}
-				<p role="read-more">Read more</p>
+				{/* <p role="read-more">Read more</p> */}
 			</div>
 		</Link>
 	);
