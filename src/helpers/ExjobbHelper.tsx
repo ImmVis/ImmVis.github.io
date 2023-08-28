@@ -11,6 +11,7 @@ export const folderPath = "/content/exjobbs/";
 /** Zod schema for frontmatter */
 const ExjobbMeta = z.object({
 	name: z.string(),
+	description: z.string(),
 	location: z.string(),
 	period: z.string(),
 	number_of_students: z.string(),

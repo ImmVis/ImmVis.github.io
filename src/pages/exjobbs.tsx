@@ -45,8 +45,12 @@ export function ExjobbItem({ post }: { post: ExjobbData }) {
 
 	return (
 		<Link href={`exjobbs/${slug}`} className="exjobb-box">
-			<p role="name">{data.name}</p>
-			<p role="description">Adipisicing nisi nisi velit exercitation aute excepteur consequat aliqua velit. Sint excepteur ad elit Lorem velit irure laborum ad reprehenderit anim eiusmod exercitation proident nulla. Excepteur commodo Lorem eu incididunt.</p>
+			<p role="name">
+				{data.name}
+			</p>
+			<p role="description">
+				{data.description}
+			</p>
 
 			{/* <p role="skills">Required skills</p> */}
 			<div className="exjobb-box-details">

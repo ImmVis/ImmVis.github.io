@@ -78,5 +78,39 @@
 		}
 	}
 
-	// &-single {}
+	&-single {
+		&-profile {
+			@apply bg-zinc-300;
+			@apply page-padding pt-12 pb-12;
+			@apply flex flex-col sm:flex-row gap-8;
+
+			& .panel {
+				@apply mx-auto;
+
+				& [role="name"] {
+					@apply text-5xl font-semibold mt-0 mb-8;
+				}
+
+				& .content {
+					@apply mt-8 flex justify-between flex-wrap gap-x-16 gap-y-8;
+
+					h3 {
+						margin-top: 0;
+					}
+
+					& .info {
+						@apply flex flex-col gap-2;
+
+						& svg {
+							@apply mr-2;
+						}
+					}
+				}
+			}
+		}
+
+		&-markdown {
+			@apply page-padding mt-8 mb-16;
+		}
+	}
 }

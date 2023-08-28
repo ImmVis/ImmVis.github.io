@@ -1,34 +1,65 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { getCustomComponents } from "@/components/CustomComponents"
 import { ExjobbData, getAllExjobbs, getExjobb } from '@/helpers/ExjobbHelper';
+import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
+import MiniPersonnelList from "@/components/MiniPersonnelList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
 // Individual exjobb page component
-export default function Exjobb({ data, content, mdxPath }: ExjobbData) {
+export default function Exjobb({ exjobb, personnel }: { exjobb: ExjobbData, personnel: PersonnelData[] }) {
+	const { data, content, mdxPath } = exjobb;
+
 	return (
 		<>
 			<Head>
 				<title>{`${data.name} - ImmVis`}</title>
 			</Head>
 
-			<main className=''>
-				<h1>{data.name}</h1>
+			<main className="exjobb-single">
 
-				<ul className="m-5 p-5 bg-blue-100">
-					<u>Name</u> <ul>{data.name}</ul>
-					<u>Location</u> <ul>{data.location}</ul>
-					<u>Number_of_students</u> <ul>{data.number_of_students}</ul>
-					<u>Contact</u> <ul>{data.contact.join(', ')}</ul>
-				</ul>
+				<div className="exjobb-single-profile">
 
-				<div className="m-5 p-5 bg-red-100">
-					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+					<div className="panel">
+						<p role="name">{data.name}</p>
+
+						<div className="content">
+							<div>
+								<h3>Info</h3>
+								<div className="info">
+									<div title="The number of students for this exjobb">
+										<FontAwesomeIcon icon={solidIcons.faUser} />
+										{data.number_of_students}
+									</div>
+
+									<div title="The date when the exjobb is to be carried out">
+										<FontAwesomeIcon icon={solidIcons.faCalendarDays} />
+										{data.period}
+									</div>
+
+									<div title="The physical location where the exjobb is to be carried out">
+										<FontAwesomeIcon icon={solidIcons.faLocationDot} />
+										{data.location}
+									</div>
+								</div>
+							</div>
+
+							<div>
+								<h3>Contact</h3>
+								<MiniPersonnelList personnel={personnel} liuidList={data.contact} />
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<hr />
-				<Link href="/exjobbs">Back</Link>
+				{/* Markdown content */}
+				<div className="exjobb-single-markdown mdx-content">
+					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+				</div>
 			</main>
 		</>
 	);
@@ -51,6 +82,9 @@ export async function getStaticPaths() {
 // Static props used in the pre-render of this page
 export async function getStaticProps({ params }: { params: { slug: string; } }) {
 	return {
-		props: await getExjobb(params.slug)
+		props: {
+			exjobb: await getExjobb(params.slug),
+			personnel: await getAllPersonnels(),
+		}
 	};
 }
