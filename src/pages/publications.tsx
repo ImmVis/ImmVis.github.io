@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import Link from "next/link";
 import Image from "next/image";
 import { PublicationData, getAllPublications } from '@/helpers/PublicationHelper';
@@ -43,7 +43,7 @@ export function PublicationItem({ post }: { post: PublicationData }) {
 	return (
 		<div className="publication-box">
 			<Image width={512} height={512} alt={data.thumbnail} src={data.thumbnail} />
-			<div>
+			<div className="flex-1">
 				<p role="title">{data.title}</p>
 				<p>{data.authors}</p>
 				<p><i>{data.venue}, {data.year}</i></p>

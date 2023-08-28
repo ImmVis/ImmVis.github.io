@@ -20,6 +20,8 @@
 	--color-header-border: #0078B3;
 	--color-personnel-border: #9CB0C977;
 	--color-text-dark: #1A1A1A;
+	--color-link: #16638a;
+	--color-link-visited: #0e3250;
 
 	--white: #FFFFFF;
 	--gray-80: #CCCCCC;
@@ -59,7 +61,7 @@ body {
 }
 
 hr {
-	@apply mt-8 border-0 border-b-4 border-dotted border-zinc-200;
+	@apply mt-8 border-0 border-b border-solid border-zinc-300;
 }
 
 p {
