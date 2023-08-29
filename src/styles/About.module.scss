@@ -1,0 +1,70 @@
+.main {
+	@apply pt-16 pb-8;
+	padding-left: var(--content-padding);
+	padding-right: var(--content-padding);
+}
+
+.headerImage {
+	@apply m-0 mb-8;
+
+	figcaption {
+		@apply float-right text-sm text-zinc-700;
+	}
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.subtitle {
+	@apply mt-8 mb-5;
+}
+
+.aboutDescription {
+	h2 {
+		@apply mt-10;
+	}
+}
+
+.contactList {
+	@apply gap-8;
+	@apply block sm:flex;
+}
+
+.contact {
+	@apply bg-zinc-200 p-8 rounded-md;
+	@apply flex flex-col flex-wrap gap-x-8 gap-y-6;
+
+	img {
+		@apply rounded-full w-16;
+		// border: 2px solid var(--color-personnel-border);
+	}
+
+	.bundle {
+		@apply flex flex-col gap-1 justify-center;
+
+		.iconRow {
+			@apply flex gap-2;
+			svg {
+				@apply self-center;
+			}
+		}
+	}
+
+	[role="name"] {
+		font-weight: bold;
+	}
+
+	[role="position"] {
+		letter-spacing: -0.5px;
+	}
+
+	a {
+		color: var(--color-link);
+	}
+
+	a:visited {
+		color: var(--color-link-visited);
+	}
+}

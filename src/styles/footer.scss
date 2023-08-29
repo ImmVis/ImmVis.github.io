@@ -2,7 +2,6 @@
 	background: var(--color-header-background);
 	color: var(--gray-60);
 
-
 	&-content,
 	&-legal {
 		width: 100%;
@@ -13,125 +12,29 @@
 		margin: 0 auto;
 		padding: 32px var(--content-padding);
 
-		@apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
-		@apply gap-y-8 gap-x-4 sm:gap-x-8;
+		// @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
+		// @apply gap-y-8 gap-x-4 sm:gap-x-8;
 	}
-
-
-	&-group-contact,
-	&-group-address,
-	&-group-jobs {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-	}
-
-	&-group-contact {
-		button {
-			border: none;
-		}
-
-		& [role=phone],
-		& [role=email] {
-			margin-top: 16px;
-		}
-	}
-
-	&-contact {
-		display: flex;
-		flex-direction: row;
-
-		margin-bottom: 16px;
-
-		img {
-			width: 64px;
-			height: unset;
-
-			object-fit: cover;
-			aspect-ratio: 1 / 1;
-
-			// border: 2px solid var(--color-personnel-border);
-			border-radius: 9999px;
-
-			margin-right: 16px;
-		}
-
-		& [role=position] {
-			font-family: 'Lato';
-			font-style: normal;
-			font-weight: 400;
-			font-size: 16px;
-			line-height: 150%;
-
-			letter-spacing: -0.406593px;
-		}
-	}
-
-
-	&-group-address {
-		& [role=emptytitle] {
-			@apply footer-text-title hidden sm:visible;
-		}
-
-		& [role=title] {
-			margin-bottom: 16px;
-		}
-
-		& [role=address] {
-			font-weight: 400;
-			font-size: 16px;
-			line-height: 150%;
-			letter-spacing: -0.406593px;
-		}
-	}
-
-
-	&-group-jobs {
-		font-family: 'Lato';
-		font-style: normal;
-		font-weight: 400;
-		font-size: 16px;
-		line-height: 150%;
-		letter-spacing: -0.406593px;
-
-		@apply col-span-1 sm:col-span-2 md:col-span-1;
-		@apply sm:m-auto md:m-0;
-
-		a {
-			color: unset;
-			text-decoration: none;
-		}
-
-		a:hover {
-			text-decoration: underline;
-		}
-	}
-
 
 	&-legal {
 		margin: 0 auto;
-		padding: 16px var(--content-padding);
+		padding: 32px var(--content-padding);
 
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
+		align-items: center;
+		gap: 32px;
 
-		border-top: 1px solid var(--gray-40);
+		// border-top: 1px solid var(--gray-40);
 
-		&-text {
-			font-weight: 400;
-			font-size: 14px;
-			line-height: 110%;
+		&-privacy, &-copyright {
+			@apply text-sm tracking-tight;
 
-			display: flex;
-			align-items: center;
-			letter-spacing: -0.406593px;
-
-			color: var(--gray-60);
-
-			padding: 0 0 0 32px;
+			span {
+				@apply mx-1;
+			}
 		}
 	}
-
 
 	&-text-title {
 		font-weight: 700;
@@ -144,16 +47,5 @@
 		color: var(--white);
 
 		margin-bottom: 32px;
-	}
-
-	&-text-bold {
-		font-weight: 800;
-		font-size: 16px;
-		line-height: 20px;
-	}
-
-
-	a {
-		color: var(--color-header-border);
 	}
 }

@@ -1,24 +1,128 @@
-import Head from "next/head"
-import Image from "next/image"
+import Head from "next/head";
+import Image from "next/image";
+import style from "@/styles/About.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 export default function About() {
+	const phone = "+46 11 36 33 05";
+	const email = "peter.westerdahl@liu.se";
+
 	return (
 		<>
 			<Head>
 				<title>About - ImmVis</title>
 			</Head>
-			<main className="page-padding pt-16 pb-8">
-				<h1 className="mt-0">
-					About
-				</h1>
-				<Image className="float-right ml-4" width="1000" height="1000" alt="image" src="https://picsum.photos/400/200" />
-				<p>Velit sunt nisi irure voluptate eu nostrud magna sit nisi. Qui ipsum magna in eu culpa qui. Cillum anim eu ea qui consectetur sunt in. Consequat aute ipsum tempor et est magna aute ad ullamco quis sint anim duis do.</p>
-				<p>Aliqua eu tempor irure cupidatat mollit. Cupidatat nisi excepteur deserunt pariatur eu esse Lorem cupidatat consequat pariatur incididunt et. Cupidatat minim Lorem dolore aliqua minim duis reprehenderit. Tempor irure culpa excepteur aliqua ad. Non aliqua in culpa magna. In officia occaecat eu ea et veniam sunt occaecat. Aute cupidatat sit dolore deserunt sit voluptate culpa et esse fugiat.</p>
-				<Image className="float-left mr-4" width="1000" height="1000" alt="image" src="https://picsum.photos/300/151" />
-				<p>Dolore tempor eiusmod magna voluptate eiusmod do esse et occaecat incididunt consectetur exercitation nulla. Est aute occaecat culpa ex irure enim consectetur commodo duis et veniam. Et duis enim tempor anim nostrud quis eiusmod tempor sunt. Officia reprehenderit aliquip quis consectetur. Ullamco irure adipisicing consequat Lorem eu excepteur aliquip consequat mollit. Excepteur cupidatat sunt ex occaecat mollit commodo amet.</p>
-				<p>Velit veniam pariatur minim quis. Sit veniam veniam irure eiusmod nulla eiusmod et consectetur consectetur reprehenderit dolor do amet. Ipsum eu Lorem irure officia sint minim deserunt sit et eu nisi.</p>
-				<p>Ipsum minim deserunt mollit mollit. Commodo est amet est ex cupidatat incididunt dolore sint sint sit. Sunt anim id anim proident qui aute qui occaecat labore in culpa anim eiusmod. Ut amet adipisicing irure quis et laborum.</p>
+			<main className={style.main}>
+				<figure className={style.headerImage}>
+					<Image
+						width={2500}
+						height={1000}
+						alt="ImmVis Team"
+						src="/content/about/immersiv-visualisering-MIT-LiU.jpg"
+					/>
+					<figcaption>Photo credits: Partic Ljung</figcaption>
+				</figure>
+
+				<h1 className={style.title}>About</h1>
+
+				<div className={style.aboutDescription}>
+					<p className="text-xl text-zinc-700">
+						The Immersive Visualization group is conducting research and
+						development in a range of technologies to create an immersive and
+						engaging visualization of data.
+					</p>
+					<p>
+						The visualization of data is created with the help of large scale
+						display systems, such as domes and stereoscopic viewing (3D), also
+						including technologies such as Augmented and Virtual Reality
+						(AR/VR).
+					</p>
+					<p>
+						Part of the group is also C-tech, with technical director Erik
+						Sundén, providing technical support and maintenance of the dome and
+						related equipment and systems at Norrköping Visualization Center C.
+					</p>
+					<p>
+						Our vision is to create systems and software that enable the user to
+						feel immersed and deeply engaged with their content regardless of
+						the type of devices or display system and interaction techniques
+						being used.
+					</p>
+					<p>
+						The goal is to make the technology as transparent as possible such
+						that the user maintains focused on and work with their content and
+						to minimize distracting factors of the technologies, hardware as
+						well as software. It should feel as natural as possible to continue
+						to work with the data and content even though the user change
+						devices or systems for visualization.
+					</p>
+					<h2>Research projects </h2>
+					<ul>
+						<li>
+							With the CUAS project (Collaborative Unmanned Aircraft Systems)
+							members of the group work with augmented reality to create
+							efficient interaction methods for collaboration and navigation of
+							unmanned aircrafts and drones through the use of handheld devices.
+						</li>
+						<li>
+							Visualization and analysis of heterogeneous data, including
+							provenance and persistence of data, is a challenging task growing
+							ever more relevant as sensors and technical systems creates huge
+							amounts of streaming data in a variety of forms.
+						</li>
+					</ul>
+					<h2>Development projects</h2>
+					<ul>
+						<li>
+							AVA (Aeronautic Visualization and Analysis) comprises of
+							infrastructure and software ecosystem for the visualization and
+							analysis of air traffic management.
+						</li>
+						<li>
+							SGCT (Simple Graphics Cluster Toolkit) is a software component to
+							synchronize visualization across a computer cluster with multiple
+							projectors.
+						</li>
+						<li>
+							DomePres is a system to easily create immersive presentation with
+							standard tools such as PowerPoint and Keynote.
+						</li>
+					</ul>
+				</div>
+
+				<h2 className={style.subtitle}>Contact</h2>
+				<div className={style.contactList}>
+					<div className={style.contact}>
+						<div className="flex gap-4">
+							<a href="/personnel/petwe33/" className={style.bundle}>
+								<Image
+									width="64"
+									height="64"
+									alt="Peter Westerdahl"
+									src="https://liu.se/-/media/employeeimages/33/employee_image_petwe33.jpeg"
+								/>
+							</a>
+
+							<div className={style.bundle}>
+								<span role="name">Peter Westerdahl</span>
+								<span role="position">Senior Coordinator</span>
+							</div>
+						</div>
+
+						<div className={style.bundle}>
+							<div className={style.iconRow}>
+								<FontAwesomeIcon icon={solidIcons.faPhone} fixedWidth />
+								<a href={`tel:${phone}`}>{phone}</a>
+							</div>
+							<div className={style.iconRow}>
+								<FontAwesomeIcon icon={solidIcons.faEnvelope} fixedWidth />
+								<a href={`mailto:${email}`}>{email}</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</main>
 		</>
-	)
+	);
 }

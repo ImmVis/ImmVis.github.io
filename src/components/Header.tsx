@@ -59,7 +59,7 @@ function Header() {
 				<div className="header-group-sublink">
 					{/* <NavLink href="/sv">SV</NavLink> */}
 					<NavLink href="/about">About</NavLink>
-					<NavLink href="/contact">Contact</NavLink>
+					{/* <NavLink href="/contact">Contact</NavLink> */}
 				</div>
 			</div>
 		</nav>
