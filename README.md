@@ -16,11 +16,12 @@ In case the are errors with the backend page generation or the content, create a
 
 
 # Local testing
-First, run the development server:
-```bash
-npm run build
-```
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.  Editing the files will autoupdate the webpage
+Building the webpage locally can be very beneficial to ensure that no errors were introduced that would prevent the webpage from being deployed.  All of the commands should be run from the directory into which you cloned the folder:
+1. `npm install`
+1. `npm run build`
+1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
+
+Editing the files will autoupdate the webpage.
 
 
 # Learn More
