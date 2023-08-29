@@ -48,6 +48,9 @@
 
 * {
 	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
 }
 
 html,
@@ -64,10 +67,9 @@ hr {
 	@apply mt-8 border-0 border-b border-solid border-zinc-300;
 }
 
-p {
-	@apply leading-6
+p, li {
+	@apply leading-6;
 }
-
 
 /* Main content */
 

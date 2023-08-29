@@ -13,6 +13,7 @@
 	text-transform: uppercase;
 
 	user-select: none;
+	position: relative;
 
 	@apply text-white;
 	@apply rounded-full;
@@ -21,10 +22,9 @@
 		@apply bg-zinc-400;
 	}
 
-	& img {
+	img {
 		width: 100%;
 		height: unset;
-		object-fit: cover;
 		aspect-ratio: 1 / 1;
 	}
 }
