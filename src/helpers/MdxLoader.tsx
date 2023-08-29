@@ -1,7 +1,5 @@
-// import matter from "gray-matter";
 import path from "path";
 import fs, { readdirSync } from "fs";
-import { copy, emptyDirSync } from "fs-extra";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
@@ -19,7 +17,7 @@ const mdxOptions: any = {
 
 /**
  * Contains frontmatter data after parsing an .mdx file.
- * 
+ *
  * @prop {string} `slug` The .mdx file name with ".mdx" stripped, which is used as the url
  * @prop {{[key: string]: any}} `data` List of meta data at the top of the .mdx file, wrapped in "---"
  * @prop {matter.Input} `content` The raw markdown content to be parsed
@@ -30,11 +28,11 @@ export interface MatterData {
 	content: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
 	data: { [key: string]: any };
 	mdxPath: string;
-}
+};
 
 /**
  * Returns a list of all exjobbs .mdx files as frontmatter objects.
- * 
+ *
  * @param {string} `folderPath` Path to the /content/folder/ with .mdx files
  * @return {MatterData[]}
  */
@@ -42,9 +40,6 @@ export async function fetchAllFiles(folderPath: string): Promise<MatterData[]> {
 	const fileNames = fetchFilesRecursive(path.join("./public", folderPath))
 		.filter((file) => file.endsWith('mdx')) // Filter mdx files
 		.map((file) => file.split(folderPath)[1]); // Strip absolute path
-
-	// Copy assets in content to public to make files accessible
-	// syncPublicDirectory(folderPath);
 
 	// Read every file and extract frontmatter data and markdown content
 	const matterObjects = await Promise.all(
@@ -100,17 +95,3 @@ function fetchFilesRecursive(dir: string): string[] {
 	});
 	return Array.prototype.concat(...files);
 }
-
-/** Clones images found in the content folder */
-// function syncPublicDirectory(dir: string) {
-// 	const fileNames = fetchFilesRecursive(dir)
-// 		.filter((file) => !file.endsWith('mdx')) // Filter mdx files
-// 		.map((file) => file.split(dir)[1]); // Strip absolute path
-
-// 	emptyDirSync(path.join("./public", dir));
-// 	return Promise.allSettled(
-// 		fileNames.map(filepath => {
-// 			copy(path.join(dir, filepath), path.join("./public", dir, filepath))
-// 		})
-// 	);
-// }

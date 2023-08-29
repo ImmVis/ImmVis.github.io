@@ -45,7 +45,7 @@ export function ProjectItem({ post }: { post: ProjectData }) {
 			<div className="project-box">
 				<Image width={512} height={256} alt={data.image} src={data.image} />
 				<p role="name">{data.name}</p>
-				<p role="brief">{data.date}</p>
+				<p role="brief">{data.start_date}-{data.end_date ? data.end_date : "ongoing"}</p>
 				<p role="description">{data.description}</p>
 
 				{/* <Link role="read-more" href={`/projects/${slug}`}>Read more</Link> */}

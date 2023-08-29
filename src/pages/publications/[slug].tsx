@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
-import { getCustomComponents } from "@/components/CustomComponents"
 import { PublicationData, getAllPublications, getPublication } from '@/helpers/PublicationHelper';
 
 
@@ -27,11 +26,11 @@ export default function Publication({ data, content, mdxPath }: PublicationData)
 					<u>Pdf</u> <ul>{data.pdf}</ul>
 					<u>Bib</u> <ul>{data.bib}</ul>
 					<u>Thumbnail</u> <ul>{data.thumbnail}</ul>
-					<u>Tags</u> <ul>{data.tags}</ul>
+					<u>Annotation</u> <ul>{data.annotation}</ul>
 				</ul>
 
 				<div className="m-5 p-5 bg-red-100">
-					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+					<MDXRemote {...content} />
 				</div>
 
 				<hr />

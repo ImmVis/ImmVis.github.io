@@ -46,8 +46,7 @@ export function CourseItem({ post }: { post: CourseData }) {
 		<a href={data.link} className="course-box">
 			<p role="course-code">{data.course_code}</p>
 			<p role="name">{data.name}</p>
-			<p role="description">Adipisicing nisi nisi velit exercitation aute excepteur consequat aliqua velit. Sint excepteur ad elit Lorem velit irure laborum ad reprehenderit anim eiusmod exercitation proident nulla. Excepteur commodo Lorem eu incididunt.</p>
-			{/* <p role="skills">Required skills</p> */}
+			<p role="description">{data.description}</p>
 		</a>
 	);
 }

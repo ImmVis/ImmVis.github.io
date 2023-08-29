@@ -1,7 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 
 function NavLink({ children, href }: { children: any, href: string }) {

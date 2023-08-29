@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
-import { getCustomComponents } from "@/components/CustomComponents"
 import { FundingData, getAllFundings, getFunding } from '@/helpers/FundingHelper';
 
 
@@ -25,7 +24,7 @@ export default function Funding({ data, content, mdxPath }: FundingData) {
 				</ul>
 
 				<div className="m-5 p-5 bg-red-100">
-					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+					<MDXRemote {...content} />
 				</div>
 
 				<hr />

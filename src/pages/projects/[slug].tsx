@@ -1,7 +1,6 @@
 import Head from "next/head"
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
-import { getCustomComponents } from "@/components/CustomComponents"
 import { ProjectData, getAllProjects, getProject } from "@/helpers/ProjectHelper";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
@@ -18,7 +17,7 @@ export default function Project({ project, fundings, personnel, publications }: 
 	const { data, content, mdxPath } = project;
 
 	const myPublications = publications.filter(publication =>
-		publication.data.projects.includes(data.id)
+		publication.data.projects?.includes(data.id)
 	);
 
 	return (
@@ -68,7 +67,7 @@ export default function Project({ project, fundings, personnel, publications }: 
 				{/* Markdown content */}
 				<div className="project-single-markdown mdx-content">
 					{/* {JSON.stringify(content)} */}
-					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+					<MDXRemote {...content} />
 
 					{/* Publications */}
 					{myPublications.length > 0 &&

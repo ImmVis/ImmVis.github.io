@@ -6,7 +6,6 @@ import fs from "fs";
 export function convertRelativeImagePath(mdxPath: string, imagePath?: string, defaultImage?: string): string {
 	const folderPath = path.dirname(mdxPath);
 	if (imagePath) {
-
 		// Allow outsourced images
 		if (imagePath.startsWith("http")) {
 			return imagePath;
