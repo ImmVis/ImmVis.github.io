@@ -66,7 +66,7 @@ export async function getAllProjects(): Promise<MatterData[]> {
 			(a: ProjectData, b: ProjectData) => a.data.name > b.data.name;
 
 
-		return sortByEndDate(a, b) || sortByStartDate(a, b) || sortByName(a, b);
+		return +(sortByEndDate(a, b) || sortByStartDate(a, b) || sortByName(a, b));
 	});
 
 	return list;
