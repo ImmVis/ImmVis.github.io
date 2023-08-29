@@ -4,10 +4,16 @@ import Link from "next/link";
 import style from "@/styles/About.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
+import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 
-export default function About() {
+export default function About({ personnel }: { personnel: PersonnelData[] }) {
 	const phone = "+46 11 36 33 05";
 	const email = "peter.westerdahl@liu.se";
+
+	const ids = ["petwe33", "alebo68", "erisu46"];
+	const contacts = ids.map((id) =>
+		personnel.find((person) => id == person.data.id)
+	);
 
 	return (
 		<>
@@ -94,36 +100,55 @@ export default function About() {
 
 				<h2 className={style.subtitle}>Contact</h2>
 				<div className={style.contactList}>
-					<div className={style.contact}>
-						<Link href="/personnel/petwe33/" className="flex gap-4 no-underline">
-							<div className="className={style.bundle}">
-								<Image
-									width="64"
-									height="64"
-									alt="Peter Westerdahl"
-									src="https://liu.se/-/media/employeeimages/33/employee_image_petwe33.jpeg"
-								/>
-							</div>
-
-							<div className={style.bundle}>
-								<span role="name">Peter Westerdahl</span>
-								<span role="position">Senior Coordinator</span>
-							</div>
-						</Link>
-
-						<div className={style.bundle}>
-							<div className={style.iconRow}>
-								<FontAwesomeIcon icon={solidIcons.faPhone} fixedWidth />
-								<a href={`tel:${phone}`}>{phone}</a>
-							</div>
-							<div className={style.iconRow}>
-								<FontAwesomeIcon icon={solidIcons.faEnvelope} fixedWidth />
-								<a href={`mailto:${email}`}>{email}</a>
-							</div>
-						</div>
-					</div>
+					{contacts.map((person) => (
+						<ContactCard key={person!.data.id} person={person!} />
+					))}
 				</div>
 			</main>
 		</>
 	);
+}
+
+function ContactCard({ person }: { person: PersonnelData }) {
+	const { name, image, position, contact_info } = person.data || {};
+	const { email, phone } = contact_info || {};
+
+	return (
+		<div className={style.contact}>
+			<Link href="/personnel/petwe33/" className="flex gap-4 no-underline">
+				<div className="className={style.bundle}">
+					<Image width="64" height="64" alt={name} src={image!} />
+				</div>
+
+				<div className={style.bundle}>
+					<span role="name">{name}</span>
+					<span role="position">{position.join(", ")}</span>
+				</div>
+			</Link>
+
+			<div className={style.bundle}>
+				{email && (
+					<div className={style.iconRow}>
+						<FontAwesomeIcon icon={solidIcons.faEnvelope} fixedWidth />
+						<a href={`mailto:${email}`}>{email}</a>
+					</div>
+				)}
+				{phone && (
+					<div className={style.iconRow}>
+						<FontAwesomeIcon icon={solidIcons.faPhone} fixedWidth />
+						<a href={`tel:${phone}`}>{phone}</a>
+					</div>
+				)}
+			</div>
+		</div>
+	);
+}
+
+// Static props used in the pre-render of this page
+export async function getStaticProps({ params }: { params: { slug: string } }) {
+	return {
+		props: {
+			personnel: await getAllPersonnels(),
+		},
+	};
 }

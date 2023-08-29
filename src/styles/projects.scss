@@ -49,6 +49,7 @@
 		text-decoration: none;
 
 		img {
+			@apply rounded-sm;
 			width: 100%;
 			// width: 30%;
 			height: unset;
@@ -117,7 +118,7 @@
 				img {
 					object-fit: cover;
 
-					@apply rounded-xl;
+					@apply rounded-sm shadow-lg;
 					width: fit-content;
 					height: fit-content;
 					@apply w-80 h-80;

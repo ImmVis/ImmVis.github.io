@@ -16,7 +16,7 @@
 	position: relative;
 
 	@apply text-white;
-	@apply rounded-full;
+	@apply rounded-full shadow-md;
 
 	div {
 		@apply bg-zinc-400;

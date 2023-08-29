@@ -37,6 +37,7 @@
 		text-decoration: none;
 
 		img {
+			@apply rounded-sm;
 			width: 30%;
 			height: unset;
 			object-fit: cover;

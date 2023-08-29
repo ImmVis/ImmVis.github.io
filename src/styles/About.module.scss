@@ -12,6 +12,7 @@
 	}
 
 	img {
+		@apply rounded-sm;
 		width: 100%;
 		height: auto;
 	}
@@ -28,17 +29,17 @@
 }
 
 .contactList {
-	@apply gap-8;
-	@apply block sm:flex;
+	@apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+	@apply gap-4;
 }
 
 .contact {
-	@apply bg-zinc-200 p-8 rounded-md;
+	@apply bg-zinc-200 p-4 sm:p-8 rounded-sm;
 	@apply flex flex-col flex-wrap gap-x-8 gap-y-6;
 
 	img {
-		@apply rounded-full w-16;
-		// border: 2px solid var(--color-personnel-border);
+		@apply rounded-full w-16 shadow-md;
+		// border: 1px solid var(--color-personnel-border);
 	}
 
 	.bundle {
@@ -47,7 +48,7 @@
 		.iconRow {
 			@apply flex gap-2;
 			svg {
-				@apply self-center;
+				@apply self-end;
 			}
 		}
 	}

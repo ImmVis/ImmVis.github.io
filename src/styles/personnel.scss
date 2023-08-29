@@ -100,7 +100,7 @@
 				img {
 					object-fit: cover;
 
-					@apply rounded-full;
+					@apply rounded-full shadow-lg;
 					width: fit-content;
 					height: fit-content;
 					@apply w-80 h-80;
