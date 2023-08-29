@@ -29,7 +29,7 @@ export type ProjectMeta = z.infer<typeof ProjectMeta>;
 // Contains frontmatter data for an project .mdx file
 export interface ProjectData extends MatterData {
 	data: ProjectMeta;
-}
+};
 
 
 // Returns matter data for all projects
@@ -41,21 +41,21 @@ export async function getAllProjects(): Promise<MatterData[]> {
 		// Sorts by whether either a or b has an end_date. If both or neither have an end_date
 		// the return value is 0, otherwise the one that has an end_date gets the direction
 		const sortByEndDate = function (a: ProjectData, b: ProjectData) {
+			// If a or b both have a value or both do not, they are considered equal
+			if (a.data.end_date === undefined && b.data.end_date === undefined ||
+				  a.data.end_date !== undefined && b.data.end_date !== undefined)
+			{
+				return 0;
+			}
+
 			if (a.data.end_date === undefined) {
-				if (b.data.end_date === undefined) {
-					return 0;
-				}
-				else {
-					return -1;
-				}
+				// a doesn't have a date, there b needs to
+				console.assert(b.data.end_date !== undefined);
+				return -1;
 			}
 			else {
-				if (b.data.end_date === undefined) {
-					return 1;
-				}
-				else {
-					return 0;
-				}
+				console.assert(b.data.end_date === undefined);
+				return 1;
 			}
 		};
 
@@ -88,7 +88,9 @@ export async function getAllProjects(): Promise<MatterData[]> {
 export async function getProject(slug: string): Promise<MatterData> {
 	const project = await getAllProjects();
 	const matterData = project.find(p => p.slug == slug);
-	if (!matterData) { throw new Error(`Project not found: ${slug}`); }
+	if (!matterData) {
+		throw new Error(`Project not found: ${slug}`);
+	}
 	return validateData(matterData as ProjectData);
 };
 

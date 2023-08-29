@@ -26,7 +26,7 @@ export type ExjobbMeta = z.infer<typeof ExjobbMeta>;
 // Contains frontmatter data for an exjobb .mdx file
 export interface ExjobbData extends MatterData {
 	data: ExjobbMeta;
-}
+};
 
 
 // Returns matter data for all exjobbs
@@ -40,7 +40,9 @@ export async function getAllExjobbs(): Promise<MatterData[]> {
 export async function getExjobb(slug: string): Promise<MatterData> {
 	const exjobb = await getAllExjobbs();
 	const matterData = exjobb.find(p => p.slug == slug);
-	if (!matterData) { throw new Error(`Exjobb not found: ${slug}`); }
+	if (!matterData) {
+		throw new Error(`Exjobb not found: ${slug}`);
+	}
 	return validateData(matterData as ExjobbData);
 };
 
@@ -49,9 +51,6 @@ export async function getExjobb(slug: string): Promise<MatterData> {
 function validateData(matter: ExjobbData): ExjobbData {
 	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<ExjobbMeta>(ExjobbMeta, matter.data, matter.mdxPath);
-
-	// Fix pathing for local images
-	// matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
 	return matter;
 }

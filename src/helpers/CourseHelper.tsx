@@ -1,7 +1,6 @@
 import z from "zod";
 import path from "path";
 import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
-import { convertRelativeImagePath } from "./ImageUtils";
 
 
 // Content folder for course files
@@ -14,6 +13,7 @@ const CourseMeta = z.object({
 	course_code: z.string(),
 	contact: z.array(z.string()),
 	link: z.string(),
+	description: z.optional(z.string())
 });
 
 // Frontmatter variables at the top of the .mdx file
@@ -22,7 +22,7 @@ export type CourseMeta = z.infer<typeof CourseMeta>;
 // Contains frontmatter data for an course .mdx file
 export interface CourseData extends MatterData {
 	data: CourseMeta;
-}
+};
 
 
 // Returns matter data for all courses
@@ -36,7 +36,9 @@ export async function getAllCourses(): Promise<MatterData[]> {
 export async function getCourse(slug: string): Promise<MatterData> {
 	const course = await getAllCourses();
 	const matterData = course.find(p => p.slug == slug);
-	if (!matterData) { throw new Error(`Course not found: ${slug}`); }
+	if (!matterData) {
+		throw new Error(`Course not found: ${slug}`);
+	}
 	return validateData(matterData as CourseData);
 };
 
@@ -45,9 +47,6 @@ export async function getCourse(slug: string): Promise<MatterData> {
 function validateData(matter: CourseData): CourseData {
 	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<CourseMeta>(CourseMeta, matter.data, matter.mdxPath);
-
-	// Fix pathing for local images
-	// matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
 	return matter;
 }

@@ -31,7 +31,7 @@ export type PersonnelMeta = z.infer<typeof PersonnelMeta>;
 // Contains frontmatter data for an personnel .mdx file
 export interface PersonnelData extends MatterData {
 	data: PersonnelMeta;
-}
+};
 
 
 // Returns matter data for all personnels

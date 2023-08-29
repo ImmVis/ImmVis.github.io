@@ -32,11 +32,11 @@ export type PublicationMeta = z.infer<typeof PublicationMeta>;
 // Contains frontmatter data for an publication .mdx file
 export interface PublicationData extends MatterData {
 	data: PublicationMeta;
-}
+};
 
 
 // Returns matter data for all publications
-export async function getAllPublications(): Promise<MatterData[]> {
+export async function getAllPublications(): Promise<PublicationData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
 	let list = matterList.map(matterData => validateData(matterData as PublicationData));
 	list.sort((a,b) => a.data.date > b.data.date ? -1 : 1);
@@ -47,7 +47,9 @@ export async function getAllPublications(): Promise<MatterData[]> {
 export async function getPublication(slug: string): Promise<MatterData> {
 	const publication = await getAllPublications();
 	const matterData = publication.find(p => p.slug == slug);
-	if (!matterData) { throw new Error(`Publication not found: ${slug}`); }
+	if (!matterData) {
+		throw new Error(`Publication not found: ${slug}`);
+	}
 	return validateData(matterData as PublicationData);
 };
 

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { FundingData } from "@/helpers/FundingHelper";
 import style from "@/styles/MiniFundingList.module.scss";
 

@@ -23,7 +23,7 @@ export type FundingMeta = z.infer<typeof FundingMeta>;
 // Contains frontmatter data for an funding .mdx file
 export interface FundingData extends MatterData {
 	data: FundingMeta;
-}
+};
 
 
 // Returns matter data for all fundings
@@ -37,7 +37,9 @@ export async function getAllFundings(): Promise<MatterData[]> {
 export async function getFunding(slug: string): Promise<MatterData> {
 	const funding = await getAllFundings();
 	const matterData = funding.find(p => p.slug == slug);
-	if (!matterData) { throw new Error(`Funding not found: ${slug}`); }
+	if (!matterData) {
+		throw new Error(`Funding not found: ${slug}`);
+	}
 	return validateData(matterData as FundingData);
 };
 
