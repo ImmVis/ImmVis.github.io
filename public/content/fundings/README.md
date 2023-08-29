@@ -1,5 +1,6 @@
 # Funding
-This collection contains a list of the funding sources and partners that we are working with.  All files in this folder corresponding to the same funder should use the same short filename, for example: `kungen.mdx` and `kungen.png`.
+This collection contains a list of the funding sources and partners that we are working with.  All files in this folder corresponding to the same funder should use the same short filename, for example: `X_kungen.mdx` and `X_kungen.png`.  The `X` in the front of the name is a number that is used to sort the list of funders.  Whenever you add a new funder, speak to [Alex Bock](alexander.bock@liu.se), [Erik Sundén](erik.sunden@liu.se), or [Peter Westerdahl](peter.westerdahl@liu.se) first to make sure they get sorted correctly.
+
 
 # Files
 ## Header
@@ -12,6 +13,7 @@ The following fields in the header are recognized:
 
 ## Content
 No content is used in this type of file
+
 
 # Example
 This example can be used to create a new funders file:

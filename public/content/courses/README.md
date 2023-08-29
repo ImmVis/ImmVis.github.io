@@ -1,6 +1,7 @@
 # Courses
 This collection contains a list of the courses that we are either teaching or are involved with in any capacity.  There should only be individual `.mdx` files in this directory with the name of the course code with the filename in lowercaps.
 
+
 # Files
 ## Header
 The following fields in the header are recognized:
@@ -11,6 +12,7 @@ The following fields in the header are recognized:
 
 ## Content
 Following the header can be a short description of the course, which in many cases can be copy and pasted from the study handbook.  The text can optionally be enhanced to show why the course would be of specific interest to students interested in Immersive Visualization.
+
 
 # Example
 This example can be used to create a new course file:

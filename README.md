@@ -13,6 +13,7 @@ In case the are errors with the backend page generation or the content, create a
 ## Good to know
  - Files with the extension `.mdx` inside the public subfolders will result in published pages that won't change their URL for the forseeable future.  Files with other extensions will by default be ignored unless explicitly mentioned inside MDX files
  - To reference a file from an MDX file, you have to prepend the name by `./`.  For example if we have two files `example.mdx` and `example.png` and we want to use the image inside the mdx, we would provide `./example.png` as the path to the image.
+ - Refrain from using non ASCII characters in file names and ID fields.  All other fields can contain UTF-8 encoded characters
 
 
 # Local testing

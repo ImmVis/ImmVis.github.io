@@ -1,6 +1,7 @@
 # Publications
 This collection contains a list of the publications that the group has been involved with as authors.  The files in this folder must follow a strict naming scheme: `{year}_{family name of the first author}_{family name of the second author}_{one word description of the title}`.  At least `{year}_{family name of the first author}_{family name of the second author}_{one word description of the title}.mdx` must exist that contains information about the publication, but that file should use an image whose filename must be `{year}_{family name of the first author}_{family name of the second author}_{one word description of the title}.png` or `{year}_{family name of the first author}_{family name of the second author}_{one word description of the title}.jpg`.
 
+
 # Files
 ## Header
 The following fields in the header are recognized:
@@ -21,6 +22,7 @@ The following fields in the header are recognized:
 
 ## Content
 There is no content for files of this type
+
 
 # Example
 This example can be used to create a new publication file:

@@ -1,5 +1,6 @@
 # Projects
-This collection contains a list of the projects that the group is involved with.  The files for each project must be contained inside of a folder that has a short descriptive name that does not contain any spaces.  Inside that folder must be an `.mdx` file with the same filename as the folder itself.  If it is possible to bundle different projects together it is generally advised to do so, to reduce the clutter on the project page.
+This collection contains a list of the projects that the group is involved with.  The files for each project must be contained inside of a folder that has a short descriptive name that does not contain any spaces.  Inside that folder must be an `.mdx` file with the same filename as the folder itself.  If it is possible to bundle different projects together it is generally advised to do so, to reduce the clutter on the project page.  Refrain from using abbrevations as much as possible as even though their might make sense to you, they are normally not very informative to other people going through this list.
+
 
 # Files
 ## Header
@@ -15,6 +16,7 @@ The following fields in the header are recognized:
 
 ## Content
 The content can contain as much or as little information as is necessary for each project, but should be enough such that a random visitor to the webpage can understand what the project is.  This is also a place to share links for people to download projets or other links to get more information.  It is also useful to embed more images in this section to give the reader a better understanding of the challenges and goals of the project.
+
 
 # Example
 This example can be used to create a new project file:

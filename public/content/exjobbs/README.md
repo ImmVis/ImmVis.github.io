@@ -1,6 +1,7 @@
 # Exjobb
 This collection contains a list of the exjobbs that we are currently offering or have offered.  The filename for each exjobb must follow the following naming scheme:  `{year}_{person}_{one word description}`.  For example if Erik Erikson proposed a thesis work about banana visualization in 2024, the filename for that exjobb would be `2024_erikson_bananas`.  Every file related to that exjobb should use this filename and at least `{year}_{person}_{one word description}.mdx` must exist to create a webpage for it.  If the exjobb description includes an image, it would be `{year}_{person}_{one word description}.png` or `{year}_{person}_{one word description}.jpg`, etc.
 
+
 # Files
 ## Header
 The following fields in the header are recognized:
@@ -14,6 +15,7 @@ The following fields in the header are recognized:
 
 ## Content
 Following the header should be a description of the exjobb, which can be extensive as needed.  In general the content section should also include when and how prospective students can apply for the exjobb positions
+
 
 # Example
 This example can be used to create a new exjobb file:
