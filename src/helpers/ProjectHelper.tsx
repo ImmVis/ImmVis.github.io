@@ -63,10 +63,22 @@ export async function getAllProjects(): Promise<MatterData[]> {
 			(a: ProjectData, b: ProjectData) => a.data.start_date - b.data.start_date;
 
 		const sortByName =
-			(a: ProjectData, b: ProjectData) => a.data.name > b.data.name;
+			(a: ProjectData, b: ProjectData) => a.data.name > b.data.name ? 1 : -1;
 
+		// Try one sorting method after another until we either run out of methods or we find
+		// the first that does not return equality
+		let res = sortByEndDate(a, b);
+		if (res !== 0) {
+			return res;
+		}
 
-		return +(sortByEndDate(a, b) || sortByStartDate(a, b) || sortByName(a, b));
+		res = sortByStartDate(a, b);
+		if (res !== 0) {
+			return res;
+		}
+
+		res = sortByName(a, b);
+		return res;
 	});
 
 	return list;
