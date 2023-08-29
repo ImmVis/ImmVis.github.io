@@ -1,6 +1,7 @@
 # Personnel
 This collection contains a list of the people in the group.  The files for each person must be contained in a folder that uses the LiU-id of the person as a folder name. Inside the folder must be an `.mdx` file with the name name that contains the contents for the persons homepage.  For people that do not have a LiU id, utilize the name naming format (first 3 letters for given name, first 2 letters of family name) but without the numbers afterwards.
 
+
 # Files
 ## Header
 The following fields in the header are recognized:
@@ -21,6 +22,7 @@ The following fields in the header are recognized:
 The content can contain any information the person want to share about themselves, but frequently contains a short description, many be an employment/educatin background and then some example of previous works.
 
 Following this content the webpage will automatically add the projects and publications that the person is affiliated with.  If either is empty, the subsection will be omitted
+
 
 # Example
 This example can be used to create a new personnel file:
