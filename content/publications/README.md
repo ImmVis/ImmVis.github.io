@@ -12,13 +12,13 @@ The following fields in the header are recognized:
  - `venue` (string): The venue/journal/conference where this publication was published
  - `year` (number): The year in which the publication was published
  - `date` (string): The specific date in ISO 8601 format on which the publication was published
- - `doi` (string): The DOI of the publication
- - `pdf` (string): The URL where a reader can download a PDF copy of the publication.  Where possible this should be the open-access version of the publication; otherwise the last author copy of the PDF can be included in this folder and be locally hosted
- - `bib` (string): The URL to the Bibtex information for the publication. Generally, this can be hosted in the same folder as this `.mdx` file
+ - `doi` (string, optional): The DOI of the publication
+ - `pdf` (string, optional): The URL where a reader can download a PDF copy of the publication.  Where possible this should be the open-access version of the publication; otherwise the last author copy of the PDF can be included in this folder and be locally hosted
+ - `bib` (string, optional): The URL to the Bibtex information for the publication. Generally, this can be hosted in the same folder as this `.mdx` file
  - `code` (string, optional): The URL where a reader can find the source code underlying the implementation of a publication where applicable
  - `video` (string, optional): The URL to a video hosting service where the contents of the publication are demonstrated.  This can either be a video specifically created for the submission or a recording of the talk, whichever fits the publication best
  - `thumbnail` (string): The URL to an image that exemplifies the publication and is used as the image in the list of publications
- - `tags` (array{string}, optional): A list of additional informational tags that describe something unique about this publication.  This can be used to highlight a paper as the best paper, honorable mentions, invited papers, etc
+ - `annotation` (string, optional): Additional optional informational that describe something unique about this publication.  This can be used to highlight a paper as the best paper, honorable mentions, invited papers, etc
 
 ## Content
 There is no content for files of this type
