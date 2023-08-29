@@ -1,8 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
-import { getCustomComponents } from "@/components/CustomComponents"
 import { ExjobbData, getAllExjobbs, getExjobb } from '@/helpers/ExjobbHelper';
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
@@ -58,7 +55,7 @@ export default function Exjobb({ exjobb, personnel }: { exjobb: ExjobbData, pers
 
 				{/* Markdown content */}
 				<div className="exjobb-single-markdown mdx-content">
-					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+					<MDXRemote {...content} />
 				</div>
 			</main>
 		</>

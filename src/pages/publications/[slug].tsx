@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
-import { getCustomComponents } from "@/components/CustomComponents"
 import { PublicationData, getAllPublications, getPublication } from '@/helpers/PublicationHelper';
 
 
@@ -31,7 +30,7 @@ export default function Publication({ data, content, mdxPath }: PublicationData)
 				</ul>
 
 				<div className="m-5 p-5 bg-red-100">
-					<MDXRemote {...content} components={getCustomComponents(mdxPath)} />
+					<MDXRemote {...content} />
 				</div>
 
 				<hr />

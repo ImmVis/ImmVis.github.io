@@ -4,11 +4,11 @@ import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
 import { convertRelativeImagePath } from "./ImageUtils";
 
 
-/** Content folder for project files */
+// Content folder for project files
 export const folderPath = "/content/projects/";
 
 
-/** Zod schema for frontmatter */
+// Zod schema for frontmatter
 const Types = [ "research", "exhibition", "software", "other" ] as const;
 const ProjectMeta = z.object({
 	id: z.string(),
@@ -23,16 +23,16 @@ const ProjectMeta = z.object({
 	funding: z.array(z.string()),
 });
 
-/** Frontmatter variables at the top of the .mdx file */
+// Frontmatter variables at the top of the .mdx file
 export type ProjectMeta = z.infer<typeof ProjectMeta>;
 
-/** Contains frontmatter data for an project .mdx file */
+// Contains frontmatter data for an project .mdx file
 export interface ProjectData extends MatterData {
 	data: ProjectMeta;
 }
 
 
-/** Returns matter data for all projects */
+// Returns matter data for all projects
 export async function getAllProjects(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
 	let list = matterList.map(data => validateData(data as ProjectData));
@@ -72,7 +72,7 @@ export async function getAllProjects(): Promise<MatterData[]> {
 	return list;
 };
 
-/** Returns matter data for one project */
+// Returns matter data for one project
 export async function getProject(slug: string): Promise<MatterData> {
 	const project = await getAllProjects();
 	const matterData = project.find(p => p.slug == slug);
@@ -81,7 +81,7 @@ export async function getProject(slug: string): Promise<MatterData> {
 };
 
 
-/** Final adjustments to mdx data */
+// Final adjustments to mdx data
 function validateData(matter: ProjectData): ProjectData {
 	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<ProjectMeta>(ProjectMeta, matter.data, matter.mdxPath);

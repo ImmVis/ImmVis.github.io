@@ -4,11 +4,11 @@ import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
 import { convertRelativeImagePath } from "./ImageUtils";
 
 
-/** Content folder for personnel files */
+// Content folder for personnel files
 export const folderPath = "/content/personnel/";
 
 
-/** Zod schema for frontmatter */
+// Zod schema for frontmatter
 const PersonnelMeta = z.object({
 	id: z.string(),
 	name: z.string(),
@@ -25,23 +25,23 @@ const PersonnelMeta = z.object({
 	skills: z.optional(z.array(z.string())),
 });
 
-/** Frontmatter variables at the top of the .mdx file */
+// Frontmatter variables at the top of the .mdx file
 export type PersonnelMeta = z.infer<typeof PersonnelMeta>;
 
-/** Contains frontmatter data for an personnel .mdx file */
+// Contains frontmatter data for an personnel .mdx file
 export interface PersonnelData extends MatterData {
 	data: PersonnelMeta;
 }
 
 
-/** Returns matter data for all personnels */
+// Returns matter data for all personnels
 export async function getAllPersonnels(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
 	let list = matterList.map(matterData => validateData(matterData as PersonnelData));
 	return list;
 };
 
-/** Returns matter data for one personnel */
+// Returns matter data for one personnel
 export async function getPersonnel(slug: string): Promise<MatterData> {
 	const personnel = await getAllPersonnels();
 	const matterData = personnel.find(p => p.slug == slug);
@@ -50,7 +50,7 @@ export async function getPersonnel(slug: string): Promise<MatterData> {
 };
 
 
-/** Final adjustments to mdx data */
+// Final adjustments to mdx data
 function validateData(matter: PersonnelData): PersonnelData {
 	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<PersonnelMeta>(PersonnelMeta, matter.data, matter.mdxPath);

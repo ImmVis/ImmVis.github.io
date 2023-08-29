@@ -19,7 +19,7 @@ const mdxOptions: any = {
 
 /**
  * Contains frontmatter data after parsing an .mdx file.
- * 
+ *
  * @prop {string} `slug` The .mdx file name with ".mdx" stripped, which is used as the url
  * @prop {{[key: string]: any}} `data` List of meta data at the top of the .mdx file, wrapped in "---"
  * @prop {matter.Input} `content` The raw markdown content to be parsed
@@ -34,7 +34,7 @@ export interface MatterData {
 
 /**
  * Returns a list of all exjobbs .mdx files as frontmatter objects.
- * 
+ *
  * @param {string} `folderPath` Path to the /content/folder/ with .mdx files
  * @return {MatterData[]}
  */

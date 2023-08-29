@@ -4,11 +4,11 @@ import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
 import { convertRelativeImagePath } from "./ImageUtils";
 
 
-/** Content folder for exjobb files */
+// Content folder for exjobb files
 export const folderPath = "/content/exjobbs/";
 
 
-/** Zod schema for frontmatter */
+// Zod schema for frontmatter
 const ExjobbMeta = z.object({
 	name: z.string(),
 	description: z.string(),
@@ -20,23 +20,23 @@ const ExjobbMeta = z.object({
 	skills: z.optional(z.array(z.string())),
 });
 
-/** Frontmatter variables at the top of the .mdx file */
+// Frontmatter variables at the top of the .mdx file
 export type ExjobbMeta = z.infer<typeof ExjobbMeta>;
 
-/** Contains frontmatter data for an exjobb .mdx file */
+// Contains frontmatter data for an exjobb .mdx file
 export interface ExjobbData extends MatterData {
 	data: ExjobbMeta;
 }
 
 
-/** Returns matter data for all exjobbs */
+// Returns matter data for all exjobbs
 export async function getAllExjobbs(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
 	let list = matterList.map(matterData => validateData(matterData as ExjobbData));
 	return list;
 };
 
-/** Returns matter data for one exjobb */
+// Returns matter data for one exjobb
 export async function getExjobb(slug: string): Promise<MatterData> {
 	const exjobb = await getAllExjobbs();
 	const matterData = exjobb.find(p => p.slug == slug);
@@ -45,7 +45,7 @@ export async function getExjobb(slug: string): Promise<MatterData> {
 };
 
 
-/** Final adjustments to mdx data */
+// Final adjustments to mdx data
 function validateData(matter: ExjobbData): ExjobbData {
 	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<ExjobbMeta>(ExjobbMeta, matter.data, matter.mdxPath);
