@@ -7,7 +7,7 @@ This collection contains a list of the projects that the group is involved with.
 The following fields in the header are recognized:
  - `id` (string): The short name of the project that should be the same as the folder name and the name of this `.mdx` file.
  - `name` (string): The name of the project
- - `date` (string): The year the project started and optionally ended
+ - `date` (string): The year the project started and optionally ended.  If a project is still ongoing without a definitive end date, it should be marked by adding `ongoing` as the end date (example:  "2015 - ongoing")
  - `description` (string): A short description of the project that should not be longer than one paragraph
  - `image` (string): The URL to a representative image of the project
  - `homepage` (string, optional): The URL to the project homepage, if this webpage is not the main webpage
