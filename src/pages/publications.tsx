@@ -47,16 +47,24 @@ export function PublicationItem({ post }: { post: PublicationData }) {
 				<p role="title">{data.title}</p>
 				<p>{data.authors}</p>
 				<p><i>{data.venue}, {data.year}</i></p>
-				<p><a href={data.doi}>doi:{data.doi}</a></p>
+				<p>
+					{data.doi && (
+						<a href={data.doi}>doi:{data.doi}</a>
+					)}
+				</p>
 				<div className="publication-box-links">
-					<a href={data.pdf} target="_blank">
-						<FontAwesomeIcon icon={solidIcons.faArchive} />
-						<span>Paper (PDF)</span>
-					</a>
-					<a href={data.bib} target="_blank">
-						<FontAwesomeIcon icon={solidIcons.faFeather} />
-						<span>BibTex</span>
-					</a>
+					{data.pdf && (
+						<a href={data.pdf} target="_blank">
+							<FontAwesomeIcon icon={solidIcons.faArchive} />
+							<span>Paper (PDF)</span>
+						</a>
+					)}
+					{data.bib && (
+						<a href={data.bib} target="_blank">
+							<FontAwesomeIcon icon={solidIcons.faFeather} />
+							<span>BibTex</span>
+						</a>
+					)}
 					{data.code && (
 						<a href={data.code} target="_blank">
 							<FontAwesomeIcon icon={solidIcons.faCode} />
@@ -69,10 +77,10 @@ export function PublicationItem({ post }: { post: PublicationData }) {
 							<span>Video</span>
 						</a>
 					)}
-					{data.tags && (
+					{data.annotation && (
 						<div>
 							<FontAwesomeIcon icon={solidIcons.faTag} />
-							<span>{data.tags?.join(", ")}</span>
+							<span>{data.annotation}</span>
 						</div>
 					)}
 				</div>

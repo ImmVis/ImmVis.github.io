@@ -17,13 +17,13 @@ const PublicationMeta = z.object({
 	venue: z.string(),
 	year: z.number(),
 	date: z.string(),
-	doi: z.string(),
-	pdf: z.string(),
-	bib: z.string(),
+	doi: z.optional(z.string()),
+	pdf: z.optional(z.string()),
+	bib: z.optional(z.string()),
 	code: z.optional(z.string()),
 	video: z.optional(z.string()),
 	thumbnail: z.string(),
-	tags: z.optional(z.array(z.string())),
+	annotation: z.optional(z.string()),
 });
 
 /** Frontmatter variables at the top of the .mdx file */
