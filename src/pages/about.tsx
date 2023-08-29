@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import style from "@/styles/About.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
@@ -94,21 +95,21 @@ export default function About() {
 				<h2 className={style.subtitle}>Contact</h2>
 				<div className={style.contactList}>
 					<div className={style.contact}>
-						<div className="flex gap-4">
-							<a href="/personnel/petwe33/" className={style.bundle}>
+						<Link href="/personnel/petwe33/" className="flex gap-4 no-underline">
+							<div className="className={style.bundle}">
 								<Image
 									width="64"
 									height="64"
 									alt="Peter Westerdahl"
 									src="https://liu.se/-/media/employeeimages/33/employee_image_petwe33.jpeg"
 								/>
-							</a>
+							</div>
 
 							<div className={style.bundle}>
 								<span role="name">Peter Westerdahl</span>
 								<span role="position">Senior Coordinator</span>
 							</div>
-						</div>
+						</Link>
 
 						<div className={style.bundle}>
 							<div className={style.iconRow}>
