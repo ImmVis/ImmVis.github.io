@@ -37,9 +37,8 @@ export interface PersonnelData extends MatterData {
 /** Returns matter data for all personnels */
 export async function getAllPersonnels(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
-	return matterList.map(matterData =>
-		validateData(matterData as PersonnelData)
-	);
+	let list = matterList.map(matterData => validateData(matterData as PersonnelData));
+	return list;
 };
 
 /** Returns matter data for one personnel */

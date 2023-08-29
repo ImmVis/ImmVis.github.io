@@ -28,9 +28,8 @@ export interface CourseData extends MatterData {
 /** Returns matter data for all courses */
 export async function getAllCourses(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
-	return matterList.map(matterData =>
-		validateData(matterData as CourseData)
-	);
+	let list = matterList.map(matterData => validateData(matterData as CourseData));
+	return list;
 };
 
 /** Returns matter data for one course */

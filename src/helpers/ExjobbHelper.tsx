@@ -32,9 +32,8 @@ export interface ExjobbData extends MatterData {
 /** Returns matter data for all exjobbs */
 export async function getAllExjobbs(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
-	return matterList.map(matterData =>
-		validateData(matterData as ExjobbData)
-	);
+	let list = matterList.map(matterData => validateData(matterData as ExjobbData));
+	return list;
 };
 
 /** Returns matter data for one exjobb */

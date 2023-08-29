@@ -29,9 +29,8 @@ export interface FundingData extends MatterData {
 /** Returns matter data for all fundings */
 export async function getAllFundings(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
-	return matterList.map(matterData =>
-		validateData(matterData as FundingData)
-	);
+	let list = matterList.map(matterData => validateData(matterData as FundingData));
+	return list;
 };
 
 /** Returns matter data for one funding */

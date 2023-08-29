@@ -38,10 +38,9 @@ export interface PublicationData extends MatterData {
 /** Returns matter data for all publications */
 export async function getAllPublications(): Promise<MatterData[]> {
 	const matterList = await fetchAllFiles(path.join(".", folderPath));
-	matterList.sort((a,b) => a.data.date > b.data.date ? -1 : 1);
-	return matterList.map(matterData =>
-		validateData(matterData as PublicationData)
-	);
+	let list = matterList.map(matterData => validateData(matterData as PublicationData));
+	list.sort((a,b) => a.data.date > b.data.date ? -1 : 1);
+	return list;
 };
 
 /** Returns matter data for one publication */
