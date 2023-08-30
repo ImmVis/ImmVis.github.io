@@ -31,7 +31,7 @@ function Footer() {
 					</div>
 				</div>
 
-				<div className="flex gap-8">
+				<div className="flex gap-8 ml-auto">
 					<div className="footer-legal-privacy">
 						<a>Copyright</a>
 						<span>/</span>

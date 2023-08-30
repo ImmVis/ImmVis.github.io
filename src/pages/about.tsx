@@ -2,9 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import style from "@/styles/About.module.scss";
+import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
-import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 
 export default function About({ personnel }: { personnel: PersonnelData[] }) {
 	const phone = "+46 11 36 33 05";

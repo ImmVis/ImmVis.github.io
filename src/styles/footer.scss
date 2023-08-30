@@ -20,10 +20,7 @@
 		margin: 0 auto;
 		padding: 32px var(--content-padding);
 
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 32px;
+		@apply flex flex-wrap justify-between items-center gap-8;
 
 		// border-top: 1px solid var(--gray-40);
 
