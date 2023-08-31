@@ -31,7 +31,7 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 
         <div className="funding-listing">
           {fundings.map((post) => (
-            <FundingItem post={post} />
+            <FundingItem key={post.slug} post={post} />
           ))}
         </div>
       </main>
