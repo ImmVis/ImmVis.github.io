@@ -52,7 +52,6 @@ export async function getPersonnel(slug: string): Promise<MatterData> {
 
 // Final adjustments to mdx data
 function validateData(matter: PersonnelData): PersonnelData {
-	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<PersonnelMeta>(PersonnelMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images

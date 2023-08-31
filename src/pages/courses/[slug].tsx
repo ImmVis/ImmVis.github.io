@@ -5,7 +5,9 @@ import { CourseData, getAllCourses, getCourse } from '@/helpers/CourseHelper';
 
 
 // Individual course page component
-export default function Course({ data, content, mdxPath }: CourseData) {
+export default function Course(course: CourseData) {
+	const { data, content } = course;
+
 	return (
 		<>
 			<Head>

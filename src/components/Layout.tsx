@@ -5,8 +5,7 @@ import { Lato } from "next/font/google"
 
 const font = Lato({ subsets: ["latin"], weight: "400" })
 
-
-function Layout({ children }: any) {
+export default function Layout({ children }: any) {
 	return (
 		<div className={`page-wrapper ${font.className}`}>
 			<Header />
@@ -17,5 +16,3 @@ function Layout({ children }: any) {
 		</div>
 	);
 }
-
-export default Layout;

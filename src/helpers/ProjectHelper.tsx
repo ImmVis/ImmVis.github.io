@@ -97,7 +97,6 @@ export async function getProject(slug: string): Promise<MatterData> {
 
 // Final adjustments to mdx data
 function validateData(matter: ProjectData): ProjectData {
-	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<ProjectMeta>(ProjectMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images

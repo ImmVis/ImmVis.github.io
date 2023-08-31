@@ -4,17 +4,10 @@ import Head from "next/head";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 
-export default function Home({
-	projects,
-	personnel,
-}: {
-	projects: ProjectData[];
-	personnel: PersonnelData[];
-}) {
+
+export default function Home({ projects, personnel }: { projects: ProjectData[], personnel: PersonnelData[] }) {
 	const highlightedProjectId = "openspace";
-	const project = projects.find(
-		(project) => project.data.id == highlightedProjectId
-	)!;
+	const project = projects.find(project => project.data.id == highlightedProjectId)!;
 
 	const contributors = personnel
 		.filter((person) => project.data.people.includes(person.data.id))
@@ -30,24 +23,17 @@ export default function Home({
 				<div className="home-vision">
 					<div className="home-vision-grid">
 						<div className="col-span-1">
-							<h3 className="text-xl font-thin my-0">
+							{/* <h3 className="text-xl font-thin my-0">
 								Immersive Visualization
-							</h3>
-							<h1 className="text-6xl mt-4 mb-8">Insert catchphrase</h1>
+							</h3> */}
+							<h1 className="text-6xl mt-4 mb-8">Immersive Visualization</h1>
 							<p className="text-lg leading-8">
-								Welcome to the immersive visualizations team at Linköping
-								University , where we take your ... to a whole new level! (Here
-								to show the key message / unique selling point of our work as a
-								team)
+								Welcome to the immersive visualization team at Linköping
+								University!
 							</p>
 						</div>
 						<div className="col-span-1">
-							<Image
-								width="1000"
-								height="1000"
-								alt="image"
-								src="https://picsum.photos/1000/1000"
-							/>
+							<Image width="1000" height="1000" alt="image" src="https://picsum.photos/1000/1000"/>
 						</div>
 					</div>
 				</div>
@@ -56,21 +42,13 @@ export default function Home({
 					<h2 className="mt-0">Highlighted project</h2>
 					<div className="home-highlight-grid">
 						<div className="col-span-1">
-							<Image
-								width="800"
-								height="800"
-								alt={project.data.image}
-								src={project.data.image}
-							/>
+							<Image width="800" height="800" alt={project.data.image} src={project.data.image}/>
 						</div>
 						<div className="col-span-1">
 							<h3>{project.data.name}</h3>
 							<p>{contributors.join(", ")}</p>
 							<p>{project.data.description}</p>
-							<Link
-								href={`/projects/${project.slug}`}
-								className="home-read-more"
-							>
+							<Link href={`/projects/${project.slug}`} className="home-read-more">
 								Read more
 							</Link>
 						</div>

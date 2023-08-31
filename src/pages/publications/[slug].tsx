@@ -5,7 +5,9 @@ import { PublicationData, getAllPublications, getPublication } from '@/helpers/P
 
 
 // Individual publication page component
-export default function Publication({ data, content, mdxPath }: PublicationData) {
+export default function Publication(publication: PublicationData) {
+	const { data, content } = publication;
+
 	return (
 		<>
 			<Head>

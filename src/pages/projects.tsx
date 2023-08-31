@@ -2,8 +2,6 @@ import Head from 'next/head'
 import Link from "next/link";
 import Image from "next/image";
 import { ProjectData, getAllProjects } from '@/helpers/ProjectHelper';
-// import { PersonnelData, getAllPersonnels } from '@/helpers/PersonnelHelper';
-// import MiniPersonnelList from '@/components/MiniPersonnelList';
 
 
 export default function ProjectPage({ projects }: { projects: ProjectData[] }) {
@@ -47,9 +45,6 @@ export function ProjectItem({ post }: { post: ProjectData }) {
 				<p role="name">{data.name}</p>
 				<p role="brief">{data.start_date} &mdash; {data.end_date ? data.end_date : "ongoing"}</p>
 				<p role="description">{data.description}</p>
-
-				{/* <Link role="read-more" href={`/projects/${slug}`}>Read more</Link> */}
-				{/* <p role="read-more">Read more</p> */}
 			</div>
 		</Link>
 	);
@@ -59,8 +54,7 @@ export function ProjectItem({ post }: { post: ProjectData }) {
 export async function getStaticProps() {
 	return {
 		props: {
-			projects: await getAllProjects(),
-			// personnel: await getAllPersonnels(),
+			projects: await getAllProjects()
 		}
 	};
 }

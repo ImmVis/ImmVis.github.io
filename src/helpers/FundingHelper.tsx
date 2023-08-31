@@ -46,7 +46,6 @@ export async function getFunding(slug: string): Promise<MatterData> {
 
 // Final adjustments to mdx data
 function validateData(matter: FundingData): FundingData {
-	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<FundingMeta>(FundingMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images

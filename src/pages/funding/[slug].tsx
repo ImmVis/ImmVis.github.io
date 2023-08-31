@@ -5,7 +5,9 @@ import { FundingData, getAllFundings, getFunding } from '@/helpers/FundingHelper
 
 
 // Individual funding page component
-export default function Funding({ data, content, mdxPath }: FundingData) {
+export default function Funding(funding: FundingData) {
+	const { data, content } = funding;
+
 	return (
 		<>
 			<Head>

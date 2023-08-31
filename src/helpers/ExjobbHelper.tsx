@@ -1,7 +1,6 @@
 import z from "zod";
 import path from "path";
 import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
-import { convertRelativeImagePath } from "./ImageUtils";
 
 
 // Content folder for exjobb files
@@ -49,8 +48,6 @@ export async function getExjobb(slug: string): Promise<MatterData> {
 
 // Final adjustments to mdx data
 function validateData(matter: ExjobbData): ExjobbData {
-	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<ExjobbMeta>(ExjobbMeta, matter.data, matter.mdxPath);
-
 	return matter;
 }

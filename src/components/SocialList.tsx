@@ -35,7 +35,6 @@ export default function SocialList({ social }: { social?: { [key: string]: strin
 			</div>
 		);
 	}
-
 	else {
 		return <></>;
 	}

@@ -50,10 +50,10 @@ export async function fetchAllFiles(folderPath: string): Promise<MatterData[]> {
 			// Read the file and extract frontmatter
 			const fileContents = fs.readFileSync(path.join("./public", mdxPath), "utf8");
 
-			const content = await serialize(fileContents, {
-				mdxOptions,
-				parseFrontmatter: true
-			});
+			const content = await serialize(
+				fileContents,
+				{ mdxOptions, parseFrontmatter: true }
+			);
 			const data = content.frontmatter;
 
 			return {

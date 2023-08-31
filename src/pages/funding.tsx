@@ -19,7 +19,7 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 
 				<div className="funding-listing">
 					{fundings.map((post) => (
-						<FundingItem key={post.slug} post={post} />
+						<FundingItem post={post} />
 					))}
 				</div>
 			</main>
@@ -29,7 +29,7 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 
 
 function FundingItem({ post }: { post: FundingData }) {
-	const { slug, data } = post;
+	const { data } = post;
 
 	return (
 		<a href={data.link} className="funding-box" target="_blank">

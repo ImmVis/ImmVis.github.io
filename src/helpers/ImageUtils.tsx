@@ -3,7 +3,7 @@ import fs from "fs";
 
 
 // Convert relative image path to static (/public/content/.../)
-export function convertRelativeImagePath(mdxPath: string, imagePath?: string, defaultImage?: string): string {
+export function convertRelativeImagePath(mdxPath: string, imagePath?: string, defaultImage: string = ""): string {
 	const folderPath = path.dirname(mdxPath);
 	if (imagePath) {
 		// Allow outsourced images
@@ -26,5 +26,5 @@ export function convertRelativeImagePath(mdxPath: string, imagePath?: string, de
 	}
 
 	// Default image
-	return defaultImage || "";
+	return defaultImage;
 }

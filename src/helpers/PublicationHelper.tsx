@@ -56,7 +56,6 @@ export async function getPublication(slug: string): Promise<MatterData> {
 
 // Final adjustments to mdx data
 function validateData(matter: PublicationData): PublicationData {
-	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<PublicationMeta>(PublicationMeta, matter.data, matter.mdxPath);
 
 	// Fix pathing for local images

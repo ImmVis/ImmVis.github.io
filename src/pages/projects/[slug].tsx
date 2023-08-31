@@ -66,7 +66,6 @@ export default function Project({ project, fundings, personnel, publications }: 
 
 				{/* Markdown content */}
 				<div className="project-single-markdown mdx-content">
-					{/* {JSON.stringify(content)} */}
 					<MDXRemote {...content} />
 
 					{/* Publications */}

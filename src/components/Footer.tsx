@@ -1,24 +1,10 @@
-import Link from "next/link";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
-function Footer() {
+
+export default function Footer() {
 	return (
 		<div className="footer">
-			{/* <div className="footer-content"> */}
-			{/* <div className="footer-group-jobs">
-					<span className="footer-text-title">Jobs</span>
-					<span>A list of jobs</span>
-					<span>A list of jobs</span>
-					<span>A list of jobs</span>
-					<span>A list of jobs</span>
-
-					<br />
-					<Link href="/exjobbs">View All &gt;</Link>
-				</div> */}
-			{/* </div> */}
-
 			<div className="footer-legal">
 				<div className="flex gap-x-4">
 					<div className="flex self-center text-xl">
@@ -27,7 +13,7 @@ function Footer() {
 					<div className="text-sm tracking-tight">
 						<span>Linköpings Universitet, Campus Norrköping</span>
 						<br />
-						<span>601 74 Norrköping Sweden</span>
+						<span>601 74 Norrköping, Sweden</span>
 					</div>
 				</div>
 
@@ -48,5 +34,3 @@ function Footer() {
 		</div>
 	);
 }
-
-export default Footer;

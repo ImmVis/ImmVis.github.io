@@ -3,8 +3,31 @@ import { FundingData } from "@/helpers/FundingHelper";
 import style from "@/styles/MiniFundingList.module.scss";
 
 
+function MiniFundingEntry(funding: FundingData, fundingId: string) {
+	console.assert(funding === undefined || funding.data.id === fundingId);
+
+	if (funding !== undefined) {
+		return (
+			<div key={fundingId} className={style.item}>
+				<a href={funding.data.link} title={funding.data.name} target="_blank">
+					<Image width="256" height="256" alt={funding.data.id} src={funding.data.icon!} />
+				</a>
+			</div>
+		);
+	}
+	else {
+		return (
+			<div key={fundingId} className={style.item}>
+				<div title={fundingId}>
+					<span>{fundingId}</span>
+				</div>
+			</div>
+		);
+	}
+}
+
 export default function MiniFundingList({ fundings, fundingIdList }: { fundings: FundingData[], fundingIdList: string[] }) {
-	const validFunding: { [key: string]: FundingData } = {};
+	let validFunding: { [key: string]: FundingData } = {};
 	fundingIdList.forEach(fundingId => {
 		const funding = fundings.find(funding => funding.data.id == fundingId);
 		if (funding) {
@@ -14,35 +37,7 @@ export default function MiniFundingList({ fundings, fundingIdList }: { fundings:
 
 	return (
 		<div className={style.list}>
-			{fundingIdList.map(fundingId =>
-				<div key={fundingId} className={style.item}>
-					{validFunding[fundingId]
-						?
-						<a href={validFunding[fundingId].data.link} title={validFunding[fundingId].data.name} target="_blank">
-							<Image width="256" height="256" alt={fundingId} src={validFunding[fundingId].data.icon!} />
-						</a>
-						:
-						<div title={fundingId}>
-							<span>{fundingId}</span>
-						</div>
-					}
-				</div>
-			)}
+			{fundingIdList.map(fundingId => MiniFundingEntry(validFunding[fundingId], fundingId))}
 		</div>
-
-		// <div className={style.list}>
-		// 	{fundingIdList.map(fundingId =>
-		// 		<div key={fundingId} className={style.item} title={validFunding[fundingId]?.name || fundingId}>
-		// 			{
-		// 				validFunding[fundingId]
-		// 					?
-		// 					<Image width="256" height="256" alt={validFunding[fundingId].id} src={validFunding[fundingId].icon!} />
-		// 					:
-		// 					<span>{fundingId[0]}</span>
-		// 			}
-		// 		</div>
-		// 	)}
-		// </div>
 	);
 }
-{/* <div key={fundingId} className="fundings-list-item bg-zinc-500 rounded-full uppercase text-center text-2xl text-white" style={{ width: "64px", height: "64px", lineHeight: "64px" }}></div> */ }

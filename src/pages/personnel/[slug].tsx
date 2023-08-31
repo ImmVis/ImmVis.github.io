@@ -14,13 +14,11 @@ import * as brandIcons from "@fortawesome/free-brands-svg-icons";
 
 // Individual personnel page component
 export default function Personnel({ personnel, projects, publications }: { personnel: PersonnelData, projects: ProjectData[], publications: PublicationData[] }) {
-	const { data, content, mdxPath } = personnel;
+	const { data, content } = personnel;
 	const { email, phone, address, orcid } = data.contact_info || {};
 	const webpage = data.personal_webpage;
 
-	const myProjects = projects.filter(project =>
-		project.data.people.includes(data.id)
-	);
+	const myProjects = projects.filter(project => project.data.people.includes(data.id));
 
 	const myPublications = publications.filter(publication =>
 		publication.data.liu_authors.includes(data.id)
@@ -33,7 +31,6 @@ export default function Personnel({ personnel, projects, publications }: { perso
 			</Head>
 
 			<main className="personnel-single">
-
 				<div className="personnel-single-profile">
 
 					{/* Left profile info */}
@@ -45,10 +42,6 @@ export default function Personnel({ personnel, projects, publications }: { perso
 					<div className="right">
 						<p role="position">{data.position.join(", ")}</p>
 						<p role="name">{data.name}</p>
-
-						{/* <div className="flex flex-row items-center mb-3">
-							<span className="text-lg font-bold mr-4">Contact</span>
-						</div> */}
 
 						<div className="contact">
 							{email && (
@@ -107,13 +100,6 @@ export default function Personnel({ personnel, projects, publications }: { perso
 						<div className="mt-8">
 							<SocialList social={data.social} />
 						</div>
-
-						{/* <div className="">
-							<p className="text-xl my-2">Skills</p>
-							<SkillList skills={data.skills} />
-						</div> */}
-
-						{/* <p>Click the skill tags to find others with similar skills in the team</p> */}
 					</div>
 				</div>
 

@@ -45,8 +45,6 @@ export async function getCourse(slug: string): Promise<MatterData> {
 
 // Final adjustments to mdx data
 function validateData(matter: CourseData): CourseData {
-	// Parse frontmatter and perform type checks
 	matter.data = parseFrontmatter<CourseMeta>(CourseMeta, matter.data, matter.mdxPath);
-
 	return matter;
 }
