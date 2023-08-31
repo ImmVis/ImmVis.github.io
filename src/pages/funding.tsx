@@ -13,7 +13,7 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 
 			<main className="funding-list">
 				<h1>Funding</h1>
-				<p>Nisi veniam et nostrud mollit do adipisicing magna id sunt. Ea mollit cupidatat aliquip ipsum velit voluptate veniam. Aliqua non magna consequat exercitation officia duis est et sunt. Duis laborum sint ut velit et sunt consectetur voluptate proident cillum enim labore non.</p>
+				<p>We would like to thank our generous funding partners without whom much of work would not be possible. Each individual project further lists the specific funding agency or partner that provided support for that specific activity.</p>
 
 				<hr />
 

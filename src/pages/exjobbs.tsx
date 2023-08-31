@@ -14,10 +14,10 @@ export default function ExjobbPage({ exjobbs }: { exjobbs: ExjobbData[] }) {
 
 			<main className="exjobb-page">
 				<h1>
-					Latest exjobbs
+					Exjobb projects
 				</h1>
 				<p>
-					Do eu exercitation ea id ullamco dolor in non pariatur consequat. Ea voluptate aliquip fugiat magna aliquip fugiat incididunt proident esse nulla velit tempor cillum dolor. Qui ad ipsum sint reprehenderit quis esse ipsum. Minim aliquip anim nulla pariatur id ut Lorem do dolor amet nostrud irure. Duis ipsum tempor enim quis consectetur aliqua do in nostrud fugiat nostrud cillum aliqua. Pariatur est aliquip eu sit elit veniam. Aliqua et excepteur eiusmod proident velit excepteur excepteur deserunt magna pariatur.
+					Exjobb projects are 20-week final year projects for Master students of the Media Technology program that are research projects in which indiviudual students or a pair of students can work on concrete problems while being immersed in a specific problem domain. In addition to providing the ability to improve technical skills, they also require application of a solid research methodology and in many cases can be an opportunity for an exchange semester abroad.
 				</p>
 
 				<hr />

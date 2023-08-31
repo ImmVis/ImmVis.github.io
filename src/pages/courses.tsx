@@ -12,10 +12,10 @@ export default function CoursePage({ courses }: { courses: CourseData[] }) {
 
 			<main className="course-page">
 				<h1>
-					Latest courses
+					Courses
 				</h1>
 				<p>
-					Do eu exercitation ea id ullamco dolor in non pariatur consequat. Ea voluptate aliquip fugiat magna aliquip fugiat incididunt proident esse nulla velit tempor cillum dolor. Qui ad ipsum sint reprehenderit quis esse ipsum. Minim aliquip anim nulla pariatur id ut Lorem do dolor amet nostrud irure. Duis ipsum tempor enim quis consectetur aliqua do in nostrud fugiat nostrud cillum aliqua. Pariatur est aliquip eu sit elit veniam. Aliqua et excepteur eiusmod proident velit excepteur excepteur deserunt magna pariatur.
+					Our group is involved with a number of courses that are taught at Linköping University.  Many of these are embedded in the Masters program for Media Technology that has components for Scientific, Information, and Immersive Visualization in addition to teaching concepts for virtual reality.
 				</p>
 
 				<hr />

@@ -15,7 +15,7 @@ export default function ProjectPage({ projects }: { projects: ProjectData[] }) {
 
 			<main className="project-page">
 				<h1>Projects</h1>
-				<p>Nostrud nisi consequat elit ex laborum culpa ipsum. Est sit amet voluptate et aute amet consectetur nulla occaecat do reprehenderit et consequat. Velit nisi id fugiat veniam exercitation fugiat est mollit sunt cillum eu. Consectetur pariatur pariatur fugiat laborum id magna sit laborum. Elit aute ullamco commodo nisi veniam laborum quis veniam ex mollit duis qui culpa. Sit minim ut minim ut commodo adipisicing fugiat cupidatat commodo eu adipisicing ad elit. Ex occaecat sunt elit id do occaecat excepteur nisi.</p>
+				<p>Here is a list of projects and activities that the group are undertaking. These can involved larger software development projects or small, contained, research projects and everything in between. Each project on this webpage contains more information to show who worked on it, who funded the project, and additionally provides supplemental material that explains what that project is about, links to software archives, etc.</p>
 
 				<hr />
 

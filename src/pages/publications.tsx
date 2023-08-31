@@ -15,7 +15,7 @@ export default function PublicationPage({ publications }: { publications: Public
 
 			<main className="publication-page">
 				<h1>Publications</h1>
-				<p>Nostrud nisi consequat elit ex laborum culpa ipsum. Est sit amet voluptate et aute amet consectetur nulla occaecat do reprehenderit et consequat. Velit nisi id fugiat veniam exercitation fugiat est mollit sunt cillum eu. Consectetur pariatur pariatur fugiat laborum id magna sit laborum. Elit aute ullamco commodo nisi veniam laborum quis veniam ex mollit duis qui culpa. Sit minim ut minim ut commodo adipisicing fugiat cupidatat commodo eu adipisicing ad elit. Ex occaecat sunt elit id do occaecat excepteur nisi.</p>
+				<p>Here is a list of the academic publications that members of our group are involved in as co-authors.</p>
 
 				<hr />
 
