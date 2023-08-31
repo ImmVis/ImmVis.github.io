@@ -18,7 +18,7 @@ function PublicationItem({ post }: { post: PublicationData }) {
         <p><i>{data.venue}, {data.year}</i></p>
         <p>
           {data.doi && (
-            <a href={data.doi}>doi:{data.doi}</a>
+            <a href={"http://dx.doi.org/" + data.doi}>doi:{data.doi}</a>
           )}
         </p>
         <div className="publication-box-links">
