@@ -4,6 +4,22 @@ import Image from "next/image";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 
 
+function PersonnelItem({ post }: { post: PersonnelData }) {
+	const { slug, data } = post;
+
+	return (
+		<Link href={`personnel/${slug}`} className="personnel-box">
+			<Image width={512} height={512} alt={data.name} src={data.image!} />
+			<span role="name">
+				{data.name}
+			</span>
+			<span role="position">
+				{data.position.join(", ")}
+			</span>
+		</Link>
+	);
+}
+
 export default function PersonnelList({ personnel }: { personnel: PersonnelData[] }) {
 	return (
 		<>
@@ -24,24 +40,6 @@ export default function PersonnelList({ personnel }: { personnel: PersonnelData[
 		</>
 	);
 }
-
-
-function PersonnelItem({ post }: { post: PersonnelData }) {
-	const { slug, data } = post;
-
-	return (
-		<Link href={`personnel/${slug}`} className="personnel-box">
-			<Image width={512} height={512} alt={data.name} src={data.image!} />
-			<span role="name">
-				{data.name}
-			</span>
-			<span role="position">
-				{data.position.join(", ")}
-			</span>
-		</Link>
-	);
-}
-
 
 export async function getStaticProps() {
 	return {

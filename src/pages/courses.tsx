@@ -2,6 +2,28 @@ import Head from "next/head"
 import { CourseData, getAllCourses } from "@/helpers/CourseHelper";
 
 
+function CourseList({ courses }: { courses: CourseData[] }) {
+	return (
+		<div className="course-list">
+			{courses.map((post) => (
+				<CourseItem key={post.slug} post={post} />
+			))}
+		</div>
+	);
+}
+
+function CourseItem({ post }: { post: CourseData }) {
+	const { slug, data } = post;
+
+	return (
+		<a href={data.link} className="course-box">
+			<p role="course-code">{data.course_code}</p>
+			<p role="name">{data.name}</p>
+			<p role="description">{data.description}</p>
+		</a>
+	);
+}
+
 export default function CoursePage({ courses }: { courses: CourseData[] }) {
 	return (
 		<>
@@ -22,31 +44,6 @@ export default function CoursePage({ courses }: { courses: CourseData[] }) {
 		</>
 	);
 }
-
-
-export function CourseList({ courses }: { courses: CourseData[] }) {
-	return (
-		<div className="course-list">
-			{courses.map((post) => (
-				<CourseItem key={post.slug} post={post} />
-			))}
-		</div>
-	);
-}
-
-
-export function CourseItem({ post }: { post: CourseData }) {
-	const { slug, data } = post;
-
-	return (
-		<a href={data.link} className="course-box">
-			<p role="course-code">{data.course_code}</p>
-			<p role="name">{data.name}</p>
-			<p role="description">{data.description}</p>
-		</a>
-	);
-}
-
 
 export async function getStaticProps() {
 	return {

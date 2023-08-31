@@ -1,8 +1,20 @@
 import Head from 'next/head'
-// import Link from "next/link";
 import Image from "next/image";
 import { FundingData, getAllFundings } from '@/helpers/FundingHelper';
 
+
+function FundingItem({ post }: { post: FundingData }) {
+	const { data } = post;
+
+	return (
+		<a href={data.link} className="funding-box" target="_blank">
+			<Image width={512} height={512} alt={data.name} src={data.icon} />
+			<span role="name">
+				{data.name}
+			</span>
+		</a>
+	);
+}
 
 export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 	return (
@@ -26,21 +38,6 @@ export default function FundingList({ fundings }: { fundings: FundingData[] }) {
 		</>
 	);
 }
-
-
-function FundingItem({ post }: { post: FundingData }) {
-	const { data } = post;
-
-	return (
-		<a href={data.link} className="funding-box" target="_blank">
-			<Image width={512} height={512} alt={data.name} src={data.icon} />
-			<span role="name">
-				{data.name}
-			</span>
-		</a>
-	);
-}
-
 
 export async function getStaticProps() {
 	return {

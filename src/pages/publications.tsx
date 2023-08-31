@@ -6,38 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
-export default function PublicationPage({ publications }: { publications: PublicationData[] }) {
-	return (
-		<>
-			<Head>
-				<title>Publications - ImmVis</title>
-			</Head>
-
-			<main className="publication-page">
-				<h1>Publications</h1>
-				<p>Here is a list of the academic publications that members of our group are involved in as co-authors.</p>
-
-				<hr />
-
-				<PublicationList publications={publications} />
-			</main>
-		</>
-	);
-}
-
-
-export function PublicationList({ publications }: { publications: PublicationData[] }) {
-	return (
-		<div className="publication-list">
-			{publications.map((post) => (
-				<PublicationItem key={post.slug} post={post} />
-			))}
-		</div>
-	);
-}
-
-
-export function PublicationItem({ post }: { post: PublicationData }) {
+function PublicationItem({ post }: { post: PublicationData }) {
 	const { slug, data } = post;
 
 	return (
@@ -89,6 +58,34 @@ export function PublicationItem({ post }: { post: PublicationData }) {
 	);
 }
 
+export function PublicationList({ publications }: { publications: PublicationData[] }) {
+	return (
+		<div className="publication-list">
+			{publications.map((post) => (
+				<PublicationItem key={post.slug} post={post} />
+			))}
+		</div>
+	);
+}
+
+export default function PublicationPage({ publications }: { publications: PublicationData[] }) {
+	return (
+		<>
+			<Head>
+				<title>Publications - ImmVis</title>
+			</Head>
+
+			<main className="publication-page">
+				<h1>Publications</h1>
+				<p>Here is a list of the academic publications that members of our group are involved in as co-authors.</p>
+
+				<hr />
+
+				<PublicationList publications={publications} />
+			</main>
+		</>
+	);
+}
 
 export async function getStaticProps() {
 	return {

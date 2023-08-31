@@ -45,7 +45,9 @@ export async function getAllPersonnels(): Promise<MatterData[]> {
 export async function getPersonnel(slug: string): Promise<MatterData> {
 	const personnel = await getAllPersonnels();
 	const matterData = personnel.find(p => p.slug == slug);
-	if (!matterData) { throw new Error(`Personnel not found: ${slug}`); }
+	if (!matterData) {
+		throw new Error(`Personnel not found: ${slug}`);
+	}
 	return validateData(matterData as PersonnelData);
 };
 
