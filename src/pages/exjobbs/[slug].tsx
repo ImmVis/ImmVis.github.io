@@ -9,79 +9,79 @@ import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 // Individual exjobb page component
 export default function Exjobb({ exjobb, personnel }: { exjobb: ExjobbData, personnel: PersonnelData[] }) {
-	const { data, content, mdxPath } = exjobb;
+  const { data, content, mdxPath } = exjobb;
 
-	return (
-		<>
-			<Head>
-				<title>{`${data.name} - ImmVis`}</title>
-			</Head>
+  return (
+    <>
+      <Head>
+        <title>{`${data.name} - ImmVis`}</title>
+      </Head>
 
-			<main className="exjobb-single">
+      <main className="exjobb-single">
 
-				<div className="exjobb-single-profile">
+        <div className="exjobb-single-profile">
 
-					<div className="panel">
-						<p role="name">{data.name}</p>
+          <div className="panel">
+            <p role="name">{data.name}</p>
 
-						<div className="content">
-							<div>
-								<h3>Info</h3>
-								<div className="info">
-									<div title="The number of students for this exjobb">
-										<FontAwesomeIcon icon={solidIcons.faUser} />
-										{data.number_of_students}
-									</div>
+            <div className="content">
+              <div>
+                <h3>Info</h3>
+                <div className="info">
+                  <div title="The number of students for this exjobb">
+                    <FontAwesomeIcon icon={solidIcons.faUser} />
+                    {data.number_of_students}
+                  </div>
 
-									<div title="The date when the exjobb is to be carried out">
-										<FontAwesomeIcon icon={solidIcons.faCalendarDays} />
-										{data.period}
-									</div>
+                  <div title="The date when the exjobb is to be carried out">
+                    <FontAwesomeIcon icon={solidIcons.faCalendarDays} />
+                    {data.period}
+                  </div>
 
-									<div title="The physical location where the exjobb is to be carried out">
-										<FontAwesomeIcon icon={solidIcons.faLocationDot} />
-										{data.location}
-									</div>
-								</div>
-							</div>
+                  <div title="The physical location where the exjobb is to be carried out">
+                    <FontAwesomeIcon icon={solidIcons.faLocationDot} />
+                    {data.location}
+                  </div>
+                </div>
+              </div>
 
-							<div>
-								<h3>Contact</h3>
-								<MiniPersonnelList personnel={personnel} liuidList={data.contact} />
-							</div>
-						</div>
-					</div>
-				</div>
+              <div>
+                <h3>Contact</h3>
+                <MiniPersonnelList personnel={personnel} liuidList={data.contact} />
+              </div>
+            </div>
+          </div>
+        </div>
 
-				{/* Markdown content */}
-				<div className="exjobb-single-markdown mdx-content">
-					<MDXRemote {...content} />
-				</div>
-			</main>
-		</>
-	);
+        {/* Markdown content */}
+        <div className="exjobb-single-markdown mdx-content">
+          <MDXRemote {...content} />
+        </div>
+      </main>
+    </>
+  );
 }
 
 
 // List of paths to be statically generated
 export async function getStaticPaths() {
-	const exjobbs = await getAllExjobbs();
-	return {
-		paths: exjobbs.map(matter => ({
-			params: {
-				slug: matter.slug
-			}
-		})),
-		fallback: false
-	};
+  const exjobbs = await getAllExjobbs();
+  return {
+    paths: exjobbs.map(matter => ({
+      params: {
+        slug: matter.slug
+      }
+    })),
+    fallback: false
+  };
 }
 
 // Static props used in the pre-render of this page
 export async function getStaticProps({ params }: { params: { slug: string; } }) {
-	return {
-		props: {
-			exjobb: await getExjobb(params.slug),
-			personnel: await getAllPersonnels(),
-		}
-	};
+  return {
+    props: {
+      exjobb: await getExjobb(params.slug),
+      personnel: await getAllPersonnels(),
+    }
+  };
 }
