@@ -23,9 +23,6 @@ export default function Home({ projects, personnel }: { projects: ProjectData[],
         <div className="home-vision">
           <div className="home-vision-grid">
             <div className="col-span-1">
-              {/* <h3 className="text-xl font-thin my-0">
-                Immersive Visualization
-              </h3> */}
               <h1 className="text-6xl mt-4 mb-8">Immersive Visualization</h1>
               <p className="text-lg leading-8">
                 Welcome to the immersive visualization team at Linköping

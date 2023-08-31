@@ -1,7 +1,7 @@
 import z from "zod";
 import path from "path";
 import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
-import { convertRelativeImagePath } from "./ImageUtils";
+import { convertRelativePath } from "./PathUtils";
 
 
 // Content folder for project files
@@ -100,7 +100,7 @@ function validateData(matter: ProjectData): ProjectData {
   matter.data = parseFrontmatter<ProjectMeta>(ProjectMeta, matter.data, matter.mdxPath);
 
   // Fix pathing for local images
-  matter.data.image = convertRelativeImagePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
+  matter.data.image = convertRelativePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
 
   return matter;
 }

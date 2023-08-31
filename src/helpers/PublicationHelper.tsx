@@ -1,7 +1,7 @@
 import z from "zod";
 import path from "path";
 import { MatterData, fetchAllFiles, parseFrontmatter } from "./MdxLoader";
-import { convertRelativeImagePath } from "./ImageUtils";
+import { convertRelativePath } from "./PathUtils";
 
 
 // Content folder for publication files
@@ -59,7 +59,16 @@ function validateData(matter: PublicationData): PublicationData {
   matter.data = parseFrontmatter<PublicationMeta>(PublicationMeta, matter.data, matter.mdxPath);
 
   // Fix pathing for local images
-  matter.data.thumbnail = convertRelativeImagePath(matter.mdxPath, matter.data.thumbnail, "/dummy_image.png");
+  matter.data.thumbnail = convertRelativePath(matter.mdxPath, matter.data.thumbnail, "/dummy_image.png");
+  if (matter.data.pdf) {
+    matter.data.pdf = convertRelativePath(matter.mdxPath, matter.data.pdf);
+  }
+  if (matter.data.bib) {
+    matter.data.bib = convertRelativePath(matter.mdxPath, matter.data.bib);
+  }
+  if (matter.data.video) {
+    matter.data.video = convertRelativePath(matter.mdxPath, matter.data.video);
+  }
 
   return matter;
 }
