@@ -4,17 +4,6 @@ import Image from "next/image";
 import { ProjectData, getAllProjects } from '@/helpers/ProjectHelper';
 
 
-function ProjectList({ projects }: { projects: ProjectData[] }) {
-  return (
-    <div className="project-list">
-      {projects.map(post =>
-        <ProjectItem key={post.slug} post={post} />
-      )}
-    </div>
-  );
-}
-
-
 function ProjectItem({ post }: { post: ProjectData }) {
   const { slug, data } = post;
 
@@ -27,6 +16,16 @@ function ProjectItem({ post }: { post: ProjectData }) {
         <p role="description">{data.description}</p>
       </div>
     </Link>
+  );
+}
+
+export function ProjectList({ projects }: { projects: ProjectData[] }) {
+  return (
+    <div className="project-list">
+      {projects.map(post =>
+        <ProjectItem key={post.slug} post={post} />
+      )}
+    </div>
   );
 }
 
