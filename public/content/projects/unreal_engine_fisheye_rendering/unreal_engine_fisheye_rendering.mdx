@@ -10,14 +10,85 @@ people: [ "guser40" ]
 funding: [ "nobody" ]
 ---
 
-# Download the Unreal Engine plugin 
+<h1 id="download-links">Download the Unreal Engine plugin </h1>
 - [5.0](/content/projects/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_0.zip)
 - [5.1](/content/projects/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_1.zip)
 - [5.2](/content/projects/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_2.zip)
 
-# Making a new project
+
+
+# Making a New Project
+
+
+
 1. Create a new project. You can use any of the premade templates that suit your project the best, but for this tutorial we will use a blank project.
 2. Make sure you have the following settings in your project. It should be the default settings, with the addition of turning on raytracing
+
+<img style={{display: "block", margin: "auto"}} width="50%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/fisheye_plugin_project_settings.png" />
+
+# Project Settings
+1.	If your computer supports it, turn on Use Hardware Ray Tracing when available
+2.	Set Ray Lighting Mode to Hit Lighting for reflections
+
+# Installing the Unreal Engine Plugin
+1. [Download the plugin](#download-links) matching your Unreal Engine version
+2. Add the FisheyeRenderSetup folder to your projects Plugins folder. If you don’t have a Plugins folder you can add one.
+3. Start your project and check the Plugins browser to see that the plugin is installed
+4. Open the Settings menu in your Content Browser and enable Show Plugin Content
+5. You can now find the FisheyeRenderSetup content folder under All > Plugins
+6. Right click LevelSequenceAssetAction and select Run Editor Utility Blueprint to ensure that it can be run further down the line.
+
+
+<img style={{display: "block", margin: "auto"}} width="80%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/fisheye_plugin_content.png" />
+
+# Level Setup
+The following steps assumes that you have a blank scene with nothing in it.
+You can copy the DomeFisheyeTemplateLevel and use it as a starting point if you want to skip the following setup steps in Light Setup, Post Process Volume and Camera Rig. 
+Alternativly, you could copy and paste the relevant actors into another level.
+
+## Lighting
+
+1. Go to the Window tab and Open Environment Light Mixer
+2. Press every button EXCEPT Atmospheric Light 1
+3. In the outliner, select the Skylight and turn on the Real Time Capture checkbox
+
+<img style={{display: "block", margin: "auto"}} width="80%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/fisheye_plugin_light_setup.png" />
+
+## Post Process Volume
+1. Add a Post Process Volume to your scene
+2. Check Infinite Extent (Unbound) so that the volume affects the whole scene
+
+<img style={{display: "block", margin: "auto"}} width="80%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/fisheye_plugin_ppv_unbound.png" />
+
+3. Change the reflection method to Standalone Ray Traced (Deprecated). This sets the reflection method to Hardware instead of software. 
+Lumen is limited in how good reflections it can produce, especially on highly reflective materials. 
+Lumen cheats by using Screen space reflections, but this doesn’t work for fisheye renders as objects visible in one camera won’t reflect in the others. 
+With Hardware Ray Tracing we get around this problem, with the trade-off being higher rendering time. You can omit this step if you don’t have any issues with reflections.
+
+	a) Tweak Max Roughness to set how reflective a material has to be to get a reflection. Lower values include more objects.
+
+	b) Increase Max Bounces to get a more correct reflection. This is costly, so don’t go higher than you need.
+
+	c) Increase Samples Per Pixels if your reflective surfaces seem grainy. Higher values will be more costly, as it will cast a ray through each pixel for each level.
+
+4. You need to turn off some screen space effects as they don’t work with fisheye stitching. If you have them turned on you will see borders between the stitched images.
+
+	a) Set Bloom > Intensity to 0.0
+
+	<img style={{display: "block", margin: "auto"}} width="80%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/fisheye_plugin_ppv_bloom.png" />
+
+	b) Set Image Effects > Vignette Intensity to 0.0
+
+	<img style={{display: "block", margin: "auto"}} width="80%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/fisheye_plugin_ppv_vignette.png" />
+
+5. Unreal Engine has Auto Exposure turned on by default (you can also edit this in project settings). We want to turn this of as the exposure should not change between camera angles.
+
+	a) Set Exposure > Metering Mode to Manual
+
+	b) Exposure > Turn Apply Physical Camera Exposure Off
+	
+	c) Tweak Exposure > Exposure Compensation to match the lighting you want in your scene
+ 
 
 
 
