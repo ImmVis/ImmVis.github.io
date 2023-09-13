@@ -6,6 +6,53 @@ end_date: 2023
 description: "Aliquip est tempor voluptate ut sunt deserunt. Aliquip nostrud fugiat ipsum aliquip nulla exercitation ea qui laborum. Commodo cupidatat nostrud tempor veniam."
 image: "https://picsum.photos/1000/1000"
 homepage: "https://example.org"
-people: [ "" ]
-funding: [ "" ]
+people: [ "guser40" ]
+funding: [ "visc", "wisdome" ]
 ---
+
+# About
+The Getinge dome production was a collaboration between Linköping University and
+[Getinge](getinge.com), a Swedish company that provides technical solutions and
+products to hospitals and life science institutions.
+The goal of the project was to create dome movies that featured three different upcoming
+Getinge products, for an internal launch event that Getinge hosted in Gothenburg in
+September 2023.
+
+# The Production
+The dome movies where created using Unreal Engine 5 and the new [render pipeline](example.com) that
+had just been created by ImmVis and the Wisdome group. The Getinge dome movies
+offered an opportunity to test this new pipeline at production level, whereas before
+it had mostly been tested on smaller examples.
+
+# Unreal Engine Render Pipeline
+By utilizing the real time rendering capabilities of Unreal Engine 5, the project time
+could be greatly reduced due to the immense gains in rendering performance.
+The large scale of dome movies, requiring 8k frames at max resolution, would have meant
+weeks of rendering time with classic rendering pipelines, especially when rendering movies in
+stereo, as this effectively doubles the amount of frames needed. Thanks to the
+Unreal Engine render pipeline, the render time could be reduced from weeks to hours.
+Without it, a production like this would not have been feasible within the tight time frame given.
+
+# The Different Products
+The production was split up into three movies, covering three different Getinge products
+that where all approaching launch.
+Since all three products could be maintained within the same Unreal Engine project,
+the idea was that synergies with reusable assets and an established render pipeline
+could make the work more efficient.
+
+## Cardiohelp (Add name)
+Cardiohelp is a ...
+
+## Bioreactor (Add name)
+
+## Aquadis
+
+# Bringing Getinge CAD Models into Unreal Engine
+The CAD models of the products where provided by Getinge. By using [Datasmith](https://www.unrealengine.com/en-US/datasmith) to bring the CAD models into Unreal Engine, operations could be run on the imported
+geometry, such as tessellation to ensure high geometry resolution and conversion
+to [Nanite](https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/) for increased performance. Once imported into Unreal Engine, the largest work load was creating materials
+and adding them correctly to the models, as there wasn't an obvious material mapping
+in the CAD models provided by Getinge.
+
+# Special assets
+## 
