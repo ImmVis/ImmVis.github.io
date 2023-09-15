@@ -1,11 +1,67 @@
 ---
 id: "getinge"
-name: "Getinge"
+name: "Getinge Dome Production"
 start_date: 2023
 end_date: 2023
 description: "Aliquip est tempor voluptate ut sunt deserunt. Aliquip nostrud fugiat ipsum aliquip nulla exercitation ea qui laborum. Commodo cupidatat nostrud tempor veniam."
-image: "https://picsum.photos/1000/1000"
-homepage: "https://example.org"
-people: [ "" ]
-funding: [ "" ]
+image: "./cardiohelp_patient.png"
+homepage: ""
+people: [ "guser40", "erisu46" ]
+funding: [ "getinge", "visc", "wisdome" ]
 ---
+
+# About
+The Getinge dome production was a collaboration between Linköping University and
+[Getinge](getinge.com), a Swedish company that provides technical solutions and
+products to hospitals and life science institutions.
+The goal of the project was to create dome movies that featured three different upcoming
+Getinge products, for an internal launch event that Getinge hosted in Gothenburg in
+September 2023.
+
+# The Production
+The dome movies where created using Unreal Engine 5 and the new [render pipeline](/projects/unreal_engine_fisheye_rendering) that
+had just been created by ImmVis and the Wisdome group. The Getinge dome movies
+offered an opportunity to test this new pipeline at production level, whereas before
+it had mostly been tested on smaller examples.
+
+# Unreal Engine Render Pipeline
+By utilizing the real time rendering capabilities of Unreal Engine 5, the project time
+could be greatly reduced due to the immense gains in rendering performance.
+The large scale of dome movies, requiring 8k frames at max resolution, would have meant
+weeks of rendering time with classic rendering pipelines, especially when rendering movies in
+stereo, as this effectively doubles the amount of frames needed. Thanks to the
+Unreal Engine render pipeline, the render time could be reduced from weeks to hours.
+Without it, a production like this would not have been feasible within the tight time frame given.
+
+# The Getinge Products
+The production was split up into three movies, covering three different Getinge products
+that where all launching in the near future.
+Since all three products could be maintained within the same Unreal Engine project,
+the idea was that synergies with reusable assets and an established render pipeline
+could make the work more efficient.
+
+## Cardiohelp
+A machine that can help patients that are suffering from heart- or lung failiure. It pulls blood from the patient that is oxygenated externally and then reintroduced into the patient, temporarly replacing the internal oxygenation process and gives the patient time to recover.
+
+## Bioreactor
+A controlled environment that allows cells to grow in higher numbers and produce molecules such as antibodies, which can then be extracted and used in medical applications to cure diseases. 
+
+## Aquadis
+A dishwasher for clinical industrial use that cleans and disinfects medical tools.
+
+# Storytelling and designing for the Dome Experience
+The goal of the production was to create an experience in the dome that exceeded that of a traditional product visualizations. Movies in a dome environment, especially when utilizing
+3D stereo effects, are more immersive than regular 2D videos. 
+To take advantage of this environment, a lot of the scenes where designed to encapsulate the audience, giving the impression that you are inside the movie.
+The nature of the dome environment posed several challenges.
+## Scale of the dome relative to the scene
+You have to accomodate for the scale of the dome that the video will be shown on when designing the scenes. The dome in Norrköping has a radius of 7 meters, and the one in Gothenburg is even bigger. 
+This means that objects on screen should not be too close to the camera as this will look strange, especially in stereo. This can be remedied either by ensuring sufficient distance between the objects in the scene and the camera, or by scaling down the camera (the distance between the stereo eyes) which essentially increases the realtive distance to objects. The latter is needed when the objects that you want to show are quite small and you still want to get close to them, such as the Bioreactor or Cardiohelp.
+## Camera motion
+When deciding camera paths in the dome it is important to never move to fast, as this will make the audience motion sick. This was a limitation for the commercial format that the Getinge movies had, as you want to show as much as possible in as little time as possible, with quick motions and jump cuts. 
+In some scenes it was possible to move quick, as most of the surrounding scene was black and the feeling was that the objects in the scene were moving, while more crowded scenes limitied us to slower camera motion. 
+
+# Special assets
+## Particle systems
+
+# Results and conclusion
