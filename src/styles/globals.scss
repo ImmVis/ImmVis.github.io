@@ -96,8 +96,7 @@ p, li {
 // Imported .mdx markdown content
 
 .mdx-content {
-	h1 {
-		font-size: 2em;
+	h1, h2, h3, h4, h5, h6 {
 		margin-block-start: 1.2em;
 		margin-block-end: 0.6em;
 	}
