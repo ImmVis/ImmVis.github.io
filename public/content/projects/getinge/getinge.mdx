@@ -43,6 +43,8 @@ could make the work more efficient.
 ## Cardiohelp
 A machine that can help patients that are suffering from heart- or lung failiure. It pulls blood from the patient that is oxygenated externally and then reintroduced into the patient, temporarly replacing the internal oxygenation process and gives the patient time to recover.
 
+In the movie the focus was on communicating the severity of the situation when the patients heart is failing.
+
 ## Bioreactor
 A controlled environment that allows cells to grow in higher numbers and produce molecules such as antibodies, which can then be extracted and used in medical applications to cure diseases. 
 
@@ -61,7 +63,28 @@ This means that objects on screen should not be too close to the camera as this 
 When deciding camera paths in the dome it is important to never move to fast, as this will make the audience motion sick. This was a limitation for the commercial format that the Getinge movies had, as you want to show as much as possible in as little time as possible, with quick motions and jump cuts. 
 In some scenes it was possible to move quick, as most of the surrounding scene was black and the feeling was that the objects in the scene were moving, while more crowded scenes limitied us to slower camera motion. 
 
-# Special assets
+# Special assets and techniques
+There are some systems and assets that used special techniques to bring life to assets. 
+
+## Morph target animations
+Several assets where animated using morph target animation to deform the assets.
+- The fluid in the bioreactor, as the water level rises due to the propeller motion
+- The heart and lungs in Cardiohelp
+- The cannula entering the heart in Cardiohelp
+
 ## Particle systems
+To create some effect in the movies, particle systems where used. 
+
+The red blood cells traveling through the tubing in Cardiohelp where animated using a particle system which simulated the cells positions along a spline.
+
+The cells in the Bioreactor movie where simulated with a particle system consisting of three different emitters.
+- Cells 
+- Splitting cells
+- Antibodies 
+This allowed us to control the amount of each types during the shot, such that more splitting occured at good pH levels, and that only antibodies remained and lumped together in the end.
+The cell splitting animation was done in Blender and imported into UE as an Alembic Geometry Cache, that could be played in a particle system. 
+
+## Stitching and Ray Traced materials
+Since Fisheye images are created using stitched images, it is important that materials etc are not view dependent as this would cause discrepancies at the stitch edges. This becomes apparet if highly reflective materials such as metal are using screen space reflection. This is solved by setting reflections to use ray tracing. In this project  issues with glass and other transparent materials was also noted, as refraction was also screen space by default. This could also be solved by using ray traced refraction.
 
 # Results and conclusion
