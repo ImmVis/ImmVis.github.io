@@ -23,13 +23,12 @@ The goal of the project was to create dome movies that featured three different 
 Getinge products, for an internal launch event that Getinge hosted in Gothenburg in
 September 2023.
 
-# The Production
+# Unreal Engine Render Pipeline
 The dome movies where created using Unreal Engine 5 and the new [render pipeline](/projects/unreal_engine_fisheye_rendering) that
 had just been created by ImmVis and the Wisdome group. The Getinge dome movies
 offered an opportunity to test this new pipeline at production level, whereas before
 it had mostly been tested on smaller examples.
 
-# Unreal Engine Render Pipeline
 By utilizing the real time rendering capabilities of Unreal Engine 5, the project time
 could be greatly reduced due to the immense gains in rendering performance.
 The large scale of dome movies, requiring 8k frames at max resolution, would have meant
@@ -50,17 +49,21 @@ could make the work more efficient.
 
 A machine that can help patients that are suffering from heart- or lung failiure. It pulls blood from the patient that is oxygenated externally and then reintroduced into the patient, temporarly replacing the internal oxygenation process and gives the patient time to recover.
 
-In the movie the focus was on communicating the severity of the situation when the patients heart is failing.
+The focus in the movie was on communicating the severity of the situation when the patients heart is failing, and viewing the interactions with Cardiohelp from a new viewpoint, inside the body.
 
 ## Bioreactor
 [Bioreactor movie](https://liuonline.sharepoint.com/:v:/s/GetingesamverkanVisualiseringscenterC/EU19YBsd4bVFiDz-qW-nPtEB8xK--1MKCWBcsrznNK7mUQ?e=oTobia&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19)
 
 A controlled environment that allows cells to grow in higher numbers and produce molecules such as antibodies, which can then be extracted and used in medical applications to cure diseases. 
 
+The movie focuses on showing the technical feats of the bioreactor, and connecting what the machine does to the impact it can have on cell and antibody growth.
+
 ## Aquadis
 [Aquadis movie](https://liuonline.sharepoint.com/:v:/s/GetingesamverkanVisualiseringscenterC/EZwlzy5WhCVGhkoTp9cU6ZkBMa3AOPIO3oFbYb2s9j79GA?e=9C4U48&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19)
 
-A dishwasher for clinical industrial use that cleans and disinfects medical tools.
+A washer disinfecter for clinical industrial use that cleans, disinfects and steralizes medical tools.
+
+This movie was a bit shorter and server more as a visual showcaseand teaser for the new product.
 
 # Storytelling and designing for the Dome Experience
 The goal of the production was to create an experience in the dome that exceeded that of a traditional product visualizations. Movies in a dome environment, especially when utilizing
@@ -96,7 +99,7 @@ This allowed us to control the amount of each types during the shot, such that m
 The cell splitting animation was done in Blender and imported into UE as an Alembic Geometry Cache, that could be played in a particle system. 
 
 ## Stitching and Ray Traced materials
-Since Fisheye images are created using stitched images, it is important that materials etc are not view dependent as this would cause discrepancies at the stitch edges. This becomes apparet if highly reflective materials such as metal are using screen space reflection. This is solved by setting reflections to use ray tracing. In this project  issues with glass and other transparent materials was also noted, as refraction was also screen space by default. This could also be solved by using ray traced refraction.
+Since Fisheye images are created using stitched images, it is important that materials etc are not view dependent as this would cause discrepancies at the stitch edges. This becomes apparet if highly reflective materials such as metal are using screen space reflection. This is solved by setting reflections to use ray tracing. In this project  issues with glass and other transparent materials were also noted, as refraction was also screen space by default. This could also be solved by using ray traced refraction. All uses of ray tracing impacts performance, but since performance is not a big issue when rendering, compared to real time applications, this was not a great concern for this project.
 
 ## Animated materials
 Many effect in the movie was done by animating materials over time.
