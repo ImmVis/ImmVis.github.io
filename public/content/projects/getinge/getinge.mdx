@@ -107,4 +107,5 @@ Many effect in the movie was done by animating materials over time.
 - The rotational motion of the fluid in the bioreactor was done by rotating the texture coordinates in the surface material.
 - The blood in the tubes and in the oxigenator (as seen from outside) where animated using masks and moving a threshold for how much of the material would be affected by the mask. For the tubing, this required proper UV mapping such that the coordinated where running from start to end of the tube.
  
-# Results and conclusion
+## UI video material
+The UI in the bioreactor movie was done by animating the UI elements externally in Blender, which was then rendered out into a video. The video was then imported into Unreal Engine and brought into the scene through a media material which was added to a plane in the scene. The video could then be played and controller through the render sequence.
