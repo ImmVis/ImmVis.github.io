@@ -8,12 +8,12 @@ import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 function MiniPersonnelEntry(personnel: PersonnelData, liuid: string) {
 	console.assert(personnel === undefined || personnel.data.id === liuid);
 
-	let link: string = `/personnel/${personnel.slug}`;
-	if (personnel.data.external) {
-		link = personnel.data.personal_webpage || "#";
-	}
-
 	if (personnel !== undefined) {
+		let link: string = `/personnel/${personnel.slug}`;
+		if (personnel.data.external) {
+			link = personnel.data.personal_webpage || "#";
+		}
+
 		return (
 			<div className="relative">
 				<div key={liuid} className={style.item}>
