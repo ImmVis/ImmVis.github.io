@@ -23,6 +23,7 @@ const PersonnelMeta = z.object({
   personal_webpage: z.optional(z.string()),
   social: z.optional(z.any()),
   skills: z.optional(z.array(z.string())),
+  external: z.optional(z.boolean()),
 });
 
 // Frontmatter variables at the top of the .mdx file
