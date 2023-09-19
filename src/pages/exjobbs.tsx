@@ -6,11 +6,24 @@ import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
 function ExjobbList({ exjobbs }: { exjobbs: ExjobbData[] }) {
+  let ongoing = exjobbs.filter((value) => !value.data.finished);
+  let finished = exjobbs.filter((value) => value.data.finished);
+
   return (
-    <div className="exjobb-list">
-      {exjobbs.map((post) => (
-        <ExjobbItem key={post.slug} post={post} />
-      ))}
+    <div>
+      <h2>Ongoing</h2>
+      <div className="exjobb-list">
+        {ongoing.map((post) => (
+          <ExjobbItem key={post.slug} post={post} />
+        ))}
+      </div>
+
+      <h2>Finished</h2>
+      <div className="exjobb-list">
+        {finished.map((post) => (
+          <ExjobbItem key={post.slug} post={post} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -27,7 +40,7 @@ function ExjobbItem({ post }: { post: ExjobbData }) {
         {data.description}
       </p>
 
-      {/* <p role="skills">Required skills</p> */}
+      {!post.data.finished && (
       <div className="exjobb-box-details">
         <div className="exjobb-box-details-list">
           <div className="exjobb-box-details-info mr-3" title="The number of students for this exjobb">
@@ -49,6 +62,7 @@ function ExjobbItem({ post }: { post: ExjobbData }) {
           )}
         </div>
       </div>
+      )}
     </Link>
   );
 }
