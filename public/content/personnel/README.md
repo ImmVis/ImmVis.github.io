@@ -17,6 +17,7 @@ The following fields in the header are recognized:
 - `personal_webpage` (string, optional): The link to the personal webpage of the person
 - `social` (object, optional): This object can contain any of the following keys, where the value is the URL to that specific social media profile.  Providing any of these is obviously optional: `facebook`, `github`, `gitlab`, `git`, `instagram`, `linkedin`, `reddit`, `snapchat`, `steam`, `trello`, `tumblr`, `twitter`, `youtube`
  - `skills` (array{string}, optional): A list of self-professed skills the person possesses.  To prevent clutter on the webpage, this should be limited to only a few
+ - `external` (boolean, optional): Set to true if the person is not part of ImmVis. External personnel will be hidden from the staff page and will navigate to `personal_webpage` when clicked.
 
 ## Content
 The content can contain any information the person want to share about themselves, but frequently contains a short description, many be an employment/educatin background and then some example of previous works.

@@ -28,3 +28,11 @@
 		aspect-ratio: 1 / 1;
 	}
 }
+
+.external {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	color: white;
+	filter: drop-shadow(0px 0px 4px #00000066);
+}
