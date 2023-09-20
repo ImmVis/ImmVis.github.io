@@ -6,6 +6,8 @@ import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
 function ExjobbList({ exjobbs }: { exjobbs: ExjobbData[] }) {
+  exjobbs = exjobbs.filter((value) => !value.data.hidden);
+
   let ongoing = exjobbs.filter((value) => !value.data.finished);
   let finished = exjobbs.filter((value) => value.data.finished);
 
