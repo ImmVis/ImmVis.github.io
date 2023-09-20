@@ -10,6 +10,7 @@ The following fields in the header are recognized:
  - `period` (string): The date when the exjobb is supposed to be carried out
  - `number_of_students` (string): The number of students for which this exjobb is designed.  In the overwhelming majority of cases, this is either `1`, `2`, or `1-2`
  - `contact` (array{string}): The list of LiU ids for the people that are responsible for this exjobb.  In general, this would be the examiner, supervisor, or a combination of both
+ - `hidden` (boolean, optional): Determines whether this Exjobb is listed and has a webpage generated at all. If the value is not specified, it is considered to be `false`
  - `finished` (boolean): Determines whether the exjobb has been completed and does not accept any new applications
  - `skills` (array{string}, optional): A list of individual skills that are required for this exjobb.  As these show up as individual tags on the general exjobb page, it is recommended to stick to a few expressive skills, rather than being exhaustive
 
