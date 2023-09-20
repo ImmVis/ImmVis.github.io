@@ -18,12 +18,12 @@ const PersonnelMeta = z.object({
     email: z.optional(z.string()),
     phone: z.optional(z.string()),
     address: z.optional(z.string()),
-    orcid: z.optional(z.string()),
+    orcid: z.optional(z.string())
   })),
   personal_webpage: z.optional(z.string()),
   social: z.optional(z.any()),
   skills: z.optional(z.array(z.string())),
-  external: z.optional(z.boolean()),
+  external: z.optional(z.boolean())
 });
 
 // Frontmatter variables at the top of the .mdx file

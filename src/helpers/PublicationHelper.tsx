@@ -23,7 +23,7 @@ const PublicationMeta = z.object({
   code: z.optional(z.string()),
   video: z.optional(z.string()),
   thumbnail: z.string(),
-  annotation: z.optional(z.string()),
+  annotation: z.optional(z.string())
 });
 
 // Frontmatter variables at the top of the .mdx file
