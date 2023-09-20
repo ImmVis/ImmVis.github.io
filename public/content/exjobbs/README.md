@@ -28,6 +28,7 @@ location: "Narnia"
 period: "Fall 2025"
 number_of_students: "1-2"
 contact: [ "erier01", "maxmu02" ]
+hidden: false
 finished: false
 skills: [ "Virtual Reality", "C++", "OpenGL" ]
 ---
