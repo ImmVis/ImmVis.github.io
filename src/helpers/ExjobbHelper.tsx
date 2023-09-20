@@ -16,6 +16,7 @@ const ExjobbMeta = z.object({
   number_of_students: z.string(),
   contact: z.array(z.string()),
   finished: z.boolean(),
+  hidden: z.optional(z.boolean()),
   skills: z.optional(z.array(z.string())),
 });
 
@@ -32,6 +33,7 @@ export interface ExjobbData extends MatterData {
 export async function getAllExjobbs(): Promise<MatterData[]> {
   const matterList = await fetchAllFiles(path.join(".", folderPath));
   let list = matterList.map(matterData => validateData(matterData as ExjobbData));
+  list = list.filter((value) => !value.data.hidden);
   return list;
 };
 
