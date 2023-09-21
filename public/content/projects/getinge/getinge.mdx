@@ -16,37 +16,18 @@ funding: [ "getinge", "visc", "wisdome" ]
 ---
 
 # About
-The Getinge dome production was a collaboration between Linköping University and
-[Getinge](getinge.com), a Swedish company that provides technical solutions and
-products to hospitals and life science institutions.
-The goal of the project was to create dome movies that featured three different upcoming
-Getinge products, for an internal launch event that Getinge hosted in Gothenburg in
-September 2023.
+The Getinge dome production was a collaboration between Linköping University and [Getinge](https://getinge.com), a Swedish company that provides technical solutions and products to hospitals and life science institutions. The goal of the project was to create dome movies that featured three different upcoming Getinge products, for an internal launch event that Getinge hosted in Gothenburg in September 2023.
 
 # Unreal Engine Render Pipeline
-The dome movies where created using Unreal Engine 5 and the new [render pipeline](/projects/unreal_engine_fisheye_rendering) that
-had just been created by ImmVis and the Wisdome group. The Getinge dome movies
-offered an opportunity to test this new pipeline at production level, whereas before
-it had mostly been tested on smaller examples.
+The dome movies where created using Unreal Engine 5 and the new [render pipeline](/guides/unreal_engine_fisheye_rendering) that had just been created by ImmVis and the Wisdome group. The Getinge dome movies offered an opportunity to test this new pipeline at production level, whereas before it had mostly been tested on smaller examples.
 
-By utilizing the real time rendering capabilities of Unreal Engine 5, the project time
-could be greatly reduced due to the immense gains in rendering performance.
-The large scale of dome movies, requiring 8k frames at max resolution, would have meant
-weeks of rendering time with classic rendering pipelines, especially when rendering movies in
-stereo, as this effectively doubles the amount of frames needed. Thanks to the
-Unreal Engine render pipeline, the render time could be reduced from weeks to hours.
-Without it, a production like this would not have been feasible within the tight time frame given.
+By utilizing the real time rendering capabilities of Unreal Engine 5, the project time could be greatly reduced due to the immense gains in rendering performance. The large scale of dome movies, requiring 8K frames at max resolution, would have meant weeks of rendering time with classic rendering pipelines, especially when rendering movies in stereo, as this effectively doubles the amount of frames needed. Thanks to the Unreal Engine render pipeline, the render time could be reduced from weeks to hours. Without it, a production like this would not have been feasible within the tight time frame given.
 
 # The Getinge Products
-The production was split up into three movies, covering three different Getinge products
-that where all launching in the near future.
-Since all three products could be maintained within the same Unreal Engine project,
-the idea was that synergies with reusable assets and an established render pipeline
-could make the work more efficient.
+The production was split up into three movies, covering three different Getinge products that where all launching in the near future. Since all three products could be maintained within the same Unreal Engine project, the idea was that synergies with reusable assets and an established render pipeline could make the work more efficient.
 
 ## Cardiohelp
-
-A machine that can help patients that are suffering from heart- or lung failiure. It pulls blood from the patient that is oxygenated externally and then reintroduced into the patient, temporarly replacing the internal oxygenation process and gives the patient time to recover.
+A machine that can help patients that are suffering from heart- or lung failure. It pulls blood from the patient that is oxygenated externally and then reintroduced into the patient, temporarly replacing the internal oxygenation process and gives the patient time to recover.
 
 The focus in the movie was on communicating the severity of the situation when the patients heart is failing, and viewing the interactions with Cardiohelp from a new viewpoint, inside the body.
 
@@ -55,36 +36,33 @@ The focus in the movie was on communicating the severity of the situation when t
 
 [Bioreactor movie](https://liuonline.sharepoint.com/:v:/s/GetingesamverkanVisualiseringscenterC/EU19YBsd4bVFiDz-qW-nPtEB8xK--1MKCWBcsrznNK7mUQ?e=oTobia&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19)
 
-A controlled environment that allows cells to grow in higher numbers and produce molecules such as antibodies, which can then be extracted and used in medical applications to cure diseases. 
+A controlled environment that allows cells to grow in higher numbers and produce molecules such as antibodies, which can then be extracted and used in medical applications to cure diseases.
 
 The movie focuses on showing the technical feats of the bioreactor, and connecting what the machine does to the impact it can have on cell and antibody growth.
 
 ## Aquadis
 [Aquadis movie](https://example.com)
 
-A washer disinfecter for clinical industrial use that cleans, disinfects and steralizes medical tools.
+A washer disinfecter for clinical industrial use that cleans, disinfects and sterilizes medical tools.
 
-This movie was a bit shorter and server more as a visual showcaseand teaser for the new product.
+This movie was a bit shorter and serves more as a visual showcase and teaser for the new product.
 
 # Storytelling and designing for the Dome Experience
-The goal of the production was to create an experience in the dome that exceeded that of a traditional product visualizations. Movies in a dome environment, especially when utilizing
-3D stereo effects, are more immersive than regular 2D videos. 
-To take advantage of this environment, a lot of the scenes where designed to encapsulate the audience, giving the impression that you are inside the movie.
-The nature of the dome environment posed several challenges.
+The goal of the production was to create an experience in the dome that exceeded that of a traditional product visualizations. Movies in a dome environment, especially when utilizing 3D stereo effects, are more immersive than regular 2D videos.  To take advantage of this environment, a lot of the scenes where designed to encapsulate the audience, giving the impression that you are inside the movie. The nature of the dome environment posed several challenges.
+
 ## Scale of the dome relative to the scene
 <img style={{float: "right", marginLeft: "1rem"}} width="30%" alt="Absolute image" src="/content/projects/getinge/cardiohelp_stereo_error.png" />
 
-You have to accomodate for the scale of the dome that the video will be shown on when designing the scenes. The dome in Norrköping has a radius of 7 meters, and the one in Gothenburg is even bigger. 
-This means that objects on screen should not be too close to the camera as this will look strange, especially in stereo. This can be remedied either by ensuring sufficient distance between the objects in the scene and the camera, or by scaling down the camera (the distance between the stereo eyes) which essentially increases the realtive distance to objects. The latter is needed when the objects that you want to show are quite small and you still want to get close to them, such as the Bioreactor or Cardiohelp.
+You have to accomodate for the scale of the dome that the video will be shown on when designing the scenes. The dome in Norrköping has a radius of 7 meters, and the one in Gothenburg is even bigger. This means that objects on screen should not be too close to the camera as this will look strange, especially in stereo. This can be remedied either by ensuring sufficient distance between the objects in the scene and the camera, or by scaling down the camera (the distance between the stereo eyes) which essentially increases the realtive distance to objects. The latter is needed when the objects that you want to show are quite small and you still want to get close to them, such as the Bioreactor or Cardiohelp.
+
 ## Camera motion
-When deciding camera paths in the dome it is important to never move to fast, as this will make the audience motion sick. This was a limitation for the commercial format that the Getinge movies had, as you want to show as much as possible in as little time as possible, with quick motions and jump cuts. 
-In some scenes it was possible to move quick, as most of the surrounding scene was black and the feeling was that the objects in the scene were moving, while more crowded scenes limitied us to slower camera motion. 
+When deciding camera paths in the dome it is important to never move to fast, as this will make the audience motion sick. This was a limitation for the commercial format that the Getinge movies had, as you want to show as much as possible in as little time as possible, with quick motions and jump cuts. In some scenes it was possible to move quick, as most of the surrounding scene was black and the feeling was that the objects in the scene were moving, while more crowded scenes limited us to slower camera motion.
 
 # Special assets and techniques
-There are some systems and assets that used special techniques to bring life to assets. 
+There are some systems and assets that used special techniques to bring life to assets.
 
 ## Morph target animations
-Several assets where animated using morph target animation to deform the assets.
+Several assets where animated using morph target animation to deform the assets:
 - The fluid in the bioreactor, as the water level rises due to the propeller motion
 - The heart and lungs in Cardiohelp
 - The cannula entering the heart in Cardiohelp
@@ -92,27 +70,27 @@ Several assets where animated using morph target animation to deform the assets.
 ## Particle systems
 <img style={{float: "right", marginLeft: "1rem"}} width="40%" alt="Absolute image" src="/content/projects/unreal_engine_fisheye_rendering/getinge_primodial_soup_fisheye_example.png" />
 
-To create some effect in the movies, particle systems where used. 
+To create some effect in the movies, particle systems where used.
 
 The red blood cells traveling through the tubing in Cardiohelp where animated using a particle system which simulated the cells positions along a spline.
 
-The cells in the Bioreactor movie where simulated with a particle system consisting of three different emitters.
-- Cells 
+The cells in the Bioreactor movie where simulated with a particle system consisting of three different emitters:
+- Cells
 - Splitting cells
-- Antibodies 
+- Antibodies
 This allowed us to control the amount of each types during the shot, such that more splitting occured at good pH levels, and that only antibodies remained and lumped together in the end.
-The cell splitting animation was done in Blender and imported into UE as an Alembic Geometry Cache, that could be played in a particle system. 
+The cell splitting animation was done in Blender and imported into UE as an Alembic Geometry Cache, that could be played in a particle system.
 
 ## Stitching and Ray Traced materials
-Since Fisheye images are created using stitched images, it is important that materials etc are not view dependent as this would cause discrepancies at the stitch edges. This becomes apparet if highly reflective materials such as metal are using screen space reflection. This is solved by setting reflections to use ray tracing. In this project  issues with glass and other transparent materials were also noted, as refraction was also screen space by default. This could also be solved by using ray traced refraction. All uses of ray tracing impacts performance, but since performance is not a big issue when rendering, compared to real time applications, this was not a great concern for this project.
+Since Fisheye images are created using stitched images, it is important that materials or other parameters are not view dependent as this would cause discrepancies at the stitch edges. This becomes apparent if highly reflective materials such as metal are using screen space reflection. This is solved by setting reflections to use ray tracing. In this project issues with glass and other transparent materials were also noted, as refraction was also screen space by default. This could also be solved by using ray traced refraction. All uses of ray tracing impacts performance, but since performance is not a big issue when rendering, compared to real time applications, this was not a great concern for this project.
 
 ## Animated materials
 <img style={{float: "right", marginLeft: "1rem"}} width="50%" alt="Absolute image" src="/content/projects/getinge/bioreactor_fluid_surface.png" />
-Many effect in the movie was done by animating materials over time.
+Many effect in the movie was done by animating materials over time:
 - The pulsating motion of the walls in the heart atrium was achieved by displacing the world postion of the mesh verticies with a wave pattern material.
 - The rotational motion of the fluid in the bioreactor was done by rotating the texture coordinates in the surface material.
 - The blood in the tubes and in the oxigenator (as seen from outside) where animated using masks and moving a threshold for how much of the material would be affected by the mask. For the tubing, this required proper UV mapping such that the coordinated where running from start to end of the tube.
- 
+
 ## UI video material
 <img style={{float: "right", marginLeft: "1rem", marginBottom: "2rem"}} width="50%" alt="Absolute image" src="/content/projects/getinge/bioreactor_UI.png" />
 The UI in the bioreactor movie was done by animating the UI elements externally in Blender, which was then rendered out into a video. The video was then imported into Unreal Engine and brought into the scene through a media material which was added to a plane in the scene. The video could then be played and controller through the render sequence.
