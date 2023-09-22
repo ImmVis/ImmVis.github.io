@@ -14,7 +14,7 @@ const FundingMeta = z.object({
   name: z.string(),
   icon: z.string(),
   grants: z.optional(z.array(z.string())),
-  link: z.string(),
+  link: z.string()
 });
 
 // Frontmatter variables at the top of the .mdx file

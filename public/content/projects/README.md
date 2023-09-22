@@ -27,7 +27,8 @@ This example can be used to create a new project file:
 ---
 id: "fusion"
 name: "Asian Fusion Visualization"
-date: "2000 – 2010"
+start_date: 2000
+end_date: 2010
 description: "Aliquip est tempor voluptate ut sunt deserunt. Aliquip nostrud fugiat ipsum aliquip nulla exercitation ea qui laborum. Commodo cupidatat nostrud tempor veniam."
 image: "https://picsum.photos/id/543/2000/300"
 homepage: "https://www.example.org/"

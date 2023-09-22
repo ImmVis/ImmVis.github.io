@@ -16,7 +16,8 @@ const ExjobbMeta = z.object({
   number_of_students: z.string(),
   contact: z.array(z.string()),
   finished: z.boolean(),
-  skills: z.optional(z.array(z.string())),
+  hidden: z.optional(z.boolean()),
+  skills: z.optional(z.array(z.string()))
 });
 
 // Frontmatter variables at the top of the .mdx file
