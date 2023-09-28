@@ -20,6 +20,8 @@ function ExjobbList({ exjobbs }: { exjobbs: ExjobbData[] }) {
         ))}
       </div>
 
+      <hr />
+
       <h2>Finished</h2>
       <div className="exjobb-list">
         {finished.map((post) => (

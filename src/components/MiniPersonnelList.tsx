@@ -15,7 +15,7 @@ function MiniPersonnelEntry(personnel: PersonnelData, liuid: string) {
 		}
 
 		return (
-			<div className="relative">
+			<div key={liuid} className="relative">
 				<div key={liuid} className={style.item}>
 					<Link href={link} title={personnel.data.name}>
 						<Image
