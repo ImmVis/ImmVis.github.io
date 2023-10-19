@@ -30,7 +30,7 @@ export default function Home({ projects, personnel }: { projects: ProjectData[],
               </p>
             </div>
             <div className="col-span-1">
-              <Image width="1000" height="1000" alt="image" src="https://picsum.photos/1000/1000"/>
+              <Image width="1000" height="1000" alt="image" src="https://visualiseringscenter.se/sites/default/files/styles/fullwidth-article/public/exploranation-infor-invigning-2022-03-21-tb-_dsg5582-3.jpg?itok=HytSMQqk"/>
             </div>
           </div>
         </div>

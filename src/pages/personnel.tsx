@@ -21,6 +21,8 @@ function PersonnelItem({ post }: { post: PersonnelData }) {
 }
 
 export default function PersonnelList({ personnel }: { personnel: PersonnelData[] }) {
+  personnel = personnel.filter(person => !person.data.external);
+
   return (
     <>
       <Head>

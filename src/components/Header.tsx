@@ -51,6 +51,7 @@ export default function Header() {
           <NavLink href="/courses">Courses</NavLink>
           <NavLink href="/exjobbs">Exjobbs</NavLink>
           <NavLink href="/funding">Funding</NavLink>
+          <NavLink href="/guides">Guides</NavLink>
         </div>
 
         <div className="header-group-sublink">
