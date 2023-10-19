@@ -1,0 +1,34 @@
+---
+id: "stitcher"
+name: "Stitcher Tool"
+start_date: 2020
+end_date: 2023
+description: "Tool for stitching together images into fisheye frames"
+image: "/content/guides/stitcher/stitch_example.png"
+homepage: ""
+people: [ "erisu46" ]
+funding: [ "visc", "wisdome" ]
+---
+
+# About
+Tool for stitching together images into fisheye frames
+
+# Download the tool
+[v20220311](/content/guides/stitcher/Stitcher20220311.zip)
+
+# Using the stitcher
+Start by opening _Stitcher_GUI.exe_. There are only a few settings that you have to adjust for the basic setup.
+## Resolution
+Set the cubemap resolution to the size of your images. If you are rendering for full dome size, your images should be 4096x4096.
+Your output resolution should be twice that of the input resolution, so 8192x8192 given our example.
+
+## Stereo
+If you have rendered in stereo you should check Stereoscopic (3D) input. This will turn on image input for the right eye as well.
+
+## Image input
+Click the ... next to Left/Right/Top/Bottom to add a link to each corresponding folder with image frames. Make the selection by selecting the first image in each folder.
+You should see the stop index adjusting automatically to the last image index when selecting the first image.
+If you have selected stereo, do the same for the right eye.
+
+## Output
+Filename is the name that your fisheye frames will have. Set the path to your desired folder. If you are using stereo it is probably a good idea to divide the folders as such: /myPath/Left and /myPath/Right. 
