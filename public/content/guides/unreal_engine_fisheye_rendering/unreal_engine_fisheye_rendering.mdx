@@ -11,15 +11,16 @@ funding: [ "wisdome" ]
 
 <img style={{float: "right", marginLeft: "1rem"}} width="25%" alt="Stitcher example" src="/content/guides/unreal_engine_fisheye_rendering/stitch_example.png" />
 
-This page is a step by step instruction on how to use the Fisheye Render Setup plugin for Unreal Engine to render frames that can be stitched into a fisheye format using our custom stitcher. The plugin allows you take a Camera Sequence in Unreal and render out modified Camera Angles of it, creating _Left_, _Right_, _Top_ and _Bottom_ frames in stereo that can then be stitched into Fisheye frames.
+This page is a step by step instruction on how to use the Fisheye Render Setup plugin for Unreal Engine to render frames that can be stitched into a fisheye format using our [custom stitcher](/guides/stitcher/). The plugin allows you take a Camera Sequence in Unreal and render out modified Camera Angles of it, creating _Left_, _Right_, _Top_ and _Bottom_ frames in stereo that can then be stitched into Fisheye frames.
 
 Using Unreal Engine with its real time capabilities to render can speed up production time of movies immensely, as dome movie render times can be reduced from weeks and months to hours and days.
 
 <h1 id="download-links">Download the Unreal Engine plugin</h1>
-- [Unreal Engine 5.0](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_0.zip)
-- [Unreal Engine 5.1](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_1.zip)
-- [Unreal Engine 5.2](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_2.zip)
-- [Unreal Engine 5.3](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_3.zip)
+- [Unreal Engine 5.0](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_0.zip) | 2023-10-19
+- [Unreal Engine 5.1](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_1.zip) | 2023-10-19
+- [Unreal Engine 5.2](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_2.zip) | 2023-10-19
+- [Unreal Engine 5.3](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_3.zip) | 2023-10-19
+- [Unreal Engine 5.3.2](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_3_2.zip) | 2024-02-13 | Major changes to camera setup, deprecates old behavior and makes parts of the guide obsolete
 
 
 
@@ -61,7 +62,7 @@ The following steps assumes that you have a blank scene with nothing in it. You 
 
 <img style={{display: "block", margin: "auto"}} width="80%" alt="Post Process Unbound" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_ppv_unbound.png" />
 
-3. Change the reflection method to _Standalone Ray Traced (Deprecated)_. This sets the reflection method to Hardware instead of software. Lumen is limited in how good reflections it can produce, especially on highly reflective materials. Lumen cheats by using Screen space reflections, but this doesn't work for fisheye renders as objects visible in one camera won't reflect in the others. With Hardware Ray Tracing we get around this problem, with the trade-off being higher rendering time. You can omit this step if you don't have any issues with reflections.
+3. Change the reflection method to _Standalone Ray Traced (Deprecated as of 5.2.3)_. This sets the reflection method to Hardware instead of software. Lumen is limited in how good reflections it can produce, especially on highly reflective materials. Lumen cheats by using Screen space reflections, but this doesn't work for fisheye renders as objects visible in one camera won't reflect in the others. With Hardware Ray Tracing we get around this problem, with the trade-off being higher rendering time. You can omit this step if you don't have any issues with reflections.
 	1. Tweak _Max Roughness_ to set how reflective a material has to be to get a reflection. Lower values include more objects.
 	2. Increase _Max Bounces_ to get a more correct reflection. This is costly, so don't go higher than you need.
 	3. Increase _Samples Per Pixels_ if your reflective surfaces seem grainy. Higher values will be more costly, as it will cast a ray through each pixel for each level.
@@ -81,7 +82,9 @@ The following steps assumes that you have a blank scene with nothing in it. You 
 	 2. _Exposure > Turn _Apply Physical Camera Exposure_ Off
 	 3. Tweak _Exposure > Exposure Compensation_ to match the lighting you want in your scene
 
-## Camera Rig
+## Camera Rig _(Deprecated as of 5.2.3)_
+_The following steps are deprecated as of 5.3.2. Instead, you can add and use a CameraActor as you usually would._
+
 We will now create a camera rig that matches the dome we want to render to. The goal is to create a _Camera Transform Actor_ that we control in the animation and attaching a static camera to it that has a different rotation for each camera angle.
 1. Add an actor into the level. Name this actor `CameraTransform`
 2. Add another actor and name it `DomeTilt`. Attach `DomeTilt` to `CameraTransform` and set its relative rotation to `(0, 63, 0)`. Make sure the other transforms are at default values
@@ -95,7 +98,10 @@ If you want you can also add a _Dome Preview_, to check how the fisheye view wou
 4. Select the `DomePreviewCamera` and press the _Update Camera_ button in the _Details_ menu. The camera view will now be drawn to the `DomePreviewSphere`
 5. You can also check _Capture Every Frame_ to have the camera always update but beware of the performance hit
 
-# Creating Sequences
+# Creating Sequences _(Partly deprecated as of 5.2.3)_
+_As of 5.3.2, step 3 can be ommitted and instead you animate the camera actor directly as you usually would. You are free to keyframe objects as you wish, the plugin is now smart about what objects it modifies.
+The scaling in step 4 can be done directly on the CameraActor._
+
 To render out a scene, you need to create sequences that you can render out using the _Movie Render Queue_. The goal is to create a base sequence, and then create duplicates with the adjusted camera angles needed to render out the images we use for stitching together fisheye images.
 1. Create a new _Level Sequence_ and open it.
 2. Select the `CameraActor` from your rig and drag it into _Sequence_. You should see it be added as a new track, along with a _Camera Cuts_ track. You can also manually create a _Camera Cuts_ track and add your camera to it.
@@ -115,7 +121,7 @@ Once you have a base _Level Sequence_, you want to create duplicates for each ca
 
 <img style={{display: "block", margin: "auto"}} width="80%" alt="Sequence Duplicates" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_sequence_duplicates.png" />
 
-3. Before you render you should check that the new camera angles are correct. If something seems off, make sure to check in the base sequence that you have assigned a keyed value to `CameraTransform`, and that the `CameraActor` has no keys.
+3. _(Deprecated as of 5.2.3)_ Before you render you should check that the new camera angles are correct. If something seems off, make sure to check in the base sequence that you have assigned a keyed value to `CameraTransform`, and that the `CameraActor` has no keys.
 4. If you want to adjust your sequence, make the adjustments in the base _Sequence_ and then redo the duplication step. It should override the old duplicates.
 
 # Render with Movie Render Queue
@@ -127,7 +133,7 @@ It is now time to render your sequences. This is done with the _Movie Render Que
 
 <img style={{display: "block", margin: "auto"}} width="80%" alt="MRQ Queue" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_mrq.png" />
 
-5. If you want to change something in `RenderSettings`, you can either change it locally for one sequence in the _Movie Render Queue_ window or change it globally by opening the `RenderSettings` file in the plugin folder
+5. If you want to change something in `RenderSettings`, you can either change it locally for one sequence in the _Movie Render Queue_ window or change it globally by saving the `RenderSettings` file in the top right corner, or by editing it directly in the plugin folder and saving it there. If changes have only been made locally, it is marked with a \*, e.g. _RenderSettings\*_.
 
    1. In the _Output_ tab you can control various settings, such as where the frames will be saved and under what name, the resolution of your frames and if you want to render a custom set of frames.
 
@@ -182,6 +188,23 @@ Some Materials changes with time and other variables that might vary between run
  - [x] Two Sided
  - Lighting Mode - Forward Shading
  - Refraction Mode - Index Of Refraction
+
+ # Common issues and bugs
+ This section is a collection of known issues that may occur based on user error, which can be hard to debug.
+
+ ## Sequence actor placed in level causes fighting over camera control
+ If your camera render is not behaving as expected, it might be because the sequence that you are trying to render is also placed in the level as an actor.
+ This is intended use of sequences in some instances, as it allows you to keyframe movement of objects and play them on demand in a game.
+ However, if the sequence placed in the level is also the one you are trying to render this will cause issues, since both sequences will be fighting for the control of the camera.
+ Of course, the same issue will occur with two different sequences that are trying to control the same camera actor.
+ To debug this issue, search the level outliner for any LevelSequence that might cause issues.
+
+ ## Camera angles look wierd on duplicates _(Deprecated as of 5.3.2)_
+ If your camera animation looks good on the base sequence, but is not behaving as expected in the duplicate sequences, this might be an issue with your keyframes.
+ As mentioned previously, it is important that you DONT keyframe the Camera as it will block the plugin from rotating the camera, and to ALWAYS keyframe the rest of your objects or remove the transform track entirely on that object.
+
+
+
 
 
 
