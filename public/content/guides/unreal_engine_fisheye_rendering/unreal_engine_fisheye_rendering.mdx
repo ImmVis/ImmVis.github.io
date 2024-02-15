@@ -90,10 +90,12 @@ We will now create a camera rig that matches the dome we want to render to. The 
 2. Add another actor and name it `DomeTilt`. Attach `DomeTilt` to `CameraTransform` and set its relative rotation to `(0, 63, 0)`. Make sure the other transforms are at default values
 3. Add a `CameraActor` to the level and attach it to `DomeTilt`. If you want you can set the relative rotation to `(0, -63, 0)` to make the camera face forward for preview purposes. Make sure the other transforms are at default values. Set the cameras _Aspect Ratio_ to `1.0` and _Post Process Blend Weight_ to `0.0`
 
-## Dome Preview
+## Dome Preview _(Partly deprecated as of 5.3.2)_
+_The DomePreviewCamera should now be attached directly to the CameraActor._ 
+
 If you want you can also add a _Dome Preview_, to check how the fisheye view would look in a dome
 1. Go to _All > Plugins > FisheyeRenderSetup Content > DomePreview_
-2. Add a `DomePreviewSphere`. You can set the dome to be either 180° or 165°, as well as set the dome tilt angle
+2. Add a `DomePreviewSphere`. You can set the dome to be either 180° or 165°, as well as set the dome tilt angle. At VisC the dome is 165° but the actual fisheye video should be 180°, as it is skewed to fit at a later stage. So for that purpose the preview should be set to 180°.
 3. Add a `DomePreviewCamera`. Attach it to `DomeTilt` and make sure the transforms are at default values.
 4. Select the `DomePreviewCamera` and press the _Update Camera_ button in the _Details_ menu. The camera view will now be drawn to the `DomePreviewSphere`
 5. You can also check _Capture Every Frame_ to have the camera always update but beware of the performance hit
