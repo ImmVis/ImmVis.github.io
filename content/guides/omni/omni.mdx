@@ -10,6 +10,12 @@ people: ["mange61"]
 funding: ["visc", "wisdome"]
 ---
 
+# Overview
+
+Omni is a communication server that connects applications over WebSockets. Today, Omni is used to connect mobile devices in an audience to a WisDome show, and to connect stationary user interfaces to exhibitions.
+
+This page details why Omni is used, how it works, and how you can use it.
+
 # Purpose
 
 <img
@@ -25,7 +31,7 @@ For visitors to be able to influence the dome application, they need some sort o
 
 # How does Omni work?
 
-Omni is used to connect groups of applications over the internet, allowing them to send messages between each other. Applications can reach Omni by setting up a WebSocket connection, sending JSON messages to communicate. Initially, the application must provide a token to identify which service group the connection belongs to, after which all subsequent messages are directly passed between the connected "host" and "client" groups.
+Omni is used to connect applications over the internet, allowing them to send messages between each other. Applications can reach Omni by setting up a WebSocket connection, sending JSON messages to communicate. Initially, the application must provide a token to identify which "service" the connection belongs to, after which all subsequent messages are directly passed between the connected "host" and "client" channels.
 
 <img
 	style={{ marginLeft: "10%" }}
@@ -40,11 +46,11 @@ Omni allows applications to communicate with each other through a **service**. U
 
 ### Terminology
 
-<u>**Host**</u>: A host is the application acting as the exhibition - the star of the show. The host group can be connected to using the service's host token.
+<u>**Host**</u>: A host is the application acting as the exhibition - the star of the show. The host channel can be connected to using the service's host token.
 
-<u>**Client**</u>: A client is a single user interface that interacts with the host. It can either be a touch table for visitors or a remote control for the speaker. Clients may connect to Omni before the host is online. The client group can be connected to using the service's client token.
+<u>**Client**</u>: A client is a single user interface that interacts with the host. It can either be a touch table for visitors or a remote control for the speaker. Clients may connect to Omni before the host is online. The client channel can be connected to using the service's client token.
 
-<u>**Guest**</u>: A mobile website where multiple visitors can connect to the host using a public code. Guests are kicked when the host disconnects. The guest group can be connected to using the service's public code, which is received upon connecting as a host.
+<u>**Guest**</u>: A mobile website where multiple visitors can connect to the host using a public code. Guests are kicked when the host disconnects. The guest channel can be connected to using the service's public code, which is received upon connecting as a host.
 
 ### Creating a new service
 
@@ -52,7 +58,7 @@ New services are handled by administrators at [https://omni.itn.liu.se/admin/](h
 
 ## Channels
 
-Each application that connects to Omni will be placed into a channel. Every channel can serve multiple consumers (connected devices) and broadcast messages to all members in its group. For instance, if a host application sends a message to Omni, it will transmit the message to all members of the client channel.
+Each application that connects to Omni will be placed into a channel. Every channel can serve multiple consumers (connected devices) and broadcast messages to all connected devices within it. For instance, if a host application sends a message to Omni, it will transmit the message from the host channel to all consumers in the client channel.
 
 <img
 	width="100%"
