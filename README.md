@@ -19,7 +19,8 @@ In case the are errors with the backend page generation or the content, create a
 # Local testing
 Building the webpage locally can be very beneficial to ensure that no errors were introduced that would prevent the webpage from being deployed.  All of the commands should be run from the directory into which you cloned the folder:
 1. `npm install`
-1. Either run `npm run build` or `npm run dev`. The suggested way is to use the `dev` version during writing as it provides the ability to reload the webpage as the text is edited. Then running the `build` version once before comitting to ensure that the whole webpage builds correctly
+1. Either run `npm run build` or `npm run dev`. The suggested way is to use the `dev` version during writing as it provides the ability to reload the webpage as the text is edited. Then running the `build` version once before committing to ensure that the whole webpage builds correctly
+1. If running `build`, you also need to run `npm start` to host the builded page
 1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
 
 Editing the files will autoupdate the webpage.
