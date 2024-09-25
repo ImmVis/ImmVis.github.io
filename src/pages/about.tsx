@@ -37,7 +37,7 @@ export default function About({ personnel }: { personnel: PersonnelData[] }) {
             The Unit for Applied Visualization conducts internal and external
             production development with the goal of combining research data and
             visualization technology for improved science communication and use
-            beyond research, with a focus on the public, schools and business.
+            beyond research, with a focus on the public, schools, and business.
           </p>
           <p>
             The Immersive Visualization Unit researches and develops various
