@@ -68,10 +68,11 @@ export default function Home({ projects, personnel }: { projects: ProjectData[],
               beyond research, with a focus on the public, schools and business.
             </p>
             <p>
-              The Immersive Visualization Unit researches and develops visualization
-              of data is created with the help of large-scale display systems,
-              such as domes and stereoscopic viewing (3D), also including technologies
-              such as Augmented and Virtual Reality (AR/VR).
+              The Immersive Visualization Unit researches and develops various
+              techniques to create an immersive and captivating visualization of
+              data using large-scale display systems, such as immersive domes and
+              stereoscopic vision (3D), including technologies such as Augmented
+              and Virtual Reality (AR/VR).
             </p>
             <p>
               Part of the group is also C-tech, with technical director Erik
