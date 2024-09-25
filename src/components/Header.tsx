@@ -39,7 +39,7 @@ export default function Header() {
         <div className="header-group-brand">
           <NavLink href="/">
             <div className="flex items-center">
-              <span>ImmVis</span>
+              <span>ImmVis/AppVis</span>
             </div>
           </NavLink>
         </div>

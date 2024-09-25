@@ -28,20 +28,42 @@ export default function About({ personnel }: { personnel: PersonnelData[] }) {
 
         <div className={style.aboutDescription}>
           <p className="text-xl text-zinc-700">
-            The Immersive Visualization group is conducting research and development in a range of technologies to create an immersive and engaging visualization of data.
+            The Immersive and Applied Visualization team is a combination of
+            two units at Linköping University, joining efforts into research
+            and development in a range of technologies to create an immersive
+            and engaging visualization of data.
           </p>
           <p>
-            The visualization of data is created with the help of large scale display systems, such as domes and stereoscopic viewing (3D), also including technologies such as Augmented and Virtual Reality (AR/VR).
+            The Unit for Applied Visualization conducts internal and external
+            production development with the goal of combining research data and
+            visualization technology for improved science communication and use
+            beyond research, with a focus on the public, schools, and business.
           </p>
           <p>
-            Part of the group is also C-tech, with technical director Erik Sundén, providing technical support and maintenance of the dome and related equipment and systems at Norrköping Visualization Center C.
+            The Immersive Visualization Unit researches and develops various
+            techniques to create an immersive and captivating visualization of
+            data using large-scale display systems, such as immersive domes and
+            stereoscopic vision (3D), including technologies such as Augmented
+            and Virtual Reality (AR/VR).
           </p>
           <p>
-            Our vision is to create systems and software that enable the user to feel immersed and deeply engaged with their content regardless of the type of devices or display system and interaction techniques being used.
+            Part of the group is also C-tech, with technical director Erik
+            Sundén, providing technical support and maintenance of the dome
+            and related equipment and systems at Norrköping Visualization
+            Center C.
           </p>
           <p>
-            The goal is to make the technology as transparent as possible such that the user maintains focused on and work with their content and to minimize distracting factors of the technologies, hardware as well as software. It should feel as natural as possible to continue to work with the data and content even though the user change devices or systems for visualization.
+            Our vision is to create systems and software that enable the user
+            to feel immersed and deeply engaged with their content regardless
+            of the type of devices or display system and interaction techniques being
+            used. The goal is to make the technology as transparent as possible such
+            that the user maintains focused on and work with their content and to
+            minimize distracting factors of the technologies, hardware as well as
+            software. It should feel as natural as possible to continue to work with
+            the data and content even though the user change devices or systems for
+            visualization.
           </p>
+
           <h2>Research projects </h2>
           <ul>
             <li>
