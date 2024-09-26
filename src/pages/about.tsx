@@ -99,12 +99,12 @@ export default function About({ personnel }: { personnel: PersonnelData[] }) {
 }
 
 function ContactCard({ person }: { person: PersonnelData }) {
-  const { name, image, position, contact_info } = person.data || {};
+  const { id, name, image, position, contact_info } = person.data || {};
   const { email, phone } = contact_info || {};
 
   return (
     <div className={style.contact}>
-      <Link href="/personnel/petwe33/" className="flex gap-4 no-underline">
+      <Link href={`/personnel/${id}/`} className="flex gap-4 no-underline">
         <div className="className={style.bundle}">
           <Image width="64" height="64" alt={name} src={image!} />
         </div>
