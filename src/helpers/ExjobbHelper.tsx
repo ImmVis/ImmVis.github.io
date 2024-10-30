@@ -15,6 +15,7 @@ const ExjobbMeta = z.object({
   period: z.string(),
   number_of_students: z.string(),
   contact: z.array(z.string()),
+  application_open: z.optional(z.boolean()),
   finished: z.boolean(),
   hidden: z.optional(z.boolean()),
   skills: z.optional(z.array(z.string()))

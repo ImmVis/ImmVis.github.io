@@ -19,7 +19,6 @@
 	}
 
 	&-list {
-		margin: 32px var(--invert-content-padding);
 		@apply grid gap-y-6;
 	}
 
@@ -65,6 +64,7 @@
 
 			&-info {
 				@apply text-lg;
+
 				& svg {
 					@apply mr-3 text-zinc-400;
 				}
@@ -112,5 +112,11 @@
 		&-markdown {
 			@apply page-padding mt-8 mb-16;
 		}
+	}
+
+	&-apply-tag {
+		background-color: var(--color-header-border);
+		border-color: var(--color-header-border);
+		color: var(--color-background);
 	}
 }

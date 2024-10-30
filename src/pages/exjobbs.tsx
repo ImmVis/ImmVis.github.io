@@ -8,11 +8,21 @@ import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 function ExjobbList({ exjobbs }: { exjobbs: ExjobbData[] }) {
   exjobbs = exjobbs.filter((value) => !value.data.hidden);
 
-  let ongoing = exjobbs.filter((value) => !value.data.finished);
+  let apply = exjobbs.filter((value) => value.data.application_open);
+  let ongoing = exjobbs.filter((value) => (!value.data.finished) && !(value.data.application_open));
   let finished = exjobbs.filter((value) => value.data.finished);
 
   return (
     <div>
+      <h2 className="exjobb-highlighted-title">Open for application</h2>
+      <div className="exjobb-list">
+        {apply.map((post) => (
+          <ExjobbItem key={post.slug} post={post} />
+        ))}
+      </div>
+
+      <hr />
+
       <h2>Ongoing</h2>
       <div className="exjobb-list">
         {ongoing.map((post) => (
@@ -45,29 +55,34 @@ function ExjobbItem({ post }: { post: ExjobbData }) {
       </p>
 
       {!post.data.finished && (
-      <div className="exjobb-box-details">
-        <div className="exjobb-box-details-list">
-          <div className="exjobb-box-details-info mr-3" title="The number of students for this exjobb">
-            <FontAwesomeIcon icon={solidIcons.faUser} />
-            {data.number_of_students}
+        <div className="exjobb-box-details">
+          <div className="exjobb-box-details-list">
+            <div className="exjobb-box-details-info mr-3" title="The number of students for this exjobb">
+              <FontAwesomeIcon icon={solidIcons.faUser} />
+              {data.number_of_students}
+            </div>
+
+            <div className="exjobb-box-details-info" title="The date when the exjobb is to be carried out">
+              <FontAwesomeIcon icon={solidIcons.faCalendarDays} />
+              {data.period}
+            </div>
           </div>
 
-          <div className="exjobb-box-details-info" title="The date when the exjobb is to be carried out">
-            <FontAwesomeIcon icon={solidIcons.faCalendarDays} />
-            {data.period}
+          <div className="exjobb-box-details-list">
+            {data.skills?.map(skill =>
+              <span key={skill} className="exjobb-box-details-tag">
+                {skill}
+              </span>
+            )}
+            {post.data.application_open &&
+              <span className="exjobb-box-details-tag exjobb-apply-tag">
+                Apply now!
+              </span>}
           </div>
         </div>
-
-        <div className="exjobb-box-details-list">
-          {data.skills?.map(skill =>
-            <span key={skill} className="exjobb-box-details-tag">
-              {skill}
-            </span>
-          )}
-        </div>
-      </div>
-      )}
-    </Link>
+      )
+      }
+    </Link >
   );
 }
 
