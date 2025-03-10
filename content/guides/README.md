@@ -11,6 +11,7 @@ The following fields in the header are recognized:
  - `image` (string): The URL to a representative image of the guide
  - `people` (array{string}): The list of LiU ids of the people from this group that are involved in the guide.
  - `funding` (array{string}): The list of ids for the funders or partners that contributed to the guide
+ - `hidden` (boolean): If the guide should be hidden from the listing page
 
 ## Content
 This is the main portion of the guide which can include images, embedded videos, or whatever else is necessary for the guide.

@@ -1,19 +1,23 @@
 ---
-id: "unreal_engine_fisheye_rendering"
+id: "unreal_engine_fisheye_rendering_old"
 name: "Unreal Engine Fisheye Rendering"
 description: "A guide on how to use the Fisheye Render Setup plugin for Unreal Engine to render out fisheye images for usage in dome environment."
 image: ./fisheye_plugin_thumbnail.png
 people: [ "guser40" ]
 funding: [ "wisdome" ]
+hidden: true
 ---
 
 # Versions
-This guide is for **5.3.2** and newer versions of Unreal Engine.
-This version saw major changes to camera setup, deprecating old behavior and makes parts of the old guide obsolete.
-For older versions please follow the [link](/guides/unreal_engine_fisheye_rendering_old/).
+This guide is for **5.3.0** and older versions of Unreal Engine.
+Later versions saw major changes to camera setup, deprecating old behavior and makes parts of this guide obsolete.
+For newer versions please follow the [link](/guides/unreal_engine_fisheye_rendering/).
 
 <h1 id="download-links">Download the Unreal Engine plugin</h1>
-- [Unreal Engine 5.3.2](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_3_2.zip) | 2024-02-13
+- [Unreal Engine 5.0](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_0.zip) | 2023-10-19
+- [Unreal Engine 5.1](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_1.zip) | 2023-10-19
+- [Unreal Engine 5.2](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_2.zip) | 2023-10-19
+- [Unreal Engine 5.3](/content/guides/unreal_engine_fisheye_rendering/FisheyeRenderSetup_5_3.zip) | 2023-10-19
 
 # About
 
@@ -22,6 +26,9 @@ For older versions please follow the [link](/guides/unreal_engine_fisheye_render
 This page is a step by step instruction on how to use the Fisheye Render Setup plugin for Unreal Engine to render frames that can be stitched into a fisheye format using our [custom stitcher](/guides/stitcher/). The plugin allows you take a Camera Sequence in Unreal and render out modified Camera Angles of it, creating _Left_, _Right_, _Top_ and _Bottom_ frames in stereo that can then be stitched into Fisheye frames.
 
 Using Unreal Engine with its real time capabilities to render can speed up production time of movies immensely, as dome movie render times can be reduced from weeks and months to hours and days.
+
+
+
 
 # Making a New Project
 
@@ -45,7 +52,7 @@ Using Unreal Engine with its real time capabilities to render can speed up produ
 <img style={{display: "block", margin: "auto"}} width="80%" alt="Plugin folder content" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_content.png" />
 
 # Level Setup
-The following steps assumes that you have a blank scene with nothing in it. You can copy the `DomeFisheyeTemplateLevel` and use it as a starting point if you want to skip the following setup steps in _Light Setup_, _Post Process Volume_ and _Camera Actor_.  Alternatively, you could copy and paste the relevant actors into another level.
+The following steps assumes that you have a blank scene with nothing in it. You can copy the `DomeFisheyeTemplateLevel` and use it as a starting point if you want to skip the following setup steps in _Light Setup_, _Post Process Volume_ and _Camera Rig_.  Alternatively, you could copy and paste the relevant actors into another level.
 
 ## Lighting
 
@@ -81,29 +88,32 @@ The following steps assumes that you have a blank scene with nothing in it. You 
 	 2. _Exposure > Turn _Apply Physical Camera Exposure_ Off
 	 3. Tweak _Exposure > Exposure Compensation_ to match the lighting you want in your scene
 
-## Camera Actor
-Add a CameraActor (not CineCameraActor). Set the cameras _Aspect Ratio_ to `1.0` and _Post Process Blend Weight_ to `0.0`
+## Camera Rig
+We will now create a camera rig that matches the dome we want to render to. The goal is to create a _Camera Transform Actor_ that we control in the animation and attaching a static camera to it that has a different rotation for each camera angle.
+1. Add an actor into the level. Name this actor `CameraTransform`
+2. Add another actor and name it `DomeTilt`. Attach `DomeTilt` to `CameraTransform` and set its relative rotation to `(0, 63, 0)`. Make sure the other transforms are at default values
+3. Add a `CameraActor` to the level and attach it to `DomeTilt`. If you want you can set the relative rotation to `(0, -63, 0)` to make the camera face forward for preview purposes. Make sure the other transforms are at default values. Set the cameras _Aspect Ratio_ to `1.0` and _Post Process Blend Weight_ to `0.0`
 
 ## Dome Preview
 If you want you can also add a _Dome Preview_, to check how the fisheye view would look in a dome
 1. Go to _All > Plugins > FisheyeRenderSetup Content > DomePreview_
 2. Add a `DomePreviewSphere`. You can set the dome to be either 180° or 165°, as well as set the dome tilt angle. At VisC the dome is 165° but the actual fisheye video should be 180°, as it is skewed to fit at a later stage. So for that purpose the preview should be set to 180°.
-3. Add a `DomePreviewCamera`. Attach it to the `CameraActor` and make sure the transforms are at default values.
+3. Add a `DomePreviewCamera`. Attach it to `DomeTilt` and make sure the transforms are at default values.
 4. Select the `DomePreviewCamera` and press the _Update Camera_ button in the _Details_ menu. The camera view will now be drawn to the `DomePreviewSphere`
 5. You can also check _Capture Every Frame_ to have the camera always update but beware of the performance hit
 
 # Creating Sequences
-
 To render out a scene, you need to create sequences that you can render out using the _Movie Render Queue_. The goal is to create a base sequence, and then create duplicates with the adjusted camera angles needed to render out the images we use for stitching together fisheye images.
 1. Create a new _Level Sequence_ and open it.
 2. Select the `CameraActor` from your rig and drag it into _Sequence_. You should see it be added as a new track, along with a _Camera Cuts_ track. You can also manually create a _Camera Cuts_ track and add your camera to it.
+3. Drag in the `CameraTransform` actor and add a _Transform_ track to it. Add keyframes to `CameraTransform`'s transform to animate your camera. You need to add at least one keyframe to keep it in place, even if you plan to have a static camera. (**IMPORTANT** Do not add keyframes to the `CameraActor`. It should remain static as we change it for the camera angles). You could alternatively animate the camera and other objects in a separate sequence and add it as a Subsequence.
 
 <img style={{display: "block", margin: "auto"}} width="80%" alt="Sequence Keyframe" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_sequence_keyframe.png" />
 
-3. If the camera gets too close to an object, the stereo effect will break as the brain can't parse what's going on. Bascially, if the dome surface is 7 meters away, you get a good stereo effect of an object that is 5 meters away. But if the object is 50 cm away, the stereo will be too intense and it will make you nauseous. If this is the case, you might want to adjust the distance between your eyes instead, effectively scaling the viewer. If you scale down the viewer to 1/10th, 50 cm becomes 5 meters in the eyes of the viewer. To achive this in _Sequencer_, you can keyframe the scale of `CameraActor`. This means that the relative location of the camera component in `CameraActor` will be scaled, so the normal "eye distance" of 3.5 cm will be 0.35 at 1/10th scale etc.
+4. If the camera gets too close to an object, the stereo effect will break as the brain can't parse what's going on. Bascially, if the dome surface is 7 meters away, you get a good stereo effect of an object that is 5 meters away. But if the object is 50 cm away, the stereo will be too intense and it will make you nauseous. If this is the case, you might want to adjust the distance between your eyes instead, effectively scaling the viewer. If you scale down the viewer to 1/10th, 50 cm becomes 5 meters in the eyes of the viewer. To achive this in _Sequencer_, you can keyframe the scale of any parent above the `CameraActor` in hierarchy. This means that the relative location of `CameraActor` in relation to its parent will be scaled, so the normal "eye distance" of 3.5 cm will be 0.35 at 1/10th scale etc.
 
 # Creating Camera Angle Duplicates
-Once you have a base _Level Sequence_, you want to create duplicates for each camera angle, as well as eye of you are rendering for stereo. To do this we use scripted functionality from the plugin that adjusts the camera component rotation and relative location offset.
+Once you have a base _Level Sequence_, you want to create duplicates for each camera angle, as well as eye of you are rendering for stereo. To do this we use scripted functionality from the plugin.
 1. Right click your _Level Sequence_ and select _Scripted Asset Action > Make Duplicates with Fisheye Camera Angles_
 
 <img style={{display: "block", margin: "auto"}} width="80%" alt="Copy Action" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_sequence_copy_action.png" />
@@ -112,6 +122,7 @@ Once you have a base _Level Sequence_, you want to create duplicates for each ca
 
 <img style={{display: "block", margin: "auto"}} width="80%" alt="Sequence Duplicates" src="/content/guides/unreal_engine_fisheye_rendering/fisheye_plugin_sequence_duplicates.png" />
 
+3. Before you render you should check that the new camera angles are correct. If something seems off, make sure to check in the base sequence that you have assigned a keyed value to `CameraTransform`, and that the `CameraActor` has no keys.
 4. If you want to adjust your sequence, make the adjustments in the base _Sequence_ and then redo the duplication step. It should override the old duplicates.
 
 # Render with Movie Render Queue
@@ -189,9 +200,15 @@ Some Materials changes with time and other variables that might vary between run
  Of course, the same issue will occur with two different sequences that are trying to control the same camera actor.
  To debug this issue, search the level outliner for any LevelSequence that might cause issues.
 
-## Lighting descrepencies between cameras
+ ## Camera angles look wierd on duplicates
+ If your camera animation looks good on the base sequence, but is not behaving as expected in the duplicate sequences, this might be an issue with your keyframes.
+ As mentioned previously, it is important that you DONT keyframe the Camera as it will block the plugin from rotating the camera, and to ALWAYS keyframe the rest of your objects or remove the transform track entirely on that object.
+
+ ## Lighting descrepencies between cameras
 Sometimes in specific light conditions you mights see that the lighting of the scene doesn't match perfectly between cameras. It is still unclear as to why this occurs.
 A hack to hide this issue is to use the _High Resolution_ tiling with an _Overlap ratio_, which seems to minimize the visual issues.
+
+
 
 
 
