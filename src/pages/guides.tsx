@@ -19,6 +19,9 @@ function GuideItem({ post }: { post: GuideData }) {
 }
 
 export function GuideList({ guides }: { guides: GuideData[] }) {
+  // Remove hidden pages
+  guides = guides.filter(page => !page.data.hidden);
+
   return (
     <div className="guide-list">
       {guides.map(post =>

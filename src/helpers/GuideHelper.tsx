@@ -16,7 +16,8 @@ const GuideMeta = z.object({
   image: z.string(),
   homepage: z.optional(z.string()),
   people: z.array(z.string()),
-  funding: z.array(z.string())
+  funding: z.array(z.string()),
+  hidden: z.optional(z.boolean()),
 });
 
 // Frontmatter variables at the top of the .mdx file
