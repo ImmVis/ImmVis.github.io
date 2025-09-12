@@ -75,8 +75,7 @@ export default function Home({ projects, personnel }: { projects: ProjectData[],
               and Virtual Reality (AR/VR).
             </p>
             <p>
-              Part of the group is also C-tech, with technical director Erik
-              Sundén, providing technical support and maintenance of the dome
+              Part of the group is also C-tech, providing technical support and maintenance of the dome
               and related equipment and systems at Norrköping Visualization
               Center C.
             </p>
