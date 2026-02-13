@@ -13,3 +13,276 @@ funding: ["visc", "wisdome"]
 About SimStad.
 
 <img alt="Projects" src="/content/guides/simstad/simstad.png" />
+
+# Simstad documentation
+
+## TODO (innehåll)
+
+- Overview
+  - Overview schematic of all the hardware
+  - Raster images, videos
+  - Image sizes that fit the 3D model
+  - Pictures of the final result
+- 3D print
+  - Creating of acquiring the 3D model
+  - Slicing the model into squares
+  - Printing material
+    - Reflectivity, cost, etc, what we use
+    - Tobias optional finish/coating
+  - 3D printing tips
+- Unreal Engine
+  - ...
+- Interface
+  - Overview and link to Protocol in case you want to remake it
+  - Set up your own data and scenarios
+  - Installing and setting omni token
+  - How to update and maintain content
+- Omni / Network
+  - How to use and connect
+  - (Erik does not want us to use LiU Omni when shipping, so we’ll have to package Omni in the bundle and explain how to set that up locally)
+  - Protocol
+- Plug-ins (David NDI tech)
+  - How to create your own data stream plugin
+  - How to access and setup our TrafikLab example
+  - Headless web -> NDI
+  - Local python flask on localhost:5000, but it’s headless
+  - TrafficOverlayNDI, all NDI protocol units can detect this
+  - NDI UE SDK
+  - Add to autostart script
+  - https://opendata.samtrafiken.se/gtfs-rt/sl/VehiclePositions.pb?{API_KEY}
+    - sl – SL I Stockholm
+    - otraf – Östgötatrafiken
+    - See full list here: link
+
+---
+
+## The Simstad application
+
+The Simstad installation is based on two parts.
+
+- The Unreal Engine application that shows 2D datasets projected on a 3D environment, simulating light etc
+- The web interface for controlling which datasets are shown
+
+These two applications communicate via the Omni interface, sending messages over a web socket with a defined protocol.
+
+---
+
+ 
+
+## 3D print
+
+### Overview
+
+A 3D model or a surface is needed to project the image on.
+
+If a 3D printed model is used make sure it´s matte white
+
+If your projection area is bigger than the printer build area, then you need to cut the 3D model into tiles which should be marked with an ID, so it is easy to place the tiles correctly. It can be part of the tile on the bottom, so it can never be lost.
+
+For the best results, merge the terrain with the buildings, so the whole model looks like one uniform volume.
+
+Make sure that there is a fixture around all tiles so that it can't move.
+
+There will be a need for some sanding and removing excess plastic when the print is done.
+
+Outsourcing a 3D print to a professional company can be a very smart option if no update to tiles is expected.
+
+---
+
+## Unreal Engine
+
+The Unreal Engine application is currently using UE5.6, and is a C++ project.
+
+It is primarly using custom code, as well as some plugins.
+
+The project consists of a 3D model of a city, that data is projected on using a decal method.
+
+The program only uses one level in which the 3D model resides, and is loading the datasets which primarily consist of png images on program startup.
+
+### Dependencies
+
+#### NDI
+
+We are using a framework called NDI to stream webpages and other sources as a layer. This uses proprietary code and can therefore not be distributed by our project. The plugin for Unreal Engine is free though and you just need to download it as your own legal entity. Follow this link, and make sure that the project has access to the files .
+
+This allows you to create scripts externally that publish NDI streams to the network, which UE can then listen to. For example, a headless Chrome page that shows live traffic. All you need on the UE side is to provide the stream name. You can also provide a computer name, otherwise UE assumes that the stream comes from the same computer that runs UE.
+
+#### Ultra Dynamic Sky
+
+We are using a atmosphere light system called Ultra Dynamic Sky. As this is a piece of purchased content from the Epic Marketplace, we are not allowed to distribute the content freely. If you want you can buy it and add to the _folder_, and then make sure that the correct light level is used. The plugin provides a more complex and visually pleasing light scenario but is not necessary for the functionality of the project. You can opt out of it by setting up your scene with a free alternative , and make sure that the code is handling the light change request from the web connection.
+
+### Building the Unreal Engine project
+
+The Unreal Engine application is a C++ project, and thus need to be built using Visual Studio or a similar tool.
+
+### Web communication
+
+The Unreal Engine application is controlled using an external interface, and commands from that interface are handled through the WebSocketSubsystem in C++. By setting your custom token on both sides of the communication, you ensure a safe line between the two without interference from other connections. The token is read from file on startup, and you set it by pasting the UUID into the .env file in the root folder of the project. You also need to add the file to your packaged project folder.
+
+Once a connection is established, UE can start receiving messages from the interface. The messages should be in the formats defined in the protocol, and the json string is then parsed into struct formats defined in RequestResponse.h. Some messages, such as PingRequest, is handled directly in C++ and send a response back to the interface. Others are handled by broadcasting the request, which is then handled in Blueprint.
+
+On the Blueprint side, requests are handled by BP_Digital_Twin_Server, which listens to the broadcasts from WebSocketSubsystem and handles the data in the “Handle “ functions, such as Handle Layers Request
+
+### Loading datasets
+
+Since the datasets are often high resolution, the time to load a dataset from disk can be quite high. To smooth out the user experience the datasets are loaded into memory on startup, and can then be shown as decals on demand.
+
+The datasets are loaded from a folder named Datasets. The folder has to be located in the root folder of either the Unreal Engine project, or the packaged version of the application under /DigitalTwin. The system also supports subfolders so you can organize your data. Folder redirectors also works, so you can have another folder location on your computer that you are referencing, for example a Google Drive synced folder.
+
+### Protocol requests
+
+By sending messages from the [web protocol](link.com) you can make several requests to the Unreal Engine application. The most common ones would be updates to the sun position and layer requests. Please refer to the documentation for the message syntax.
+
+#### Layers
+
+When you request layers, they are sorted in the order of the array you are sending, with the first index at the bottom. You can also define if the request should replace the old layers or update the parameters of them. Note that it is more efficient to alter parameters of a layer than to completely remove it and replace it with a new version, since the loading of new layer materials is more demanding than just updating a material.
+
+#### Light
+
+The day/night light of the level can be controlled by setting the day, month and time of day. This changes the settings of the current light system, in our case this is the UltraDynamicSky plugin, but any system for lights work as long as you can convert the time to an angle of the directional light.
+
+#### Recache
+
+This allows you to reload folders of datasets with recently added files, without having to restart the entire application. The call takes the folder name as an input, and loads any files from that specific folder, replacing the ones already loaded into memory. Note that files are not removed from memory if they are missing, such a change requires a restart.
+
+#### Map marker
+
+Spawns a special marker decal at the given location, or updates an existing one. The map marker is also a decal like a layer, but have some special functionalities such as movement smoothing. The map marker is handled by the MapMarkerManager, and allows for multiple markers at once, for example for multiple finger indices. Make sure that the MapMarkerManager is placed in one corner of the 3D model and the vector is placed in the other corner.
+
+#### Traffic
+
+Enables the traffic system, which listens via ZeroMQ for our custom python traffic server and spawns spheres representing the traffic data in Norrköping. This solution is hard coded for Norrköping and will probably change in the future.
+
+### Datasets and Decals
+
+The 2D datasets are projected on the 3D model using decals. The 2D png images are used as texture input base for decal materials, with parameter inputs that customizes the behavior of the decal.
+
+Multiple decals can be shown at the same time, allowing layers of data to be combined, either by setting the transparency of each layer, alpha masking or cropping each layer either with min/max UV values or with a circle crop
+
+### Decal datatypes
+
+The decal system allows for multiple different media types to be shown on the model
+
+#### Images
+
+The most common type of data you want to show are static image layers. By default the system is expecting a 4/3 ratio on the images, and any other ratio will result in stretching. The image layer can be cropped given a min/max value for the U and V of the image, or by defining a circle position with radius. The image can also use an unlit mode, where the day/night cycle doesnt effect the color of the image
+
+#### Color
+
+A color layer is defined by a hex string value instead of an image, but behaves like the image layer in any other sense.
+
+#### Movie
+
+MP4 files can be loaded as a media texture and played as an animated decal. The media is loaded into memory on startup and is set to loop. The playback control is not very responsive at the moment, so it is better to have the files loop and then you enter at the current point in the video (Changing to the Electra Media Player in the future will hopefully change this).
+
+#### Flow map
+
+A flow map can animate a texture smoothly by providing a vector field texture, basically a two channel normal map that indicates the direction of the flow. A typical use case would be a river flowing through the city, but can also be used for more niche cases such as traffic flow. You provide a base texture, e g a water texture, as well as a flow map texture in the request.
+
+### City 3D model
+
+The model of the city is placed directly in the level . The actual size of the model is not that important, if it matches the size of the decals and the relative location to the projector camera.
+
+Note that some things might be affected by the physical size of the model, such as the light resolution depending on what type of lighting model you are using. It does not seem to matter if you are using ray tracing however.
+
+---
+
+## The Interface
+
+The SimStad installation includes an interactive web interface that visitors use to explore stories, themes, and data shown on the physical 3D city model.
+
+### Technical description (might not be needed?)
+
+The interface is built in TypeScript, using Phaser, a lightweight JavaScript framework normally used for 2D games.
+
+#### Installation
+
+Describe cloning the source from (gitlab link) and following the README instructions. Once the system is built, copy the /dist/interface.exe over to the interface computer. Ensure the raster folder needs to be present in the same folder as the exe.
+
+### Content structure
+
+SimStad organizes its material into a hierarchy consisting of Cities, Collections, Scenarios, and Rasters.
+
+#### City
+
+A City represents one full SimStad installation. It contains:
+
+- The geospatial boundaries of the city model
+- All datasets, scenarios, and collections related to that city
+- Network communication settings
+
+#### Collections
+
+A Collection acts as a chapter or theme, grouping together a set of related scenarios. These are seen on the starting page of the interface and helps guide visitors by providing a storyline or theme to follow. Each collection has:
+
+- A name and cover image
+- A set of scenarios presented in a custom order
+
+#### Scenarios
+
+A Scenario represents a single topic within a collection. When a Scenario is selected, it sends a signal to Unreal Engine and the Blocks displays to display a particular dataset. A Scenario includes:
+
+- A descriptive text for explaining the topic and the data source
+- A list of rasters that are layered on the 3D model
+- A legend, explaining the colors or symbols
+- Interactive elements, such as buttons or sliders
+
+#### Rasters
+
+A Raster is a single dataset represented as an image. It can be an image or a video. Rasters are used in combination in a Scenario, or can be shown individually in the interface debug mode.
+
+#### Legends
+
+- bla
+
+#### Tags
+
+- bla
+
+---
+
+## Packaged installation setup
+
+You need to have a packaged version of the Unreal Engine application on the projector computer. You also need a folder with the Datasets accessible on that computer. The application is run with command line parameters using a bash script. You need to add your web token in the .env file to allow connection to the Omni system
+
+---
+
+## Projection setup
+
+The Unreal Engine application is meant to be projected on a 3D-printed model. In the simplest scenario, you have one projector that is showing a fullscreen view of the Unreal Engine application. You then only have to make sure that the projector is mapped and placed correctly in relation to the 3D print. The default scale ratio of the 3D model is 4:3 and the projector should match that.
+
+### Multi-projector setup
+
+To achieve a higher resolution projection, you can have multiple projectors next to each other that show parts of the whole screen, creating a larger projection. This becomes more complex however, as you need to ensure a seamless blend zone between the projectors.
+
+#### nDisplay
+
+The Unreal Engine application can be split into multiple synced instances using a plugin called nDisplay, which allows you to define camera positions for each instance using a calibration file. This file can be changed externally for each installation use case as the file path is provided in the start script.
+
+#### Calibration
+
+You can do these tricks to calibrate the projectors
+
+You need to calibrate them once in a while, as the physical projectors might move etc
+
+---
+
+## Omni, networking, and data management
+
+How to use and connect – link to Omni guide on ImmVis. (Erik does not want us to use LiU Omni when shipping, so we’ll have to package Omni in the bundle and explain how to set that up locally)
+
+Protocol. Link to Protocol Wikipedia, or move that to ImmVis.
+
+### Syncthing
+
+Syncthing allows us to set up folders on exhibition computers to sync all images that SimStad uses. See the Omni documentation on how to set up Syncthing on a Linux webserver.
+
+#### Install Syncthing on Windows
+
+Download Syncthing. Install and set it to run in the background. Open a browser and go to 127.0.0.1:8384. Add remote device and paste the Omni Syncthing identification code. Click the new folder, click edit > Advanced > Folder Type > Receive Only.
+
+---
+
+## Blocks and displays
+
+Describe Blocks and displays. How to set them up to sync with the interface and how to add content to them.
