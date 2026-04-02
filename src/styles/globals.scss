@@ -157,4 +157,9 @@ p, li {
 		border-bottom: 1px solid;
 		@apply border-zinc-300;
 	}
+
+	pre {
+		@apply rounded p-4;
+		overflow-x: auto;
+	}
 }

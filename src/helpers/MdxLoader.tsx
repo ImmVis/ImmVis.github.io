@@ -2,6 +2,7 @@ import path from "path";
 import fs, { readdirSync } from "fs";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
+import rehypeShiki from "@shikijs/rehype";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 
@@ -10,7 +11,7 @@ import { MDXRemoteSerializeResult } from "next-mdx-remote";
  */
 const mdxOptions: any = {
   remarkPlugins: [remarkGfm],
-  rehypePlugins: [],
+  rehypePlugins: [[rehypeShiki, { theme: "monokai" }]],
   format: "mdx",
 };
 
