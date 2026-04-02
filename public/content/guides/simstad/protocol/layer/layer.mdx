@@ -1,0 +1,95 @@
+---
+id: "layer"
+name: "Layer"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Layer
+
+The **Layer** method controls which data layers Unreal displays and in what order they are composited. Each layer provides a visual element such as an image, color, movie, or live stream. Layers are drawn **from bottom to top** in the order they appear in the request.
+
+A layer request consists of a list of layers, each of which must be one of the supported layer types:
+
+* [Image](protocol/DigitalTwin/Layer/LayerImage)
+* [Flow](protocol/DigitalTwin/Layer/LayerFlow)
+* [Movie](protocol/DigitalTwin/Layer/LayerMovie)
+* [Color](protocol/DigitalTwin/Layer/LayerColor)
+* [Base64](protocol/DigitalTwin/Layer/LayerBase64)
+* [NDI](protocol/DigitalTwin/Layer/LayerNDI)
+
+All layer types support optional opacity, lighting control, and cropping (see [Cropping](protocol/DigitalTwin/Layer/Cropping)).
+
+Layer sets are sent using a [LayerRequest](#layerrequest).
+Unreal replies per layer with a [LayerResponse](#layerresponse).
+
+
+<br></br>
+
+
+## LayerRequest
+
+Defines the list of layers to display, or updates properties of layers already shown.
+
+| name   | type    | required | description                                                                                                                                                                   |
+| ------ | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type   | string  | ✓        | `"LayerRequest"`                                                                                                                                                              |
+| flush  | boolean | ✓        | If **true**, the current layer stack is cleared and fully replaced. If **false**, only provided parameters are updated—useful for smooth cropping or opacity animation.       |
+| layers | array   | ✓        | Ordered list of layers. Must be of type: [Image](protocol/DigitalTwin/Layer/LayerImage), [Flow](protocol/DigitalTwin/Layer/LayerFlow), [Movie](protocol/DigitalTwin/Layer/LayerMovie), [Color](protocol/DigitalTwin/Layer/LayerColor), [Base64](protocol/DigitalTwin/Layer/LayerBase64), [NDI](protocol/DigitalTwin/Layer/LayerNDI). |
+
+**Example request:**
+
+```jsonc
+{
+  "type": "LayerRequest",
+  "flush": true,
+  "layers": [
+    {
+      "type": "image",
+      "id": "1_parks",
+      "raster": "Parks"
+    },
+    {
+      "type": "flow",
+      "id": "2_river",
+      "raster": "River",
+      "flow": {
+        "texture": "Water",
+        "scale": 200,
+        "speed": 0.05
+      }
+    },
+    {
+      "type": "image",
+      "id": "3_citylights",
+      "raster": "Citylights",
+      "opacity": 0.5,
+      "emission": 10
+    },
+  ]
+}
+```
+
+<br></br>
+
+## LayerResponse
+
+Unreal sends a response for each processed layer.
+
+| name  | type   | description                                  |
+| ----- | ------ | -------------------------------------------- |
+| type  | string | `"LayerResponse"`                            |
+| id    | string | The layer's identifier.                      |
+| error | string | Optional error message (e.g., missing file). |
+
+**Example response:**
+
+```ts
+{
+  "type": "LayerResponse",
+  "id": "Basemap/City",
+  "error": ""
+}
+```

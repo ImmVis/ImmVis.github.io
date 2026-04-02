@@ -1,0 +1,24 @@
+---
+id: "simstad-protocol"
+name: "SimStad protocol"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Communication Protocol: Custom Messages
+
+This page documents the JSON protocol used for communication between the **Phaser interface** and the **Unreal platform**, routed through **Omni**. All messages are exchanged using WebSocket in JSON format. Each message consists of a `type` field indicating its purpose.
+
+---
+
+## Methods
+
+- [Ping](/guides/simstad/protocol/ping) — Check connection status
+- [Reset](/guides/simstad/protocol/reset) — Clear data layers and restores Unreal
+- [Recache](/guides/simstad/protocol/recache) — Fetches data layers during runtime
+- [Status](/guides/simstad/protocol/status) — Fetch information about cached images
+- [Layer](/guides/simstad/protocol/layer) — Handle map data layers: images, videos, live streams, etc.
+- [Light](/guides/simstad/protocol/light) — Handle virtual sunlight for a given date and time of day
+- [Marker](/guides/simstad/protocol/marker) — Handle markers to highlight features

@@ -1,0 +1,53 @@
+---
+id: "protocol"
+name: "Protocol"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Communication Protocols
+
+This application is built around **real-time communication** between an Unreal Engine–based **platform** and a Phaser-based **interface**. These two components exchange messages using WebSockets through a server called **Omni**.
+
+There are two layers of protocol involved:
+
+---
+
+## Omni – Connection and Transport Layer
+
+The **Omni protocol** handles:
+- WebSocket connections
+- Authentication and role assignment (`host`, `client`)
+- Session management and automatic message routing
+
+The Unreal platform connects as the **host**, and the Phaser interface connects as the **client**. Once both are connected and authorized, messages are passed transparently between them by Omni.
+
+For more details, see [Omni](/guides/omni/).
+
+---
+
+## DigitalTwin – Custom Message Layer
+
+Once the host and client are connected through Omni, they speak a shared **custom protocol** defined by the project — this governs all meaningful actions in the app:
+
+- Interface sending commands to the platform (e.g., switching scenario, showing text)
+- Platform broadcasting state changes to the interface (e.g., updating layer visibility)
+
+These message types are structured and versioned, and the application enforces clear request–response semantics where applicable.
+
+For full details, see [DigitalTwin](/guides/simstad/protocol/simstad-protocol).
+
+---
+
+## Communication Overview
+
+Below is a visual overview of the relationship between the **platform**, **interface**, and **Omni**:
+
+![Protocol diagram](/content/guides/simstad/protocol/flowchart.png)
+
+---
+
+This architecture allows for loose coupling between the interface and the platform, while still ensuring structured, predictable communication. The Omni layer takes care of connectivity and routing, while the DigitalTwin layer focuses on meaning and intent.
+
