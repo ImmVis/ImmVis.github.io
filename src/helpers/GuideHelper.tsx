@@ -53,6 +53,20 @@ function validateData(matter: GuideData): GuideData {
 
   // Fix pathing for local images
   matter.data.image = convertRelativePath(matter.mdxPath, matter.data.image, "/dummy_image.png");
+  matter.slug = getSlug(matter.mdxPath);
+  matter.data.hidden = matter.data.hidden ?? isNestedSlug(matter.slug);
 
   return matter;
+}
+
+// Convert mdx path to a nested slug with numeric prefixes removed
+// Example: "fruits/1_apple/apple.mdx" -> "fruits/apple"
+function getSlug(mdxPath: string): string {
+  mdxPath = mdxPath.replace(/\\/g, "/").replace(/^\/?content\/guides\//, "");
+  const segments = mdxPath.split("/").map((s) => s.replace(/^\d+_/, ""));
+  return segments.slice(0, -1).join("/");
+}
+
+function isNestedSlug(slug: string): boolean {
+  return slug.includes("/");
 }

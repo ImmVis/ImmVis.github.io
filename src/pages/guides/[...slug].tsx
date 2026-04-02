@@ -1,20 +1,28 @@
-import Head from "next/head"
+import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { MDXRemote } from "next-mdx-remote";
 import { GuideData, getAllGuides, getGuide } from "@/helpers/GuideHelper";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
-import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper";
-import { PublicationList } from "../publications";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
+import {
+  TableOfContents,
+  getTableOfContent,
+  TocItem,
+} from "@/components/TableOfContents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
-
 // Individual guide page component
-export default function Guide({ guide, fundings, personnel, publications }: { guide: GuideData, fundings: FundingData[], personnel: PersonnelData[], publications: PublicationData[] }) {
+export default function Guide({ guides, guide, fundings, personnel }: { guides: GuideData[]; guide: GuideData; fundings: FundingData[]; personnel: PersonnelData[]; }) {
   const { data, content, mdxPath } = guide;
+  const router = useRouter();
+
+  // Table of contents, for nested guides
+  const tocData: TocItem[] = getTableOfContent(guides, guide);
+  const showToc = tocData[0]?.children.length > 0;
 
   return (
     <>
@@ -62,6 +70,10 @@ export default function Guide({ guide, fundings, personnel, publications }: { gu
 
         {/* Markdown content */}
         <div className="guide-single-markdown mdx-content">
+          {showToc && (
+            <TableOfContents items={tocData} currentPath={router.asPath} />
+          )}
+
           <MDXRemote {...content} />
         </div>
       </main>
@@ -76,7 +88,7 @@ export async function getStaticPaths() {
   return {
     paths: guides.map(matter => ({
       params: {
-        slug: matter.slug
+        slug: matter.slug.split("/")
       }
     })),
     fallback: false
@@ -84,13 +96,13 @@ export async function getStaticPaths() {
 }
 
 // Static props used in the pre-render of this page
-export async function getStaticProps({ params }: { params: { slug: string; } }) {
+export async function getStaticProps({ params }: { params: { slug: string[]; } }) {
   return {
     props: {
-      guide: await getGuide(params.slug),
+      guides: await getAllGuides(),
+      guide: await getGuide(params.slug.join("/")),
       fundings: await getAllFundings(),
       personnel: await getAllPersonnels(),
-      publications: await getAllPublications(),
     }
   };
 }
