@@ -1,0 +1,38 @@
+---
+id: "light"
+name: "Light"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Light
+
+The **Light** method controls virtual sunlight in Unreal. By specifying a date and time of day, Unreal will simulate natural lighting conditions corresponding to real-world Sweden at that moment. This includes sun angle, intensity, and coloration, using [Ultra Dynamic Sky](https://www.fab.com/listings/84fda27a-c79f-49c9-8458-82401fb37cfb).
+
+Light is set using a [LightRequest](#lightrequest). There is **no response** associated with this request.
+
+## LightRequest
+
+Sets the simulated date and solar time.
+
+| name       | type   | required | description       |
+| ---------- | ------ | -------- | ----------------- |
+| type       | string | ✓        | `"LightRequest"`  |
+| year       | number | ✓        | Year (2025)       |
+| month      | number | ✓        | Month (1 – 12)    |
+| day        | number | ✓        | Day (1 – 31)      |
+| solar_time | number | ✓        | Hour (0.0 – 24.0) |
+
+**Example request:**
+
+```ts
+{
+  "type": "LightRequest",
+  "year": 2025,
+  "month": 5,
+  "day": 20,
+  "solar_time": 12
+}
+```

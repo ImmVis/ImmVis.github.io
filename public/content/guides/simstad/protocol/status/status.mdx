@@ -1,0 +1,39 @@
+---
+id: "status"
+name: "Status"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Status
+
+A status request is used to ask Unreal about its current status regarding image caching. This is used when the interface happens to boot up or restart at a later point and needs to make sure what version of images Unreal has loaded.
+
+Status requests are sent using [StatusRequest](#statusrequest). Unreal responds with [StatusResponse](#statusresponse).
+
+## StatusRequest
+
+Sends a status request to Unreal.
+
+**Example request:**
+
+```ts
+{
+  "type": "StatusRequest"
+}
+```
+
+## StatusResponse
+
+Returned by Unreal in response to a `StatusRequest`.
+
+**Example response:**
+
+```ts
+{
+  "type": "StatusResponse",
+  "recache_time": <timestamp>,
+}
+```

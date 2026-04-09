@@ -18,6 +18,7 @@ There are two layers of protocol involved:
 ## Omni – Connection and Transport Layer
 
 The **Omni protocol** handles:
+
 - WebSocket connections
 - Authentication and role assignment (`host`, `client`)
 - Session management and automatic message routing
@@ -37,7 +38,7 @@ Once the host and client are connected through Omni, they speak a shared **custo
 
 These message types are structured and versioned, and the application enforces clear request–response semantics where applicable.
 
-For full details, see [DigitalTwin](/guides/simstad/protocol/simstad-protocol).
+For full details, see [Communication Protocol](#communication-protocol-custom-messages).
 
 ---
 
@@ -51,3 +52,170 @@ Below is a visual overview of the relationship between the **platform**, **inter
 
 This architecture allows for loose coupling between the interface and the platform, while still ensuring structured, predictable communication. The Omni layer takes care of connectivity and routing, while the DigitalTwin layer focuses on meaning and intent.
 
+# Communication Protocol: Custom Messages
+
+This page documents the JSON protocol used for communication between the **Phaser interface** and the **Unreal platform**, routed through **Omni**. All messages are exchanged using WebSocket in JSON format. Each message consists of a `type` field indicating its purpose.
+
+---
+
+## Methods
+
+- [Ping](/guides/simstad/protocol/ping) — Check connection status
+- [Reset](/guides/simstad/protocol/reset) — Clear data layers and restores Unreal
+- [Recache](/guides/simstad/protocol/recache) — Fetches data layers during runtime
+- [Status](/guides/simstad/protocol/status) — Fetch information about cached images
+- [Layer](/guides/simstad/protocol/layer) — Handle map data layers: images, videos, live streams, etc.
+- [Light](/guides/simstad/protocol/light) — Handle virtual sunlight for a given date and time of day
+- [Marker](/guides/simstad/protocol/marker) — Handle markers to highlight features
+
+# Omni WebSocket Communication
+
+This page documents how the **Unreal host application** and the **Phaser interface** communicate through **[Omni](https://omni.itn.liu.se/)** — a WebSocket server for multi-role communication.
+
+![communicating_over_omni](uploads/52825d33911aee5c0e39646471b22eb0/communicating_over_omni.png)
+
+## Overview
+
+Omni connects applications using **roles**: `host`, `client`, and `guest`. Each role connects using a **token** or **public code**, and messages between roles are sent in **JSON** format.
+
+### Roles in This Project
+
+- **Host**: The Unreal Engine application that displays and controls the city model.
+- **Client**: The Phaser-based touch interface (e.g., on a touchscreen or tablet).
+- **Guest**: Not used in this project.
+
+---
+
+## WebSocket Connection Flow
+
+### Step 1: Connect WebSocket
+
+All applications connect to:
+
+```
+wss://omni.itn.liu.se/ws/
+```
+
+On successful connection:
+
+```js
+{
+  "type": "server_connect",
+  "message": "Welcome! Please provide a token."
+}
+```
+
+---
+
+## Authentication
+
+### Host (Unreal)
+
+Send:
+
+```js
+{
+  "token": "<HOST_TOKEN>"
+}
+```
+
+Responses:
+
+```js
+{
+  "type": "server_authorized",
+  "message": "Authorized as host"
+}
+```
+
+```js
+{
+  "type": "server_code",
+  "code": "<PUBLIC_CODE>"
+}
+```
+
+This `code` is what guests (if used) would use to join, but it's not needed for this project.
+
+---
+
+### Client (Phaser)
+
+Send:
+
+```js
+{
+  "token": "<CLIENT_TOKEN>"
+}
+```
+
+Response:
+
+```js
+{
+  "type": "server_authorized",
+  "message": "Authorized as client"
+}
+```
+
+---
+
+## Server Meta-Messages
+
+Omni sends the following messages automatically as clients/hosts connect or disconnect:
+
+### New Connection
+
+```js
+{
+  "type": "server_join",
+  "role": "host" | "client" | "guest",
+  "user": "<USER_ID>"
+}
+```
+
+### Disconnection
+
+```js
+{
+  "type": "server_leave",
+  "role": "host" | "client" | "guest",
+  "user": "<USER_ID>"
+}
+```
+
+### Disconnect Notification
+
+```js
+{
+  "type": "server_disconnect",
+  "message": "Disconnected by server"
+}
+```
+
+### Error Message
+
+```js
+{
+  "type": "server_error",
+  "message": "Invalid token" // or other error reason
+}
+```
+
+---
+
+## Notes
+
+- All communication after authentication is custom and defined by your own protocol (see: [Custom Messages Protocol](./Communication-Protocol-Custom-Messages.md)).
+- A `client` can connect **before** the `host`, and will receive any custom messages once the host is available.
+- A `host` connecting will override any previous host session, and will kick any connected guests.
+
+---
+
+## Admin Panel
+
+To manage tokens or create a new service, visit:
+
+🔗 [https://omni.itn.liu.se/admin/](https://omni.itn.liu.se/admin/)
+
+---
