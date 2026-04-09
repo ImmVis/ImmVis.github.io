@@ -1,20 +1,28 @@
 import path from "path";
 import fs, { readdirSync } from "fs";
 import { serialize } from "next-mdx-remote/serialize";
-import remarkGfm from "remark-gfm";
-import rehypeShiki from "@shikijs/rehype";
+import { SerializeOptions } from "next-mdx-remote/dist/types";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
-
+import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeShiki from "@shikijs/rehype";
 
 /**
  * MDX serialize settings and plugins. Add your favorite markdown plugins here.
  */
-const mdxOptions: any = {
-  remarkPlugins: [remarkGfm],
-  rehypePlugins: [[rehypeShiki, { theme: "monokai" }]],
-  format: "mdx",
+const serializeOptions: SerializeOptions = {
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: "wrap" }],
+      [rehypeShiki, { theme: "monokai" }],
+    ],
+    format: "mdx",
+  },
+  parseFrontmatter: true,
 };
-
 
 /**
  * Contains frontmatter data after parsing an .mdx file.
@@ -26,10 +34,13 @@ const mdxOptions: any = {
  */
 export interface MatterData {
   slug: string;
-  content: MDXRemoteSerializeResult<Record<string, unknown>, Record<string, unknown>>;
+  content: MDXRemoteSerializeResult<
+    Record<string, unknown>,
+    Record<string, unknown>
+  >;
   data: { [key: string]: any };
   mdxPath: string;
-};
+}
 
 /**
  * Returns a list of all exjobbs .mdx files as frontmatter objects.
@@ -39,22 +50,22 @@ export interface MatterData {
  */
 export async function fetchAllFiles(folderPath: string): Promise<MatterData[]> {
   const fileNames = fetchFilesRecursive(path.join("./public", folderPath))
-    .filter((file) => file.endsWith('mdx')) // Filter mdx files
+    .filter((file) => file.endsWith("mdx")) // Filter mdx files
     .map((file) => file.split(folderPath)[1]); // Strip absolute path
 
   // Read every file and extract frontmatter data and markdown content
   const matterObjects = await Promise.all(
-    fileNames.map(async fileName => {
+    fileNames.map(async (fileName) => {
       const slug = path.basename(fileName).replace(".mdx", "");
       const mdxPath = path.join(folderPath, fileName);
 
       // Read the file and extract frontmatter
-      const fileContents = fs.readFileSync(path.join("./public", mdxPath), "utf8");
-
-      const content = await serialize(
-        fileContents,
-        { mdxOptions, parseFrontmatter: true }
+      const fileContents = fs.readFileSync(
+        path.join("./public", mdxPath),
+        "utf8",
       );
+
+      const content = await serialize(fileContents, serializeOptions);
       const data = content.frontmatter;
 
       return {
@@ -63,29 +74,31 @@ export async function fetchAllFiles(folderPath: string): Promise<MatterData[]> {
         content,
         mdxPath,
       };
-    })
+    }),
   );
 
   return matterObjects;
-};
+}
 
 /**
  * Validates frontmatter data using a schema. The .mdx data must match the given interface.
  */
-export function parseFrontmatter<Type>(schema: any, data: Type, mdxPath: string): Type {
+export function parseFrontmatter<Type>(
+  schema: any,
+  data: Type,
+  mdxPath: string,
+): Type {
   const result = schema.safeParse(data);
   if (result.success) {
     return result.data;
-  }
-  else {
+  } else {
     const issues = result.error.issues.map((issue: any) => {
       return `- ${issue.path} (${issue.message})`;
-    })
+    });
     const messages = [mdxPath, ...issues];
     throw new Error(messages.join("\n"));
   }
 }
-
 
 /** Searches all subfolders and flattens files */
 function fetchFilesRecursive(dir: string): string[] {
