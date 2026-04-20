@@ -32,3 +32,107 @@ Make sure that there is a fixture around all tiles so that it can't move.
 There will be a need for some sanding and removing excess plastic when the print is done.
 
 Outsourcing a 3D print to a professional company can be a very smart option if no update to tiles is expected.
+
+
+
+
+
+# David
+
+Förbearbetning
+Verktyg
+SideFX Houdini, FME, Blender
+GIS-programvara (t.ex. Autodesk-baserat verktyg) eller QGIS, FME 
+PrusaSlicer (kommandoradsverktyg) eller annan slicer
+Import
+Steg
+1. Import av geometri (FBX)
+Importera ett stort antal (30k+) FBX-modeller i Houdini.
+Säkerställ att samtliga objekt behåller korrekt georeferering (världskoordinater).
+Verifiera att alla dataset använder samma koordinatsystem.
+2. Import av terrängdata (BigTIFF / GeoTIFF)
+Terrängdata kan komma från en georefererad rasterbild, exempelvis BigTIFF (GeoTIFF).
+Bilden innehåller höjdinformation där pixelvärden representerar höjd.
+Annan 3D data
+Arbetsflöde:
+Läs in bilden och extrahera höjdvärden.
+Konvertera rasterdata till en höjdrepresentation (höjdfält eller polygonmesh).
+Bevara georefereringen:
+Pixelstorlek → fysisk skala
+Ursprung → korrekt position i världskoordinater
+Anpassa terrängens koordinatsystem till övrig geometri.
+3. Klippning till område (extent)
+Datasetet begränsas till ett specifikt område:
+Området definieras i ett GIS-verktyg (godtycklig polygonform).
+Importera denna form till Houdini och använd den för att:
+Ta bort geometri utanför området
+Begränsa både terräng och objekt konsekvent
+4. Skalning till fysisk modell
+Skala hela datasetet till önskad fysisk storlek i millimeter.
+Säkerställ att:
+X/Y-skala är konsekvent
+Z-skala (höjd) kan justeras separat vid behov
+Kontrollera slutlig storlek mot planerad utskriftsyta.
+Bearbetning
+Verktyg
+SideFX Houdini (procedurbaserat och volymbaserat arbetssätt)
+1. Skapa en sammanhängande volym
+Mål: Slå samman terräng och objekt till en enda solid och utskrivbar kropp.
+Steg
+a) Volymisering
+Säkerställ att all geometri representerar volymer:
+Terräng extruderas nedåt för att skapa en solid bas
+Byggnader integreras i samma struktur
+b) Volymbaserad sammanslagning
+Omvandla geometri till en implicit volymrepresentation
+Slå samman alla delar till en enda volym:
+Resultatet blir en enhetlig kropp utan interna skarvar
+c) Återuppbyggnad till mesh
+Konvertera volymen tillbaka till polygonmesh:
+Ger en homogen topologi
+Mjukar upp övergångar mellan element
+d) Vattentäthet
+Säkerställ att modellen är:
+Sluten (utan hål)
+Topologiskt korrekt (manifold)
+Fri från självskärningar
+2. Uppdelning i utskrivbara brickor
+Mål
+Dela upp modellen i delar som passar skrivarytan.
+a) Definiera brickstorlek
+Antingen:
+Fast storlek (t.ex. 200 × 200 mm)
+Eller dynamisk uppdelning baserad på total storlek
+Skapa ett rutnät som täcker hela modellen
+b) Klippning per bricka
+Extrahera varje del baserat på rutnätet:
+Varje bricka blir en separat sluten volym
+Skarpa kanter mellan brickor
+c) Identifiering
+Tilldela varje bricka ett unikt ID:
+Baserat på position i rutnätet
+d) Märkning
+Skapa en fysisk märkning:
+ID extruderas som text på undersidan
+Säkerställ att märkningen:
+Inte påverkar passform
+Är läsbar efter utskrift
+3. Förberedelse för export
+För varje bricka:
+Centrera modellen i origo
+Säkerställ korrekt normalriktning
+Validera geometrin:
+Inga hål
+Ingen icke-manifold geometri
+Ingen självskärning
+4. Export
+Exportera varje bricka som .STL
+Filnamn ska innehålla ID:
+bricka_XX_YY.stl
+Export kan automatiseras via Houdinis procedurbaserade system
+5. Automatiserad generering av G-kod (PrusaSlicer)
+Verktyg
+PrusaSlicer (kommandoradsversion)
+Grundprincip
+Varje STL-fil omvandlas automatiskt till g-kod via kommandoraden.
+gcode är det som de flesta 3D skrivare läser
