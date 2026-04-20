@@ -1,55 +1,54 @@
 .toc {
-	@apply w-full max-w-xs border-l border-gray-200 py-4 ml-4;
+  @apply inline-block;
+  width: 200px;
 
-	ul {
-		@apply space-y-0.5 list-none p-0 m-0;
-	}
+  ul {
+    @apply list-none p-0 m-0;
+  }
 }
 
 .node {
-	@apply relative;
+  .linkWrapper {
+    @apply flex items-center transition-colors duration-200;
+    @apply pr-2;
 
-	.linkWrapper {
-		@apply flex items-center transition-colors duration-200 border-l-2 -ml-[2px];
-		@apply hover:bg-gray-50 pr-2;
+    @apply text-zinc-600;
 
-		color: theme("colors.gray.500");
-		border-color: transparent;
+    &.active {
+      @apply text-black;
+      // @apply underline;
+    }
 
-		&.active {
-			@apply font-semibold;
-			color: theme("colors.blue.600");
-			border-color: theme("colors.blue.600");
-		}
+    &.currentPage {
+      @apply text-black bg-zinc-300 rounded-lg;
+    }
+  }
 
-		&.currentPage {
-			@apply bg-blue-50;
-		}
-	}
+  .link {
+    @apply block py-1.5 text-sm flex-grow truncate;
+    color: inherit;
+    text-decoration: none;
+  }
 
-	.link {
-		@apply block py-2 px-2 text-sm flex-grow truncate;
-	}
+  .iconContainer {
+    @apply flex items-center justify-center w-6 h-6 ml-1;
+  }
 
-	.iconContainer {
-		@apply flex items-center justify-center w-6 h-6 ml-1;
-	}
+  .toggleBtn {
+    @apply cursor-pointer text-zinc-400 hover:text-zinc-600 transition-transform duration-200;
+    @apply bg-transparent border-none;
 
-	.toggleBtn {
-		@apply cursor-pointer text-gray-400 hover:text-gray-600 transition-transform duration-200;
-		border: none;
+    &.rotated {
+      @apply rotate-90;
+    }
+  }
 
-		&.rotated {
-			@apply rotate-90;
-		}
-	}
-
-	.leafIcon {
-		@apply text-gray-300;
-		font-size: 0.6rem;
-	}
+  .leafIcon {
+    @apply text-zinc-300;
+    font-size: 0.6rem;
+  }
 }
 
 .subTree {
-	@apply overflow-hidden;
+  @apply overflow-hidden;
 }

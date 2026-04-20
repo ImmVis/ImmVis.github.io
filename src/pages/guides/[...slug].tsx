@@ -16,7 +16,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 // Individual guide page component
-export default function Guide({ guides, guide, fundings, personnel }: { guides: GuideData[]; guide: GuideData; fundings: FundingData[]; personnel: PersonnelData[]; }) {
+export default function Guide({
+  guides,
+  guide,
+  fundings,
+  personnel,
+}: {
+  guides: GuideData[];
+  guide: GuideData;
+  fundings: FundingData[];
+  personnel: PersonnelData[];
+}) {
   const { data, content, mdxPath } = guide;
   const router = useRouter();
 
@@ -31,12 +41,16 @@ export default function Guide({ guides, guide, fundings, personnel }: { guides: 
       </Head>
 
       <main className="guide-single">
-
         <div className="guide-single-profile">
-
           {/* Left guide info */}
           <div className="left">
-            <Image width={512} height={512} quality={100} alt={data.image!} src={data.image!} />
+            <Image
+              width={512}
+              height={512}
+              quality={100}
+              alt={data.image!}
+              src={data.image!}
+            />
           </div>
 
           {/* Right guide info */}
@@ -47,33 +61,46 @@ export default function Guide({ guides, guide, fundings, personnel }: { guides: 
             <div className="contributors">
               <div>
                 <h3>Contributors</h3>
-                <MiniPersonnelList personnel={personnel} liuidList={data.people} />
+                <MiniPersonnelList
+                  personnel={personnel}
+                  liuidList={data.people}
+                />
               </div>
               <div>
-                {data.funding.length > 0 && <>
-                  <h3>Funding</h3>
-                  <MiniFundingList fundings={fundings} fundingIdList={data.funding} />
-                </>}
+                {data.funding.length > 0 && (
+                  <>
+                    <h3>Funding</h3>
+                    <MiniFundingList
+                      fundings={fundings}
+                      fundingIdList={data.funding}
+                    />
+                  </>
+                )}
               </div>
               <div>
-                {data.homepage && <>
-                  <h3>Homepage</h3>
-                  <div className="homepage">
-                    <FontAwesomeIcon icon={solidIcons.faLink} fixedWidth />
-                    <a href={data.homepage}>{data.homepage}</a>
-                  </div>
-                </>}
+                {data.homepage && (
+                  <>
+                    <h3>Homepage</h3>
+                    <div className="homepage">
+                      <FontAwesomeIcon icon={solidIcons.faLink} fixedWidth />
+                      <a href={data.homepage}>{data.homepage}</a>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
 
+        {/* Table of contents */}
+        {showToc && (
+          <div className="guide-toc-wrapper">
+            <TableOfContents items={tocData} currentPath={router.asPath} />
+          </div>
+        )}
+
         {/* Markdown content */}
         <div className="guide-single-markdown mdx-content">
-          {showToc && (
-            <TableOfContents items={tocData} currentPath={router.asPath} />
-          )}
-
           <MDXRemote {...content} />
         </div>
       </main>
@@ -81,28 +108,31 @@ export default function Guide({ guides, guide, fundings, personnel }: { guides: 
   );
 }
 
-
 // List of paths to be statically generated
 export async function getStaticPaths() {
   const guides = await getAllGuides();
   return {
-    paths: guides.map(matter => ({
+    paths: guides.map((matter) => ({
       params: {
-        slug: matter.slug.split("/")
-      }
+        slug: matter.slug.split("/"),
+      },
     })),
-    fallback: false
+    fallback: false,
   };
 }
 
 // Static props used in the pre-render of this page
-export async function getStaticProps({ params }: { params: { slug: string[]; } }) {
+export async function getStaticProps({
+  params,
+}: {
+  params: { slug: string[] };
+}) {
   return {
     props: {
       guides: await getAllGuides(),
       guide: await getGuide(params.slug.join("/")),
       fundings: await getAllFundings(),
       personnel: await getAllPersonnels(),
-    }
+    },
   };
 }

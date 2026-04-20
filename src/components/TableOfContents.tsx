@@ -1,5 +1,4 @@
 // TocHelper.ts
-import { getAllGuides } from "@/helpers/GuideHelper";
 import { MatterData } from "@/helpers/MdxLoader";
 
 export type TocItem = {
@@ -103,48 +102,52 @@ function TocNode({
   level: number;
   currentPath: string;
 }) {
-  const isCurrentPage = currentPath === item.href;
+  const isCurrentPage = currentPath === item.href + "/";
   const isParentOfCurrent = currentPath.startsWith(item.href + "/");
   const isActive = isCurrentPage || isParentOfCurrent;
   const hasChildren = item.children && item.children.length > 0;
+  const isRoot = level === 0;
+  const indentation = isRoot ? 0 : (level - 1) * 24;
 
   const [isOpen, setIsOpen] = useState(isActive);
 
   // Re-sync if path changes (e.g. clicking a link elsewhere)
   useEffect(() => {
-    if (isActive) setIsOpen(true);
-  }, [isActive]);
+    if (isActive && !isRoot) setIsOpen(true);
+  }, [isActive, isRoot]);
 
   return (
     <li className={style.node}>
       <div
         className={`${style.linkWrapper} ${isActive ? style.active : ""} ${isCurrentPage ? style.currentPage : ""}`}
-        style={{ paddingLeft: `${level * 18}px` }} // Increased indentation
+        style={{ paddingLeft: `${indentation}px` }} // Increased indentation
       >
-        <div className={style.iconContainer}>
-          {hasChildren ? (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setIsOpen(!isOpen);
-              }}
-              className={`${style.toggleBtn} ${isOpen ? style.rotated : ""}`}
-            >
-              <FontAwesomeIcon icon={solidIcons.faChevronRight} />
-            </button>
-          ) : (
-            <span className={style.leafIcon}>
-              {/* <FontAwesomeIcon icon={solidIcons.faDotCircle} /> */}
-            </span>
-          )}
-        </div>
+        {!isRoot && (
+          <div className={style.iconContainer}>
+            {hasChildren ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsOpen(!isOpen);
+                }}
+                className={`${style.toggleBtn} ${isOpen ? style.rotated : ""}`}
+              >
+                <FontAwesomeIcon icon={solidIcons.faChevronRight} />
+              </button>
+            ) : (
+              <span className={style.leafIcon}>
+                {/* <FontAwesomeIcon icon={solidIcons.faDotCircle} /> */}
+              </span>
+            )}
+          </div>
+        )}
 
         <Link href={item.href} className={style.link}>
           {item.title}
         </Link>
       </div>
 
-      {hasChildren && isOpen && (
+      {hasChildren && (isRoot || isOpen) && (
         <ul className={style.subTree}>
           {item.children.map((child) => (
             <TocNode
