@@ -1,0 +1,187 @@
+{
+    "project_name": "DomeInteractive",
+    "uproject": "",
+    "engine_dir": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine",
+    "engine_sync_method": "Use Existing (do not sync/build)",
+    "maps_path": "",
+    "maps_filter": "*.umap",
+    "content_plugin_filters": [],
+    "listener_exe": "SwitchboardListener",
+    "sblhelper_exe": "SwitchboardListenerHelper",
+    "tracing_enabled": false,
+    "tracing_args": "default,concert,messaging,tasks",
+    "tracing_stat_events": true,
+    "osc_server_port": 6000,
+    "osc_client_port": 8000,
+    "p4_enabled": false,
+    "p4_sync_path": "",
+    "p4_engine_path": "",
+    "source_control_workspace": null,
+    "muserver_command_line_arguments": "",
+    "muserver_server_name": "DomeInteractive_MU_Server",
+    "muserver_endpoint": ":9030",
+    "multiuser_exe": "UnrealMultiUserServer",
+    "multiuserslate_exe": "UnrealMultiUserSlateServer",
+    "muserver_auto_launch": true,
+    "muserver_slate_mode": true,
+    "muserver_clean_history": false,
+    "muserver_auto_build": true,
+    "muserver_auto_endpoint": true,
+    "muserver_multicast_endpoint": "230.0.0.1:6666",
+    "muserver_auto_join": true,
+    "muserver_archive_dir": "",
+    "muserver_working_dir": "",
+    "current_level": null,
+    "devices": {
+        "KiPro": {
+            "settings": {
+                "is_recording_device": true
+            }
+        },
+        "LiveLinkFace": {
+            "settings": {
+                "is_recording_device": true
+            }
+        },
+        "Motive": {
+            "settings": {
+                "is_recording_device": true,
+                "motive_port": 1510
+            }
+        },
+        "Unreal": {
+            "settings": {
+                "is_recording_device": true,
+                "buffer_size": 1024,
+                "command_line_arguments": "",
+                "exec_cmds": [],
+                "dp_cvars": [],
+                "port": 2980,
+                "roles_filename": "VPRoles.ini",
+                "stage_session_id": 0,
+                "editor_exe": "UnrealEditor.exe",
+                "max_gpu_count": 1,
+                "priority_modifier": "Normal",
+                "auto_decline_package_recovery": false,
+                "udpmessaging_unicast_endpoint": ":0",
+                "udpmessaging_extra_static_endpoints": "",
+                "udpmessaging_multicast_endpoint": "230.0.0.1:6666",
+                "log_download_dir": "",
+                "reflect_visibility_to_game": true,
+                "rsync_port": 8730,
+                "listener_inactive_timeout": 5,
+                "slate_allow_throttling": false,
+                "retrieve_logs": true,
+                "livelink_preset": "",
+                "asset_itemDatas": [
+                    {
+                        "name": "nDisplayConfig.uasset",
+                        "path": "C:\\Users\\guser40\\Documents\\Projects\\GIT\\unrealremoteinteraction\\Content\\Controls\\nDisplayConfig.uasset",
+                        "uplugin_file_path": null,
+                        "classname": "/Script/DisplayCluster.DisplayClusterBlueprint",
+                        "gamepath": "/Game/Controls/nDisplayConfig.uasset"
+                    }
+                ],
+                "mediaprofile": "",
+                "lock_gpu_clock": false
+            }
+        },
+        "nDisplay": {
+            "settings": {
+                "ndisplay_cfg_file": "C:\\Users\\guser40\\Downloads\\Desktop2ScreenTest.ndisplay",
+                "use_all_available_cores": false,
+                "texture_streaming": true,
+                "render_api": "dx12",
+                "render_mode": "Mono",
+                "render_sync_policy": "Config",
+                "executable_filename": "D:\\Documents\\PackagedProjects\\DomeInteraction\\Windows\\DomeInteractive.exe",
+                "ndisplay_cmd_args": "",
+                "ndisplay_exec_cmds": [],
+                "ndisplay_dp_cvars": [],
+                "ndisplay_unattended": true,
+                "max_gpu_count": 2,
+                "priority_modifier": "Normal",
+                "populated_config_itemDatas": [],
+                "minimize_before_launch": true,
+                "primary_device_name": "Master",
+                "logging": {
+                    "LogConcert": null,
+                    "LogDisplayClusterCluster": null,
+                    "LogDisplayClusterConfig": null,
+                    "LogDisplayClusterEngine": null,
+                    "LogDisplayClusterGame": null,
+                    "LogDisplayClusterNetwork": null,
+                    "LogDisplayClusterRender": null,
+                    "LogDisplayClusterRenderSync": null,
+                    "LogDisplayClusterViewport": null,
+                    "LogDisplayClusterMedia": null,
+                    "LogLiveLink": null,
+                    "LogRemoteControl": null
+                },
+                "udpmessaging_unicast_endpoint": ":0",
+                "udpmessaging_extra_static_endpoints": "",
+                "disable_ensures": true,
+                "disable_all_screen_messages": true,
+                "livelink_preset": "",
+                "graphics_adapter": "Config",
+                "mediaprofile": "",
+                "lock_gpu_clock": false,
+                "port": 2980,
+                "roles_filename": "VPRoles.ini",
+                "stage_session_id": 0
+            },
+            "Master": {
+                "address": "127.0.0.1",
+                "roles": [],
+                "autojoin_mu_server": true,
+                "last_launch_command": "D:\\Documents\\PackagedProjects\\DomeInteraction\\Windows\\DomeInteractive.exe \".\" -game None -messaging -dc_cluster -nosplash -fixedseed -NoVerifyGC -noxrstereo -xrtrackingonly -RemoteControlIsHeadless   -StageFriendlyName=\"Master\"  -MaxGPUCount=2 -dc_cfg=\"C:\\Users\\guser40\\AppData\\Local\\Temp\\ndisplay\\73C80E4D44524A4A9879EDBBB347A93E.ndisplay\" -dx12 -dc_dev_mono   -dc_node=Master Log=Master.log -ini:Engine:[/Script/Engine.Engine]:GameEngine=/Script/DisplayCluster.DisplayClusterGameEngine,[/Script/Engine.Engine]:GameViewportClientClassName=/Script/DisplayCluster.DisplayClusterViewportClient,[/Script/Engine.UserInterfaceSettings]:bAllowHighDPIInGameMode=True -ini:Game:[/Script/EngineSettings.GeneralProjectSettings]:bUseBorderlessWindow=True -ini:Input:[/Script/Engine.InputSettings]:DefaultPlayerInputClass=/Script/DisplayCluster.DisplayClusterPlayerInput -unattended -NoScreenMessages -handleensurepercent=0 -UDPMESSAGING_TRANSPORT_MULTICAST=\"230.0.0.1:6666\" -UDPMESSAGING_TRANSPORT_UNICAST=\"127.0.0.1:0\" -UDPMESSAGING_TRANSPORT_STATIC=\"172.19.24.71:9030\" -ExecCmds=\"DisableAllScreenMessages\" -windowed -forceres WinX=0 WinY=0 ResX=960 ResY=540 -CONCERTRETRYAUTOCONNECTONERROR -CONCERTAUTOCONNECT -CONCERTSERVER=\"DomeInteractive_MU_Server\" -CONCERTSESSION=\"MU_Session\" -CONCERTDISPLAYNAME=\"Master\" -CONCERTISHEADLESS -DPCVars=\"Slate.bAllowNotifications=0,p.Chaos.Solver.Deterministic=1\" ",
+                "last_log_path": "Saved\\Logs\\Switchboard\\Master.log",
+                "last_trace_path": "",
+                "exclude_from_build": false,
+                "ue_command_line": "D:\\Documents\\PackagedProjects\\DomeInteraction\\Windows\\DomeInteractive.exe \".\" -game None -messaging -dc_cluster -nosplash -fixedseed -NoVerifyGC -noxrstereo -xrtrackingonly -RemoteControlIsHeadless   -StageFriendlyName=\"Master\"  -MaxGPUCount=2 -dc_cfg=\"C:\\Users\\guser40\\AppData\\Local\\Temp\\ndisplay\\73C80E4D44524A4A9879EDBBB347A93E.ndisplay\" -dx12 -dc_dev_mono   -dc_node=Master Log=Master.log -ini:Engine:[/Script/Engine.Engine]:GameEngine=/Script/DisplayCluster.DisplayClusterGameEngine,[/Script/Engine.Engine]:GameViewportClientClassName=/Script/DisplayCluster.DisplayClusterViewportClient,[/Script/Engine.UserInterfaceSettings]:bAllowHighDPIInGameMode=True -ini:Game:[/Script/EngineSettings.GeneralProjectSettings]:bUseBorderlessWindow=True -ini:Input:[/Script/Engine.InputSettings]:DefaultPlayerInputClass=/Script/DisplayCluster.DisplayClusterPlayerInput -unattended -NoScreenMessages -handleensurepercent=0 -UDPMESSAGING_TRANSPORT_MULTICAST=\"230.0.0.1:6666\" -UDPMESSAGING_TRANSPORT_UNICAST=\"127.0.0.1:0\" -UDPMESSAGING_TRANSPORT_STATIC=\"172.19.24.71:9030\" -ExecCmds=\"DisableAllScreenMessages\" -windowed -forceres WinX=0 WinY=0 ResX=960 ResY=540 -CONCERTRETRYAUTOCONNECTONERROR -CONCERTAUTOCONNECT -CONCERTSERVER=\"DomeInteractive_MU_Server\" -CONCERTSESSION=\"MU_Session\" -CONCERTDISPLAYNAME=\"Master\" -CONCERTISHEADLESS -DPCVars=\"Slate.bAllowNotifications=0,p.Chaos.Solver.Deterministic=1\" ",
+                "window_position": [
+                    0,
+                    0
+                ],
+                "window_resolution": [
+                    960,
+                    540
+                ],
+                "fullscreen": false,
+                "headless": false,
+                "config_graphics_adapter": -1
+            },
+            "Child": {
+                "address": "127.0.0.1",
+                "roles": [],
+                "autojoin_mu_server": true,
+                "last_launch_command": "D:\\Documents\\PackagedProjects\\DomeInteraction\\Windows\\DomeInteractive.exe \".\" -game None -messaging -dc_cluster -nosplash -fixedseed -NoVerifyGC -noxrstereo -xrtrackingonly -RemoteControlIsHeadless   -StageFriendlyName=\"Child\"  -MaxGPUCount=2 -dc_cfg=\"C:\\Users\\guser40\\AppData\\Local\\Temp\\ndisplay\\773C26024508093F190FA0B58A9FCE54.ndisplay\" -dx12 -dc_dev_mono   -dc_node=Child Log=Child.log -ini:Engine:[/Script/Engine.Engine]:GameEngine=/Script/DisplayCluster.DisplayClusterGameEngine,[/Script/Engine.Engine]:GameViewportClientClassName=/Script/DisplayCluster.DisplayClusterViewportClient,[/Script/Engine.UserInterfaceSettings]:bAllowHighDPIInGameMode=True -ini:Game:[/Script/EngineSettings.GeneralProjectSettings]:bUseBorderlessWindow=True -ini:Input:[/Script/Engine.InputSettings]:DefaultPlayerInputClass=/Script/DisplayCluster.DisplayClusterPlayerInput -unattended -NoScreenMessages -handleensurepercent=0 -UDPMESSAGING_TRANSPORT_MULTICAST=\"230.0.0.1:6666\" -UDPMESSAGING_TRANSPORT_UNICAST=\"127.0.0.1:0\" -UDPMESSAGING_TRANSPORT_STATIC=\"172.19.24.71:9030\" -ExecCmds=\"DisableAllScreenMessages\" -windowed -forceres WinX=960 WinY=0 ResX=960 ResY=540 -CONCERTRETRYAUTOCONNECTONERROR -CONCERTAUTOCONNECT -CONCERTSERVER=\"DomeInteractive_MU_Server\" -CONCERTSESSION=\"MU_Session\" -CONCERTDISPLAYNAME=\"Child\" -CONCERTISHEADLESS -DPCVars=\"Slate.bAllowNotifications=0,p.Chaos.Solver.Deterministic=1\" ",
+                "last_log_path": "Saved\\Logs\\Switchboard\\Child.log",
+                "last_trace_path": "",
+                "exclude_from_build": false,
+                "ue_command_line": "D:\\Documents\\PackagedProjects\\DomeInteraction\\Windows\\DomeInteractive.exe \".\" -game None -messaging -dc_cluster -nosplash -fixedseed -NoVerifyGC -noxrstereo -xrtrackingonly -RemoteControlIsHeadless   -StageFriendlyName=\"Child\"  -MaxGPUCount=2 -dc_cfg=\"C:\\Users\\guser40\\AppData\\Local\\Temp\\ndisplay\\773C26024508093F190FA0B58A9FCE54.ndisplay\" -dx12 -dc_dev_mono   -dc_node=Child Log=Child.log -ini:Engine:[/Script/Engine.Engine]:GameEngine=/Script/DisplayCluster.DisplayClusterGameEngine,[/Script/Engine.Engine]:GameViewportClientClassName=/Script/DisplayCluster.DisplayClusterViewportClient,[/Script/Engine.UserInterfaceSettings]:bAllowHighDPIInGameMode=True -ini:Game:[/Script/EngineSettings.GeneralProjectSettings]:bUseBorderlessWindow=True -ini:Input:[/Script/Engine.InputSettings]:DefaultPlayerInputClass=/Script/DisplayCluster.DisplayClusterPlayerInput -unattended -NoScreenMessages -handleensurepercent=0 -UDPMESSAGING_TRANSPORT_MULTICAST=\"230.0.0.1:6666\" -UDPMESSAGING_TRANSPORT_UNICAST=\"127.0.0.1:0\" -UDPMESSAGING_TRANSPORT_STATIC=\"172.19.24.71:9030\" -ExecCmds=\"DisableAllScreenMessages\" -windowed -forceres WinX=960 WinY=0 ResX=960 ResY=540 -CONCERTRETRYAUTOCONNECTONERROR -CONCERTAUTOCONNECT -CONCERTSERVER=\"DomeInteractive_MU_Server\" -CONCERTSESSION=\"MU_Session\" -CONCERTDISPLAYNAME=\"Child\" -CONCERTISHEADLESS -DPCVars=\"Slate.bAllowNotifications=0,p.Chaos.Solver.Deterministic=1\" ",
+                "window_position": [
+                    960,
+                    0
+                ],
+                "window_resolution": [
+                    960,
+                    540
+                ],
+                "fullscreen": false,
+                "headless": false,
+                "config_graphics_adapter": -1
+            }
+        },
+        "Shogun": {
+            "settings": {
+                "is_recording_device": true
+            }
+        },
+        "SoundDevices": {
+            "settings": {
+                "is_recording_device": true
+            }
+        }
+    }
+}
