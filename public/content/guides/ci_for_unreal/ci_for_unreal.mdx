@@ -1,0 +1,123 @@
+---
+id: "ci_for_unreal"
+name: "Continuous Integration for UE"
+description: "Setup Unreal Engine CI/CD pipelines in GitLab using shared runners, UAT, and automated build/deploy scripts."
+image: ./image.png
+people: [ "samuel rising" ]
+funding: []
+---
+
+Continous Integration (CI) is available for our unreal projects through gitlab. This can be enabled through setting up your gitlab project for CI builds and using one of our `group runners`, which are two build-machines currently located at the Norrköping Visualization Center.
+
+# Gitlab CI
+[Gitlab has extensive CI documentaiton](https://docs.gitlab.com/ee/ci/) which can be used as a base for getting most information, but a small summary will be posted here anyways.
+
+In order to get a runner up, you need two things: 
+- Set up your project with a `.gitlab-ci.yml`-file in your git project root.
+- Have available runners setup for your project or group.
+
+_Here is a reservation that the information below is true as of 2021-02-16 and might be outdated when you are reading this._
+
+For the exploranation group we have what gitlab refers to as `shared runners`, these are available for the entire group and will run everything spat at them. There are currently **2** runners, available on-site in Norrköping and setup with admin rights for installation of specific software (if needed).
+
+(Go say hi :wave: to the machines `win02711` & `win02706`)
+
+These two CI-machines are currently installed with:
+- Unreal Engine version 4.25 & 4.26
+- Visual studio 2019 Community with C++ and DotNet packages as a baseline
+- Python 3.9.1
+
+# Unreal CI
+Unreal hosts an `Automation Tool` [Referenced very briefly at their site](https://docs.unrealengine.com/en-US/ProductionPipelines/BuildTools/AutomationTool/index.html). This tool is bundled with a couple of scripts to make it easier to run from the command line (which is _typically nice for CI_ since we don't want to go through a UI each and every time our machines builds stuff for us).
+
+A `RunUAT.bat` batch file can be found over at `<your UE installation folder>/Engine/Build/BatchFiles/RunUAT.bat`, which in itself invokes the `AutomationTool.exe` found at `<UE_DIR>/Engine/Binaries/AutomationTool.exe`. This is the tool run by the UE editor when a project deploy is invoked through this dropdown:
+
+![image](/content/guides/ci_for_unreal/image.png)
+
+![image](/content/guides/ci_for_unreal/image2.png)
+
+[A very brief, and probably somewhat outdated overview of UAT can be found here.](https://ue4community.wiki/legacy/how-to-package-your-game-with-commands-uq8b4tix)
+
+Unreal unfortunately doesn't provide much documentation to this tool, but it is at least somewhat straightforward to package a project. 
+
+In order to get a help with commands from UAT, run `./RunUAT.bat -Help`
+
+In order to get a list of commands from UAT, run `./RunUAT.bat -List`
+
+In order to get help for a specific command, let's say for the `BuildCookRun` command, run  `./RunUAT.bat BuildCookRun -Help`
+
+As an example : a baseline win64 project can be built (not packaged) by issuing the command `./RunUAT.bat BuildCookRun -project="<ProjectPath>" -noP4 -platform=Win64 -cook -build`
+
+Adding more commands can invoke more steps of the UE build steps, whichever are required for your specific project. The sky is the limit! An idea here would be to let the build servers run a lighting build each and every night, so that the developers could use a specific gitlab directory as the latest lighting cache baked fresh every morning :bread: :bulb:, convenient with larger projects and builds.
+
+# Python
+Since we have potentially multiple instances of UE installed on the build machines, and our projects might differ in which version they target, we need some way to find which version we should use. This can of course be done with a simple script, but there already is a well-written python cli that fits our purpose, which also can provice us with cross-platform support for this out-of-the-box in the future.
+
+[Check out the ue4cli github](https://github.com/adamrehn/ue4cli)
+
+[Or check out the docs for it](https://docs.adamrehn.com/ue4cli/overview/introduction-to-ue4cli)
+
+Run this package by invoking `ue4 <COMMANDS` on the command line of our build machines. As an example, to invoke `RunUAT.bat -List` through the cli, we can issue:
+
+`ue4 uat -List`
+
+
+# Putting it all together
+
+_This example configuration is taken from the `haiat` project (Over at https://gitlab.liu.se/pai/haiat for those with access)._
+
+A .gitlab-ci.yml file exists in the root of the haiat project, which looks like this:
+
+<details>
+<summary>Show Code</summary>
+
+```yml
+build-job:
+  stage: build
+  tags:
+    - windows
+    - unreal
+  script:
+    - $UE4_VERSION = ue4-cli-rs --getrootdir
+    - echo "Use $UE4_VERSION for build"
+    - ue4 setroot $UE4_VERSION
+    - ue4 build
+    - ue4 clearroot
+  cache:
+    key: build-cache
+    paths:
+      - Intermediate
+      - Binaries
+
+deploy-manually:
+  stage: deploy
+  when: manual
+  tags:
+    - windows
+    - unreal
+  script:
+    - ue4 package
+    - iscc haiat.iss
+  artifacts:
+    paths:
+      - dist/HaiatSetup*
+    expire_in: 30 days
+  cache:
+    key: build-cache
+    paths:
+      - Intermediate
+      - Binaries
+```
+
+</details>
+
+It picks a runner tagged with `windows` and `unreal` and for each and every push to any branch, it runs the `build-job` pipeline job. A manual job exists, named `deploy-manually`, which can be triggered from the pipeline-tab in gitlab. This will produce an artifact based on the _Inno Setup Script configuration file_ `haiat.iss` which also exists in the project root. [Head over to the Installer Introduction to learn more about this step.](Installer-introduction).
+Note that we determine what version of UE4 to use before building, by default ue4 cli will pick the latest available version, which may not be the version we want. `ue4-cli-rs` is created by us and is a way to find the root of the UE4 version specified in the uproject file.
+
+# Working with large projects
+
+When dealing with projects larger than ~2GB there are a few additional steps that need to be taken in order for the project to be deployable. The executable setup file produced by the [Inno Setup Compiler](https://gitlab.liu.se/groups/Exploranation/-/wikis/Installer-introduction#inno-setup) can not exceed ~2GB. If the project is larger than this, "...if the compressed size of your installation exceeds 2,100,000,000 bytes...", [disk spanning](https://jrsoftware.org/ishelp/index.php?topic=setup_diskspanning) needs to be enabled. To enable this feature edit the .iss file mentioned above and add the line "DiskSpanning=yes" under the "[setup]" section.
+
+The output should now be an executable setup file like before and a few aditional .bin files where the main data lives. This would in theory create a new problem as [gitlab can not handle multiple artifacts produced by a single job](https://gitlab.com/gitlab-org/gitlab/-/issues/18744), however since the last step of the job should be (depending on how the steps above were followed) to package the build files into a zip file this issue might not appear.
+
+Finally, the size of the artifacts also have a limit, this limit can be altered per project detailed [here](https://docs.gitlab.com/ee/user/admin_area/settings/continuous_integration.html#maximum-artifacts-size). This setting has to be changed by an administrator (at the time of writing this that would be accomplished by sending a request to helpdesk@liu.se)
