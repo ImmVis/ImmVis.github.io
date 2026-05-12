@@ -8,6 +8,7 @@ import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper
 import { PublicationList } from "../publications";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
+import { mdxComponents } from "@/components/mdxComponents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
@@ -66,7 +67,7 @@ export default function Project({ project, fundings, personnel, publications }: 
 
         {/* Markdown content */}
         <div className="project-single-markdown mdx-content">
-          <MDXRemote {...content} />
+          <MDXRemote {...content} components={mdxComponents} />
 
           {/* Publications */}
           {myPublications.length > 0 &&

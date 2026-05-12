@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote";
 import { ExjobbData, getAllExjobbs, getExjobb } from '@/helpers/ExjobbHelper';
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
+import { mdxComponents } from "@/components/mdxComponents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
@@ -55,7 +56,7 @@ export default function Exjobb({ exjobb, personnel }: { exjobb: ExjobbData, pers
 
         {/* Markdown content */}
         <div className="exjobb-single-markdown mdx-content">
-          <MDXRemote {...content} />
+          <MDXRemote {...content} components={mdxComponents} />
         </div>
       </main>
     </>

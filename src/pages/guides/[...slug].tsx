@@ -7,6 +7,7 @@ import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
+import { mdxComponents } from "@/components/mdxComponents";
 import {
   TableOfContents,
   getTableOfContent,
@@ -101,7 +102,7 @@ export default function Guide({
 
         {/* Markdown content */}
         <div className="guide-single-markdown mdx-content">
-          <MDXRemote {...content} />
+          <MDXRemote {...content} components={mdxComponents} />
         </div>
       </main>
     </>

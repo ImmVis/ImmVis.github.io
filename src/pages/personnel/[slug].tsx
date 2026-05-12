@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote";
 import { PersonnelData, getAllPersonnels, getPersonnel } from "@/helpers/PersonnelHelper";
 import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper";
 import SocialList from "@/components/SocialList";
+import { mdxComponents } from "@/components/mdxComponents";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
 import { ProjectList } from "../projects";
 import { PublicationList } from "../publications";
@@ -105,7 +106,7 @@ export default function Personnel({ personnel, projects, publications }: { perso
 
         {/* Markdown content */}
         <div className="personnel-single-markdown mdx-content">
-          <MDXRemote {...content} />
+          <MDXRemote {...content} components={mdxComponents} />
 
           {/* Projects */}
           {myProjects.length > 0 &&

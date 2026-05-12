@@ -16,12 +16,7 @@ This page details why Omni is used, how it works, and how you can use it.
 
 # Purpose
 
-<img
-	style={{ float: "right", marginLeft: "1rem" }}
-	width="50%"
-	alt="WisDome"
-	src="/content/guides/omni/wisdome.jpg"
-/>
+<Image width="50%" float="right" alt="WisDome" src="wisdome.jpg" />
 
 [WisDome](https://wisdomeproject.se/english/) is the peak of digital visualization and offers an immersive experience like none other. The theater is not only capable of showing 3D movies, but real time applications that showcase live data, allowing the speaker to transform the experience to the audience's interest. However, there is a large interest in technology that allows visitors to engage directly with the show, turning it into a complete interactive experience.
 
@@ -31,12 +26,7 @@ For visitors to be able to influence the dome application, they need some sort o
 
 Omni is used to connect applications over the internet, allowing them to send messages between each other. Applications can reach Omni by setting up a WebSocket connection, sending JSON messages to communicate. Initially, the application must provide a token to identify which "service" the connection belongs to, after which all subsequent messages are directly passed between the connected "host" and "client" channels.
 
-<img
-	style={{ marginLeft: "10%" }}
-	width="80%"
-	alt="Devices"
-	src="/content/guides/omni/graphs/devices.png"
-/>
+<Image width="80%" alt="Devices" src="graphs/devices.png" />
 
 ## Services
 
@@ -44,11 +34,19 @@ Omni allows applications to communicate with each other through a **service**. U
 
 ### Terminology
 
-<u>**Host**</u>: A host is the application acting as the exhibition - the star of the show. The host channel can be connected to using the service's host token.
+<u>**Host**</u>: A host is the application acting as the exhibition - the star
+of the show. The host channel can be connected to using the service's host
+token.
 
-<u>**Client**</u>: A client is a single user interface that interacts with the host. It can either be a touch table for visitors or a remote control for the speaker. Clients may connect to Omni before the host is online. The client channel can be connected to using the service's client token.
+<u>**Client**</u>: A client is a single user interface that interacts with the
+host. It can either be a touch table for visitors or a remote control for the
+speaker. Clients may connect to Omni before the host is online. The client
+channel can be connected to using the service's client token.
 
-<u>**Guest**</u>: A mobile website where multiple visitors can connect to the host using a public code. Guests are kicked when the host disconnects. The guest channel can be connected to using the service's public code, which is received upon connecting as a host.
+<u>**Guest**</u>: A mobile website where multiple visitors can connect to the
+host using a public code. Guests are kicked when the host disconnects. The guest
+channel can be connected to using the service's public code, which is received
+upon connecting as a host.
 
 ### Creating a new service
 
@@ -58,11 +56,7 @@ New services are handled by administrators at [https://omni.itn.liu.se/admin/](h
 
 Each application that connects to Omni will be placed into a channel. Every channel can serve multiple consumers (connected devices) and broadcast messages to all connected devices within it. For instance, if a host application sends a message to Omni, it will transmit the message from the host channel to all consumers in the client channel.
 
-<img
-	width="100%"
-	alt="Channels"
-	src="/content/guides/omni/graphs/channels.png"
-/>
+<Image width="80%" alt="Channels" src="graphs/channels.png" />
 
 # How to connect
 
@@ -98,18 +92,14 @@ If a service has public code enabled, an additional message will be sent to the 
 
 This is an example of communication between a dome application, omni and a website on a phone.
 
-<img
-	width="100%"
-	alt="Flowchart guest"
-	src="/content/guides/omni/graphs/flowchart-guest.png"
-/>
+<Image width="100%" alt="Flowchart guest" src="graphs/flowchart-guest.png" />
 
 ## Additional responses
 
 Omni provides additional messages for certain events. For normal JSON messages, Omni appends additional information to each message to idenfity the sender.
 
 - **user** - the user id of the application the message was sent from. The username is a 6 letter hexadecimal string.
-- **role** - the role of the application the message was sent from.  There are three roles: host, client and guest.
+- **role** - the role of the application the message was sent from. There are three roles: host, client and guest.
 
 Following is a list of all event driven messages that Omni sends:
 
