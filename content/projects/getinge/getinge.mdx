@@ -6,8 +6,8 @@ end_date: 2023
 description: "A collaborative project between Linköping University and Getinge creating immersive 8K dome movies to showcase medical technology products."
 image: "./cardiohelp_patient.png"
 homepage: ""
-people: [ "guser40", "erisu46" ]
-funding: [ "getinge", "visc", "wisdome" ]
+people: ["guser40", "erisu46"]
+funding: ["getinge", "visc", "wisdome"]
 ---
 
 # About
@@ -33,11 +33,11 @@ The focus in the movie was on communicating the severity of the situation when t
 
 ## Bioreactor
 
-<img
-	style={{ float: "right", marginLeft: "1rem" }}
-	width="30%"
+<Image
+	width="40%"
+	float="right"
 	alt="Bioreactor and Livitflex Controller"
-	src="/content/projects/getinge/bioreactor.png"
+	src="bioreactor.png"
 />
 
 [Bioreactor movie](https://liuonline.sharepoint.com/:v:/s/GetingesamverkanVisualiseringscenterC/EU19YBsd4bVFiDz-qW-nPtEB8xK--1MKCWBcsrznNK7mUQ?e=oTobia&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZyIsInJlZmVycmFsQXBwUGxhdGZvcm0iOiJXZWIiLCJyZWZlcnJhbE1vZGUiOiJ2aWV3In19)
@@ -60,11 +60,11 @@ The goal of the production was to create an experience in the dome that exceeded
 
 ## Scale of the dome relative to the scene
 
-<img
-	style={{ float: "right", marginLeft: "1rem" }}
-	width="30%"
+<Image
+	width="40%"
+	float="right"
 	alt="Example where scale of scene causes too much stereo effect"
-	src="/content/projects/getinge/cardiohelp_stereo_error.png"
+	src="cardiohelp_stereo_error.png"
 />
 
 You have to accomodate for the scale of the dome that the video will be shown on when designing the scenes. The dome in Norrköping has a radius of 7 meters, and the one in Gothenburg is even bigger. This means that objects on screen should not be too close to the camera as this will look strange, especially in stereo. This can be remedied either by ensuring sufficient distance between the objects in the scene and the camera, or by scaling down the camera (the distance between the stereo eyes) which essentially increases the realtive distance to objects. The latter is needed when the objects that you want to show are quite small and you still want to get close to them, such as the Bioreactor or Cardiohelp.
@@ -87,11 +87,11 @@ Several assets where animated using morph target animation to deform the assets:
 
 ## Particle systems
 
-<img
-	style={{ float: "right", marginLeft: "1rem" }}
+<Image
 	width="40%"
+	float="right"
 	alt="Cells in primordial soup created using particle system"
-	src="/content/projects/unreal_engine_fisheye_rendering/getinge_primodial_soup_fisheye_example.png"
+	src="getinge_primodial_soup_fisheye_example.png"
 />
 
 To create some effect in the movies, particle systems where used.
@@ -112,11 +112,11 @@ Since Fisheye images are created using stitched images, it is important that mat
 
 ## Animated materials
 
-<img
-	style={{ float: "right", marginLeft: "1rem" }}
-	width="50%"
+<Image
+	width="40%"
+	float="right"
 	alt="Animated material in bioreactor fluid surface"
-	src="/content/projects/getinge/bioreactor_fluid_surface.png"
+	src="bioreactor_fluid_surface.png"
 />
 Many effect in the movie was done by animating materials over time. - The
 pulsating motion of the walls in the heart atrium was achieved by displacing the
@@ -130,11 +130,11 @@ from start to end of the tube.
 
 ## UI video material
 
-<img
-	style={{ float: "right", marginLeft: "1rem", marginBottom: "2rem" }}
-	width="50%"
+<Image
+	width="40%"
+	float="right"
 	alt="UI on the bioreactor that uses video material"
-	src="/content/projects/getinge/bioreactor_UI.png"
+	src="bioreactor_UI.png"
 />
 The UI in the bioreactor movie was done by animating the UI elements externally
 in Blender, which was then rendered out into a video. The video was then
