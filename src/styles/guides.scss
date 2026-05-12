@@ -156,4 +156,15 @@
 			@apply page-padding mt-8 mb-16;
 		}
 	}
+
+	&-toc-wrapper {
+		// Wide screen: move to the left
+		@media (min-width: calc(1024px + 300px)) {
+			position: absolute;
+			left: 0;
+			width: calc(50vw - 512px);
+			display: flex;
+			justify-content: center;
+		}
+	}
 }

@@ -1,0 +1,79 @@
+---
+id: "marker"
+name: "Marker"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Marker
+
+A marker is a small circle that can be moved around the map. This is used as a laser pointer when the user touches the map on the interface. It can also be used as spotlights to highlight points of interest.
+
+Markers are added using [SetMapLightRequest](#setmaplightrequest) and removed using [RemoveMapMarkerRequest](#removemapmarkerrequest). When a marker is added or removed, Unreal responds with [MapMarkerResponse](#mapmarkerresponse), providing a list of all active markers.
+
+## SetMapLightRequest
+
+Creates a new marker with a given `id`. When a new `id` is set, a new marker is added and any further calls will update its properties. To minimize the amount of data sent, set all properties on the first call, and only send required properties onwards.
+
+| name     | type   | required | default     | description                                       |
+| -------- | ------ | -------- | ----------- | ------------------------------------------------- |
+| type     | string | ✓        |             | `"SetMapMarkerRequest"`                           |
+| id       | string | ✓        |             | Id of marker                                      |
+| u        | number | ✓        |             | X coordinate relative to map (0 – 1)              |
+| v        | number | ✓        |             | Y coordinate relative to map (0 – 1)              |
+| radius   | number |          | 0.05        | Radius relative to map size (0 – 1)               |
+| color    | string |          | `"#FFFFFF"` | Hex color code                                    |
+| emission | number |          | 0           | If `0`, affected by lighting; if `1–`, emit light |
+| opacity  | number |          | `1`         | 1 = opaque, 0 = transparent                       |
+| density  | number |          | `100`       | 100 = full circle, 1 = soft fade                  |
+
+**Example request:**
+
+```ts
+{
+  "type": "SetMapMarkerRequest",
+  "id": "marker_1",
+  "u": 0.5,
+  "v": 0.5,
+  "radius": 0.05,
+  "color": "#FF0000",
+}
+```
+
+## RemoveMapMarkerRequest
+
+Removes a marker with a given `id`.
+
+| name | type   | required | description                |
+| ---- | ------ | -------- | -------------------------- |
+| type | string | ✓        | `"RemoveMapMarkerRequest"` |
+| id   | string | ✓        | Id of marker               |
+
+**Example request:**
+
+```ts
+{
+  "type": "RemoveMapMarkerRequest",
+  "id": "marker_1",
+}
+```
+
+## MapMarkerResponse
+
+Upon adding or removing a marker, Unreal responds with a list of currently active marker ids.
+
+| name | type     | description               |
+| ---- | -------- | ------------------------- |
+| type | string   | `"MapMarkerResponse"`     |
+| id   | string[] | List of active marker ids |
+
+**Example response:**
+
+```ts
+{
+  "type": "MapMarkerResponse",
+  "ids": ["marker_1", "marker_2", ...]
+}
+```

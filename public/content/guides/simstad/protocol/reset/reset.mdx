@@ -1,0 +1,44 @@
+---
+id: "reset"
+name: "Reset"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Reset
+
+The **Reset** method restores Unreal to a clean state, removing all [layers](/guides/simstad/protocol/layer) and [markers](/guides/simstad/protocol/marker). This is useful when switching scenarios or reloading content.
+
+Reset is performed using [ResetRequest](#resetrequest), and Unreal replies with [ResetResponse](#resetresponse) once the operation is complete.
+
+## ResetRequest
+
+Sends a command to reset all layers and markers.
+
+| name | type   | required | description      |
+| ---- | ------ | -------- | ---------------- |
+| type | string | ✓        | `"ResetRequest"` |
+| misc | string |          | Unused           |
+
+**Example request:**
+
+```ts
+{
+  "type": "ResetRequest",
+  "misc": "..."
+}
+```
+
+## ResetResponse
+
+Returned by Unreal after completing a reset.
+
+**Example response:**
+
+```ts
+{
+  "type": "ResetResponse"
+}
+```
