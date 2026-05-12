@@ -1,0 +1,52 @@
+---
+id: "recache"
+name: "Recache"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Recache
+
+The **Recache** method instructs Unreal to reload data layers from disk. Calling a recache operation ensures that all active data reflects the latest content on disk.
+
+A recache is initiated using a [RecacheRequest](#recacherequest). Unreal reports progress using [RecacheResponse](#recacheresponse) messages until the operation is complete.
+
+## RecacheRequest
+
+Starts a recaching operation. Unreal will scan the default media directory and refresh its cached data layers. By default, this operations recaches all available rasters.
+
+| name    | type   | required | description                                   |
+| ------- | ------ | -------- | --------------------------------------------- |
+| type    | string | ✓        | `"RecacheRequest"`                            |
+| rasters | array  |          | Optional list of specific rasters to recache. |
+
+**Example request:**
+
+```ts
+{
+  "type": "RecacheRequest",
+  "rasters": ["OverviewMap", "UpdatedRaster"]
+}
+```
+
+## RecacheResponse
+
+Sent repeatedly during the recache process to indicate progress.
+
+| name  | type   | description                                                |
+| ----- | ------ | ---------------------------------------------------------- |
+| type  | string | `"RecacheResponse"`                                        |
+| index | number | Number of items processed so far.                          |
+| max   | number | Total number of items to process in the recache operation. |
+
+**Example response:**
+
+```ts
+{
+  "type": "RecacheResponse",
+  "index": 10,
+  "max": 250
+}
+```

@@ -1,0 +1,39 @@
+---
+id: "ping"
+name: "Ping"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61", "guser40"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Ping
+
+A ping is a lightweight message used to verify that Unreal is responsive and connected.
+It is typically sent on a timer or during idle periods to ensure the connection remains active.
+
+Pings are sent using [PingRequest](#pingrequest). Unreal responds with [PingResponse](#pingresponse).
+
+## PingRequest
+
+Sends a ping to Unreal.
+
+**Example request:**
+
+```ts
+{
+  "type": "PingRequest"
+}
+```
+
+## PingResponse
+
+Returned by Unreal in response to a `PingRequest`.
+
+**Example response:**
+
+```ts
+{
+  "type": "PingResponse"
+}
+```
