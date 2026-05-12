@@ -17,7 +17,7 @@ const serializeOptions: SerializeOptions = {
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: "wrap" }],
-      [rehypeShiki, { theme: "monokai" }],
+      [rehypeShiki as any, { theme: "monokai" }],
     ],
     format: "mdx",
   },
