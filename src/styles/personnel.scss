@@ -99,6 +99,7 @@
 
 				img {
 					object-fit: cover;
+					overflow-clip-margin: unset;
 
 					@apply rounded-full shadow-lg;
 					width: fit-content;

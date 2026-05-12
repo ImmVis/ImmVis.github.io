@@ -54,6 +54,7 @@
 			// width: 30%;
 			height: unset;
 			object-fit: cover;
+			overflow-clip-margin: unset;
 			aspect-ratio: 5 / 4;
 			margin-bottom: 12px;
 		}
@@ -117,6 +118,7 @@
 
 				img {
 					object-fit: cover;
+					overflow-clip-margin: unset;
 
 					@apply rounded-sm shadow-lg;
 					width: fit-content;
