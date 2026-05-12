@@ -20,6 +20,9 @@ function ProjectItem({ post }: { post: ProjectData }) {
 }
 
 export function ProjectList({ projects }: { projects: ProjectData[] }) {
+  // Remove hidden pages
+  projects = projects.filter(page => !page.data.hidden);
+
   return (
     <div className="project-list">
       {projects.map(post =>
