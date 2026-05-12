@@ -37,13 +37,23 @@ function MiniPersonnelEntry(personnel: PersonnelData, liuid: string) {
 		return (
 			<div key={liuid} className={style.item}>
 				<div title={liuid}>
-					<span>
-						{liuid[0]}
-						{liuid[3]}
-					</span>
+					<span>{getName(liuid)}</span>
 				</div>
 			</div>
 		);
+	}
+}
+
+function getName(liuid: string) {
+	if (liuid.includes(" ")) {
+		return liuid
+			.split(" ")
+			.map((word) => word[0])
+			.join("");
+	} else if (liuid.length == 7) {
+		return liuid[0] + liuid[3];
+	} else {
+		return liuid[0];
 	}
 }
 
@@ -65,7 +75,7 @@ export default function MiniPersonnelList({
 	return (
 		<div className={style.list}>
 			{liuidList.map((liuid) =>
-				MiniPersonnelEntry(validPersonnel[liuid], liuid)
+				MiniPersonnelEntry(validPersonnel[liuid], liuid),
 			)}
 		</div>
 	);
