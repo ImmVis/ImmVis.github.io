@@ -13,7 +13,7 @@ function ProjectItem({ post }: { post: ProjectData }) {
         <Image width={512} height={256} alt={data.image} src={data.image} />
         <p role="name">{data.name}</p>
         <p role="brief">{data.start_date} &mdash; {data.end_date ? data.end_date : "ongoing"}</p>
-        <p role="description">{data.description}</p>
+        <p role="description" className='line-clamp-5'>{data.description}</p>
       </div>
     </Link>
   );
