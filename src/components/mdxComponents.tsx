@@ -26,15 +26,15 @@ const Image = ({ src, alt, width, float }: ImageProps) => {
 		right: "clear-right float-right ml-4 mb-4",
 	};
 
-	// Uses width as long as device is wider than 640px
-	const responsiveWidth = width ? `sm:w-[${width}]` : "sm:w-auto";
-
 	return (
 		<img
 			src={finalSrc}
 			alt={alt || ""}
 			title={alt || ""}
-			className={`rounded ${responsiveWidth} ${float ? floatClasses[float] : "block mx-auto mb-4"}`}
+			style={
+				width ? ({ "--img-width": width } as React.CSSProperties) : undefined
+			}
+			className={`w-full sm:w-[var(--img-width)] rounded ${float ? floatClasses[float] : "block mx-auto mb-4"}`}
 		/>
 	);
 };
