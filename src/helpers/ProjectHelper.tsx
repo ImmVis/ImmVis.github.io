@@ -38,48 +38,35 @@ export async function getAllProjects(): Promise<MatterData[]> {
   const matterList = await fetchAllFiles(path.join(".", folderPath));
   let list = matterList.map(data => validateData(data as ProjectData));
 
-  list.sort(function (a,b) {
-    // Sorts by whether either a or b has an end_date. If both or neither have an end_date
-    // the return value is 0, otherwise the one that has an end_date gets the direction
-    const sortByEndDate = function (a: ProjectData, b: ProjectData) {
-      // If a or b both have a value or both do not, they are considered equal
-      if (a.data.end_date === undefined && b.data.end_date === undefined ||
-          a.data.end_date !== undefined && b.data.end_date !== undefined)
-      {
-        return 0;
-      }
+  list.sort((a: ProjectData, b: ProjectData) => {
+    const aEnd = a.data.end_date;
+    const bEnd = b.data.end_date;
 
-      if (a.data.end_date === undefined) {
-        // a doesn't have a date, there b needs to
-        console.assert(b.data.end_date !== undefined);
-        return -1;
-      }
-      else {
-        console.assert(b.data.end_date === undefined);
-        return 1;
-      }
-    };
-
-    const sortByStartDate =
-      (a: ProjectData, b: ProjectData) => b.data.start_date - a.data.start_date;
-
-    const sortByName =
-      (a: ProjectData, b: ProjectData) => a.data.name > b.data.name ? 1 : -1;
-
-    // Try one sorting method after another until we either run out of methods or we find
-    // the first that does not return equality
-    let res = sortByStartDate(a, b);
-    if (res !== 0) {
-      return res;
+    // Ensure start_date exists
+    if (a.data.start_date === undefined || b.data.start_date === undefined) {
+      throw new Error("start_date is required");
     }
 
-    res = sortByEndDate(a, b);
-    if (res !== 0) {
-      return res;
+    // Missing end_date (ongoing project) takes precedence
+    if (aEnd === undefined && bEnd !== undefined) return -1;
+    if (aEnd !== undefined && bEnd === undefined) return 1;
+
+    // Sort by end_date descending
+    if (aEnd !== undefined && bEnd !== undefined) {
+      const endDiff = bEnd - aEnd;
+      if (endDiff !== 0) {
+        return endDiff;
+      }
     }
 
-    res = sortByName(a, b);
-    return res;
+    // Sort by start_date descending
+    const startDiff = b.data.start_date - a.data.start_date;
+    if (startDiff !== 0) {
+      return startDiff;
+    }
+
+    // Sort by name ascending
+    return a.data.name.localeCompare(b.data.name);
   });
 
   return list;
