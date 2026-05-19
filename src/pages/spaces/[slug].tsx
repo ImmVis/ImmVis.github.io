@@ -1,49 +1,37 @@
 import Head from "next/head";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
-import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
 import { mdxComponents } from "@/components/mdxComponents";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
-import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
-import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper";
-import { ProjectData, getAllProjects, getProject } from "@/helpers/ProjectHelper";
-import { getAllSpaces, SpaceData } from "@/helpers/SpaceHelper";
+import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
+import { getAllSpaces, getSpace, SpaceData } from "@/helpers/SpaceHelper";
 import { getAllGuides, GuideData } from "@/helpers/GuideHelper";
-import { PublicationList } from "../publications";
-import { SpaceList } from "../spaces";
 import { GuideList } from "../guides";
+import { ProjectList } from "../projects";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
-// Individual project page component
-export default function Project({
-  project,
+// Individual space page component
+export default function Space({
+  space,
   fundings,
-  personnel,
-  publications,
+  projects,
   guides,
-  spaces,
 }: {
-  project: ProjectData;
+  space: SpaceData;
   fundings: FundingData[];
-  personnel: PersonnelData[];
-  publications: PublicationData[];
+  projects: ProjectData[];
   guides: GuideData[];
-  spaces: SpaceData[];
 }) {
-  const { data, content, mdxPath } = project;
+  const { data, content } = space;
 
-  const myPublications = publications.filter((publication) =>
-    publication.data.projects?.includes(data.id),
+  const myProjects = projects.filter((project) =>
+    project.data.spaces?.includes(data.id),
   );
 
   const myGuides = guides.filter((guide) =>
-    guide.data.projects?.includes(data.id),
-  );
-
-  const mySpaces = spaces?.filter((space) =>
-    data.spaces?.includes(space.data.id),
+    guide.data.spaces?.includes(data.id),
   );
 
   return (
@@ -54,7 +42,7 @@ export default function Project({
 
       <main className="project-single">
         <div className="project-single-profile">
-          {/* Left project info */}
+          {/* Left space info */}
           <div className="left">
             <Image
               width={512}
@@ -65,19 +53,12 @@ export default function Project({
             />
           </div>
 
-          {/* Right project info */}
+          {/* Right space info */}
           <div className="right">
             <p role="name">{data.name}</p>
 
             {/* Links */}
             <div className="contributors">
-              <div>
-                <h3>Contributors</h3>
-                <MiniPersonnelList
-                  personnel={personnel}
-                  liuidList={data.people}
-                />
-              </div>
               <div>
                 {data.funding.length > 0 && (
                   <>
@@ -108,12 +89,12 @@ export default function Project({
         <div className="project-single-markdown mdx-content">
           <MDXRemote {...content} components={mdxComponents} />
 
-          {/* Publications */}
-          {myPublications.length > 0 && (
+          {/* Projects */}
+          {myProjects.length > 0 && (
             <>
               <hr />
-              <h1>Publications</h1>
-              <PublicationList publications={myPublications} />
+              <h1>Projects</h1>
+              <ProjectList projects={myProjects} />
             </>
           )}
 
@@ -125,15 +106,6 @@ export default function Project({
               <GuideList guides={myGuides} />
             </>
           )}
-
-          {/* Spaces */}
-          {data.spaces && data.spaces.length > 0 && (
-            <>
-              <hr />
-              <h1>Spaces</h1>
-              <SpaceList spaces={mySpaces} />
-            </>
-          )}
         </div>
       </main>
     </>
@@ -142,9 +114,9 @@ export default function Project({
 
 // List of paths to be statically generated
 export async function getStaticPaths() {
-  const projects = await getAllProjects();
+  const spaces = await getAllSpaces();
   return {
-    paths: projects.map((matter) => ({
+    paths: spaces.map((matter) => ({
       params: {
         slug: matter.slug,
       },
@@ -157,12 +129,10 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: { params: { slug: string } }) {
   return {
     props: {
-      project: await getProject(params.slug),
+      space: await getSpace(params.slug),
       fundings: await getAllFundings(),
-      personnel: await getAllPersonnels(),
-      publications: await getAllPublications(),
+      projects: await getAllProjects(),
       guides: await getAllGuides(),
-      spaces: await getAllSpaces(),
     },
   };
 }

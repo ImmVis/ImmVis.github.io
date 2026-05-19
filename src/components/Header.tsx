@@ -50,8 +50,10 @@ export default function Header() {
           <NavLink href="/publications">Publications</NavLink>
           <NavLink href="/courses">Courses</NavLink>
           <NavLink href="/exjobbs">Exjobbs</NavLink>
-          <NavLink href="/funding">Funding</NavLink>
+          <NavLink href="/spaces">Spaces</NavLink>
+          <NavLink href="/initiatives">Initiatives</NavLink>
           <NavLink href="/guides">Guides</NavLink>
+          <NavLink href="/funding">Funding</NavLink>
         </div>
 
         <div className="header-group-sublink">

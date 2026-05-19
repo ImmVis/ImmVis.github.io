@@ -9,17 +9,18 @@ export const folderPath = "/content/projects/";
 
 
 // Zod schema for frontmatter
-const Types = [ "research", "exhibition", "software", "other" ] as const;
 const ProjectMeta = z.object({
   id: z.string(),
   name: z.string(),
   start_date: z.number().int(),
   end_date: z.optional(z.number().int()),
-  type: z.optional(z.enum(Types)),
   description: z.string(),
   image: z.string(),
   homepage: z.optional(z.string()),
   people: z.array(z.string()),
+  guides: z.optional(z.array(z.string())),
+  spaces: z.optional(z.array(z.string())),
+  initiatives: z.optional(z.array(z.string())),
   funding: z.array(z.string()),
   hidden: z.optional(z.boolean()),
 });

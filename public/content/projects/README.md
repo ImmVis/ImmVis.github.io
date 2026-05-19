@@ -14,10 +14,14 @@ The following fields in the header are recognized:
  - `homepage` (string, optional): The URL to the project homepage, if this webpage is not the main webpage
  - `type` ("research", "exhibition", "software", or "other", optional): Specifies which type of project this is
  - `people` (array{string}): The list of LiU ids of the people from this group that are involved in the project.
+ - `guides` (array{string}, optional): The list of ids to guides to link to
+ - `spaces` (array{string}, optional): The list of ids to spaces to link to
+ - `initiatives` (array{string}, optional): The list of ids to initiatives to link to
  - `funding` (array{string}): The list of ids for the funders or partners that contributed to the project
+ - `hidden` (boolean, optional): If the project should be hidden from the listing page
 
 ## Content
-The content can contain as much or as little information as is necessary for each project, but should be enough such that a random visitor to the webpage can understand what the project is.  This is also a place to share links for people to download projets or other links to get more information.  It is also useful to embed more images in this section to give the reader a better understanding of the challenges and goals of the project.
+The content can contain as much or as little information as is necessary for each project, but should be enough such that a random visitor to the webpage can understand what the project is. This is also a place to share links for people to download projects or other links to get more information. It is also useful to embed more images in this section to give the reader a better understanding of the challenges and goals of the project.
 
 
 # Example
@@ -33,9 +37,16 @@ description: "Aliquip est tempor voluptate ut sunt deserunt. Aliquip nostrud fug
 image: "https://picsum.photos/id/543/2000/300"
 homepage: "https://www.example.org/"
 people: [ "erier01" ]
+spaces: [ "exhibition" ]
 funding: [ "nobody" ]
 ---
 
 # About
 Aliquip est tempor voluptate ut sunt deserunt. Aliquip nostrud fugiat ipsum aliquip nulla exercitation ea qui laborum. Commodo cupidatat nostrud tempor veniam.
+
+<Image
+  src="image_in_same_folder.png"
+  alt="Description of image"
+/>
+
 ```

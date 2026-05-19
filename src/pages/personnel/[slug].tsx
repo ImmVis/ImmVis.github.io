@@ -111,6 +111,7 @@ export default function Personnel({ personnel, projects, publications }: { perso
           {/* Projects */}
           {myProjects.length > 0 &&
             <>
+              <hr />
               <h1>Projects</h1>
               <ProjectList projects={myProjects} />
             </>
@@ -119,6 +120,7 @@ export default function Personnel({ personnel, projects, publications }: { perso
           {/* Publications */}
           {myPublications.length > 0 &&
             <>
+              <hr />
               <h1>Publications</h1>
               <PublicationList publications={myPublications} />
             </>
