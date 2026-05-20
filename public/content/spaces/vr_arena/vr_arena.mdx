@@ -1,0 +1,42 @@
+---
+id: "vr_arena"
+name: "VR-arena"
+start_date: 2010
+description: "A rear-projected stereoscopic visualization arena at Visualiseringscenter C, built around a wide Stewart Filmscreen surface, three Barco projectors, active stereo, and cluster-driven presentation pipelines."
+image: "vr_arena_space.jpg"
+funding: []
+---
+
+# Overview
+
+The VR-arena is a flat, rear-projected stereoscopic visualization environment for immersive presentations, collaborative reviews, and real-time visualization applications. The projection surface is a Stewart Filmscreen Aeroview 100 screen measuring 6691 x 1930 mm, or approximately 12.9 square meters.
+
+The image is produced by three Barco F90-4K13 projectors. Each projector renders at a native resolution of 2500 x 1600 pixels, and each image is reflected through an individual mirror before it reaches the projection screen. Together, the projectors provide approximately 5592 x 1600 unique pixels across the full display surface. The audio system is a BOSE 5.1 sound system.
+
+<Image width="100%" alt="VR-arena presentation" src="vr_arena_presentation.jpeg" />
+
+## Projection System
+
+- Display surface: Stewart Filmscreen Aeroview 100 rear-projection screen
+- Screen size: 6691 x 1930 mm
+- Screen area: approximately 12.9 square meters
+- Number of projectors: 3
+- Projector model: Barco F90-4K13
+- Resolution per projector: 2500 x 1600 pixels
+- Total unique resolution: 5592 x 1600 pixels
+- Stereo system: active stereo across the full display surface
+- Signal pipeline: two computers, one for the left eye and one for the right eye
+- Playback and show control: [C-Play](/projects/cplay) & Medialon
+- Projector calibration and warping: Barco Pulse
+
+<Image width="100%" alt="VR-arena behind the screen" src="vr_arena_behind.jpg" />
+
+## Software and Integration
+
+The VR-arena is designed for multiple source and cluster workflows. The current stereoscopic signal path is driven by single node computers running multiple NVIDIA GPU:s, while the projection system is also prepared for an additional source cluster connected through DisplayPort matrices. That architecture makes it possible to switch between different rendering and playback systems while keeping projector-side calibration in Barco Pulse.
+
+The arena is connected to the same immersive software ecosystem as the dome, including [C-Play](/projects/cplay) for synchronized media playback and [OpenSpace](/projects/openspace), Unreal Engine applications etc for interactive scientific visualization.
+
+The most powerful computer run 2 x NVIDIA RTX 6000 Ada (48 GB) cards, with 6 x DP (2560x1600) outputs.
+
+<Image width="100%" alt="VR-arena space" src="vr_arena_space.jpg" />
