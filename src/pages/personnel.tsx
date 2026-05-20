@@ -1,8 +1,7 @@
-import Head from "next/head"
+import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
-
 
 function PersonnelItem({ post }: { post: PersonnelData }) {
   const { slug, data } = post;
@@ -10,27 +9,34 @@ function PersonnelItem({ post }: { post: PersonnelData }) {
   return (
     <Link href={`personnel/${slug}`} className="personnel-box">
       <Image width={512} height={512} alt={data.name} src={data.image!} />
-      <span role="name">
-        {data.name}
-      </span>
-      <span role="position">
-        {data.position.join(", ")}
-      </span>
+      <span role="name">{data.name}</span>
+      <span role="position">{data.position.join(", ")}</span>
     </Link>
   );
 }
 
-export default function PersonnelList({ personnel }: { personnel: PersonnelData[] }) {
-  personnel = personnel.filter(person => !person.data.external);
+export default function PersonnelList({
+  personnel,
+}: {
+  personnel: PersonnelData[];
+}) {
+  personnel = personnel.filter((person) => !person.data.external);
 
   return (
     <>
       <Head>
-        <title>Staff - ImmVis</title>
+        <title>People - ImmVis</title>
       </Head>
 
       <main className="personnel-list">
-        <h1>Staff</h1>
+        <h1>People</h1>
+        <p>
+          Here is a list of the researchers, developers, and technical staff
+          that make up the Immersive and Applied Visualization team. Each
+          profile provides contact information and links to research projects
+          and academic publications that the team member is currently affiliated
+          with.
+        </p>
         <hr />
 
         <div className="personnel-listing">
@@ -46,7 +52,7 @@ export default function PersonnelList({ personnel }: { personnel: PersonnelData[
 export async function getStaticProps() {
   return {
     props: {
-      personnel: await getAllPersonnels()
-    }
+      personnel: await getAllPersonnels(),
+    },
   };
 }
