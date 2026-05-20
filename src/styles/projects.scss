@@ -86,7 +86,7 @@
 		& [role="description"] {
 			font-size: 16px;
 			line-height: 1.5em;
-			@apply m-0 mb-2 text-zinc-800 flex-1;
+			@apply m-0 mb-2 text-zinc-800 flex-1 line-clamp-5;
 		}
 
 		& [role="skills"] {
