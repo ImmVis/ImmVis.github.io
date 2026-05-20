@@ -13,6 +13,10 @@ import { GuideList } from "../guides";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLink, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faOrcid } from "@fortawesome/free-brands-svg-icons";
+import { SpaceList } from "../spaces";
+import { InitiativeList } from "../initiatives";
+import { getAllInitiatives, InitiativeData } from "@/helpers/InitiativeHelper";
+import { getAllSpaces, SpaceData } from "@/helpers/SpaceHelper";
 
 
 // Individual personnel page component
@@ -20,12 +24,16 @@ export default function Personnel({
   personnel,
   projects,
   guides,
-  publications
+  publications,
+  spaces,
+  initiatives,
 }: {
   personnel: PersonnelData,
   projects: ProjectData[],
   guides: GuideData[],
   publications: PublicationData[]
+  spaces: SpaceData[]
+  initiatives: InitiativeData[]
 }) {
   const { data, content } = personnel;
   const { email, phone, address, orcid } = data.contact_info || {};
@@ -34,6 +42,10 @@ export default function Personnel({
   const myProjects = projects.filter(project => project.data.people.includes(data.id));
 
   const myGuides = guides.filter(guide => guide.data.people.includes(data.id));
+
+  const mySpaces = spaces.filter(space => space.data.people.includes(data.id));
+
+  const myInitiatives = initiatives.filter(initiative => initiative.data.people.includes(data.id));
 
   const myPublications = publications.filter(publication =>
     publication.data.liu_authors.includes(data.id)
@@ -148,6 +160,24 @@ export default function Personnel({
               <PublicationList publications={myPublications} />
             </>
           }
+
+          {/* Spaces */}
+          {mySpaces.length > 0 &&
+            <>
+              <hr />
+              <h1>Spaces</h1>
+              <SpaceList spaces={mySpaces} />
+            </>
+          }
+
+          {/* Initiatives */}
+          {myInitiatives.length > 0 &&
+            <>
+              <hr />
+              <h1>Initiatives</h1>
+              <InitiativeList initiatives={myInitiatives} />
+            </>
+          }
         </div>
       </main>
     </>
@@ -176,6 +206,8 @@ export async function getStaticProps({ params }: { params: { slug: string; } }) 
       projects: await getAllProjects(),
       guides: await getAllGuides(),
       publications: await getAllPublications(),
+      spaces: await getAllSpaces(),
+      initiatives: await getAllInitiatives(),
     }
   };
 }

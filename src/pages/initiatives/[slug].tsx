@@ -2,7 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import MiniFundingList from "@/components/MiniFundingList";
+import MiniPersonnelList from "@/components/MiniPersonnelList";
 import { mdxComponents } from "@/components/mdxComponents";
+import { getAllPersonnels, PersonnelData } from "@/helpers/PersonnelHelper";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
 import { getAllInitiatives, getInitiative, InitiativeData } from "@/helpers/InitiativeHelper";
@@ -13,10 +15,12 @@ import { faLink } from "@fortawesome/free-solid-svg-icons";
 // Individual initiative page component
 export default function Initiative({
   initiative,
+  personnel,
   fundings,
   projects,
 }: {
   initiative: InitiativeData;
+  personnel: PersonnelData[];
   fundings: FundingData[];
   projects: ProjectData[];
 }) {
@@ -51,6 +55,13 @@ export default function Initiative({
 
             {/* Links */}
             <div className="contributors">
+              <div>
+                <h3>Contributors</h3>
+                <MiniPersonnelList
+                  personnel={personnel}
+                  liuidList={data.people}
+                />
+              </div>
               <div>
                 {data.funding.length > 0 && (
                   <>
@@ -113,6 +124,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
   return {
     props: {
       initiative: await getInitiative(params.slug),
+      personnel: await getAllPersonnels(),
       fundings: await getAllFundings(),
       projects: await getAllProjects(),
     },

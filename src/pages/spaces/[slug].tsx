@@ -2,11 +2,13 @@ import Head from "next/head";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import MiniFundingList from "@/components/MiniFundingList";
+import MiniPersonnelList from "@/components/MiniPersonnelList";
 import { mdxComponents } from "@/components/mdxComponents";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
 import { getAllSpaces, getSpace, SpaceData } from "@/helpers/SpaceHelper";
 import { getAllGuides, GuideData } from "@/helpers/GuideHelper";
+import { getAllPersonnels, PersonnelData } from "@/helpers/PersonnelHelper";
 import { GuideList } from "../guides";
 import { ProjectList } from "../projects";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,11 +17,13 @@ import { faLink } from "@fortawesome/free-solid-svg-icons";
 // Individual space page component
 export default function Space({
   space,
+  personnel,
   fundings,
   projects,
   guides,
 }: {
   space: SpaceData;
+  personnel: PersonnelData[];
   fundings: FundingData[];
   projects: ProjectData[];
   guides: GuideData[];
@@ -59,6 +63,13 @@ export default function Space({
 
             {/* Links */}
             <div className="contributors">
+              <div>
+                <h3>Contributors</h3>
+                <MiniPersonnelList
+                  personnel={personnel}
+                  liuidList={data.people}
+                />
+              </div>
               <div>
                 {data.funding.length > 0 && (
                   <>
@@ -130,6 +141,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
   return {
     props: {
       space: await getSpace(params.slug),
+      personnel: await getAllPersonnels(),
       fundings: await getAllFundings(),
       projects: await getAllProjects(),
       guides: await getAllGuides(),

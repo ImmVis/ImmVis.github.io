@@ -10,9 +10,11 @@ import { PublicationData, getAllPublications } from "@/helpers/PublicationHelper
 import { ProjectData, getAllProjects, getProject } from "@/helpers/ProjectHelper";
 import { getAllSpaces, SpaceData } from "@/helpers/SpaceHelper";
 import { getAllGuides, GuideData } from "@/helpers/GuideHelper";
+import { getAllInitiatives, InitiativeData } from "@/helpers/InitiativeHelper";
 import { PublicationList } from "../publications";
 import { SpaceList } from "../spaces";
 import { GuideList } from "../guides";
+import { InitiativeList } from "../initiatives";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
@@ -24,6 +26,7 @@ export default function Project({
   publications,
   guides,
   spaces,
+  initiatives,
 }: {
   project: ProjectData;
   fundings: FundingData[];
@@ -31,6 +34,7 @@ export default function Project({
   publications: PublicationData[];
   guides: GuideData[];
   spaces: SpaceData[];
+  initiatives: InitiativeData[];
 }) {
   const { data, content, mdxPath } = project;
 
@@ -44,6 +48,10 @@ export default function Project({
 
   const mySpaces = spaces?.filter((space) =>
     data.spaces?.includes(space.data.id),
+  );
+
+  const myInitiatives = initiatives?.filter((initiative) =>
+    data.initiatives?.includes(initiative.data.id),
   );
 
   return (
@@ -134,6 +142,15 @@ export default function Project({
               <SpaceList spaces={mySpaces} />
             </>
           )}
+
+          {/* Initiatives */}
+          {data.initiatives && data.initiatives.length > 0 && (
+            <>
+              <hr />
+              <h1>Initiatives</h1>
+              <InitiativeList initiatives={myInitiatives} />
+            </>
+          )}
         </div>
       </main>
     </>
@@ -163,6 +180,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
       publications: await getAllPublications(),
       guides: await getAllGuides(),
       spaces: await getAllSpaces(),
+      initiatives: await getAllInitiatives(),
     },
   };
 }
