@@ -1,0 +1,36 @@
+---
+id: "decision_arena"
+name: "Decision Arena"
+start_date: 2015
+description: "A cylindrical 2D visualization arena for collaborative presentations and decision-support scenarios, powered by nine Epson projectors and WATCHOUT-driven multi-display playback."
+image: "decision_arena_overview.jpg"
+funding: []
+---
+
+# Overview
+
+The Decision Arena is a cylindrical display environment for collaborative visualization, presentations, and decision-support scenarios. Unlike the dome and VR-arena, it is a 2D-only environment, designed around a circular projection surface with a diameter of 6 meters.
+
+The display is covered by nine Epson EB-L510U projectors. Each projector has a native resolution of 1920 x 1200 pixels, and together they provide an estimated 12288 x 1200 pixels across the cylindrical surface when including overlaps and blends.
+
+## Projection System
+
+- Display geometry: cylindrical display
+- Cylinder diameter: 6 meters
+- Stereo support: 2D only
+- Number of projectors: 9
+- Projector model: Epson EB-L510U
+- Resolution per projector: 1920 x 1200 pixels
+- Estimated total resolution including overlaps and blends: 12288 x 1200 pixels
+- Signal pipeline: two computers, one with four outputs and one with five outputs
+- Playback and show control: Dataton WATCHOUT 6, captured using SGCT & C-Troll app. Moving towards [C-Play](/projects/cplay) usage...
+- Calibration: performed on the NVIDIA GPU:s using VIOSO software.
+- Cylinder foot height: 1000 mm
+
+<Image width="100%" alt="Decision Arena" src="decision_arena_projectors.png" />
+
+## Calibration and Future Sources
+
+The Decision Arena currently uses a WATCHOUT-based calibration workflow rather than projector-side Barco Pulse calibration. The system has one primary source today, but the arena can be extended with an additional cluster in the future if new visualization or presentation pipelines need to use the cylindrical display.
+
+<Image width="100%" alt="Decision Arena" src="decision_arena.png" />
