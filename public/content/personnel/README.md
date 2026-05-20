@@ -57,7 +57,7 @@ social: {
 skills: [ "Designing", "Programming", "Adminstrating" ]
 ---
 
-<img alt="Random picture at full width" src="https://picsum.photos/id/543/2000/300" />
+<Image alt="Random picture at full width" src="https://picsum.photos/id/543/2000/300" />
 
 # Myself
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nulla ante, faucibus ac mollis a, maximus sed ipsum. Aenean sodales nunc a tortor dapibus, sit amet congue orci condimentum. Nullam tempor velit nibh, dignissim interdum sapien volutpat non. Cras aliquam, ipsum varius euismod lobortis, orci sem fermentum neque, et ornare magna nunc sed elit. Duis felis urna, sodales feugiat justo nec, ornare molestie enim. Vestibulum eleifend, mi a vehicula malesuada, ligula erat dictum nibh, ut sollicitudin ex mi sed leo. Sed dictum cursus lectus, ut sollicitudin mi auctor ut.
@@ -67,14 +67,14 @@ Suspendisse sit amet dui ut ligula ultrices mollis sit amet a dolor. Aenean aliq
 # Background
 Lorem ipsum - tai fiktyvus tekstas naudojamas spaudos ir grafinio dizaino pasaulyje jau nuo XVI a. pradžios. Lorem Ipsum tapo standartiniu fiktyviu tekstu, kai nežinomas spaustuvininkas atsitiktine tvarka išdėliojo raides atspaudų prese ir tokiu būdu sukūrė raidžių egzempliorių. Šis tekstas išliko beveik nepasikeitęs ne tik penkis amžius, bet ir įžengė i kopiuterinio grafinio dizaino laikus. Jis išpopuliarėjo XX a. šeštajame dešimtmetyje, kai buvo išleisti Letraset lapai su Lorem Ipsum ištraukomis, o vėliau -leidybinė sistema AldusPageMaker, kurioje buvo ir Lorem Ipsum versija.
 
-<img style={{float: "left", marginRight: "1rem"}} width="40%" alt="Image with style" src="https://picsum.photos/id/543/2000/300" />
+<Image float="right" width="40%" alt="Image pinned to the right" src="https://picsum.photos/id/543/2000/300" />
 
 Velit enim sit nulla culpa adipisicing laborum. Nisi sit in consectetur nisi duis velit enim voluptate officia ullamco aute tempor id dolore. Veniam fugiat nulla commodo laborum aute anim commodo dolor pariatur consequat est do. Lorem laboris ut adipisicing reprehenderit. Elit non id ex labore occaecat incididunt adipisicing.
 
-<img className="sm:w-[50%] float-right ml-4 mb-4" alt="Image with tailwind" src="https://picsum.photos/id/543/2000/300" />
+<Image className="sm:w-[50%] float-right ml-4 mb-4" alt="Image with tailwind" src="https://picsum.photos/id/543/500/200" />
 
 ## Wow
 Pariatur ex excepteur nostrud aliqua nulla aute eu labore culpa ea laborum pariatur. Voluptate consequat dolore duis sit consequat magna laborum consequat fugiat nisi anim ex. Id eiusmod ipsum tempor non amet incididunt veniam culpa ullamco ipsum. Ipsum quis ex elit eu non Lorem laboris occaecat. Anim amet cillum nulla nulla. In reprehenderit veniam deserunt ad amet mollit nisi consectetur consectetur consectetur veniam. Pariatur est et Lorem laborum.
 
-<img alt="Random picture" src="https://picsum.photos/id/545/2000/300" />
+<Image alt="Random picture" src="https://picsum.photos/id/545/2000/300" />
 ```
