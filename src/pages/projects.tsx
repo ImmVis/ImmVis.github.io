@@ -1,20 +1,28 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { ProjectData, getAllProjects } from '@/helpers/ProjectHelper';
-
+import {
+  ProjectData,
+  ProjectMeta,
+  getAllProjects,
+} from "@/helpers/ProjectHelper";
 
 function ProjectItem({ post }: { post: ProjectData }) {
   const { slug, data } = post;
+
+  const getDateRange = (data: ProjectMeta) => {
+    const start = data.start_date;
+    const end = data.end_date ? data.end_date : "ongoing";
+    if (start == end) return start;
+    return `${start} — ${end}`;
+  };
 
   return (
     <Link href={`/projects/${post.slug}`} className="flex">
       <div className="project-box">
         <Image width={512} height={256} alt={data.image} src={data.image} />
         <p role="name">{data.name}</p>
-        <p role="brief">
-          {data.start_date} &mdash; {data.end_date ? data.end_date : "ongoing"}
-        </p>
+        <p role="brief">{getDateRange(data)}</p>
         <p role="description">{data.description}</p>
       </div>
     </Link>
@@ -23,13 +31,13 @@ function ProjectItem({ post }: { post: ProjectData }) {
 
 export function ProjectList({ projects }: { projects: ProjectData[] }) {
   // Remove hidden pages
-  projects = projects.filter(page => !page.data.hidden);
+  projects = projects.filter((page) => !page.data.hidden);
 
   return (
     <div className="project-list">
-      {projects.map(post =>
+      {projects.map((post) => (
         <ProjectItem key={post.slug} post={post} />
-      )}
+      ))}
     </div>
   );
 }
