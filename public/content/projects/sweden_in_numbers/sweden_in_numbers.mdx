@@ -5,8 +5,9 @@ start_date: 2020
 end_date: 2023
 description: "An interactive demographic visualization exploring Swedish longitudinal population data from 1990–2017, focusing on income, education, and migration trends."
 image: "./sweden_in_numbers.jpg"
-people: [ "patlj09", "lovisa hassler", "ludvig mangs", "siaih22", "ricfa87" ]
-funding: [ "scb", "universeum" ]
+people:
+  ["patlj09", "lovisa hassler", "ludvig mangs", "siaih22", "ricfa87", "yinhe79"]
+funding: ["scb", "universeum"]
 ---
 
 # Overview
@@ -19,24 +20,24 @@ The application allows users to analyze how society has changed between 1990 and
 
 The software utilizes a high-resolution map of Sweden, allowing users to toggle between counties and municipalities. Visitors can filter and compare various demographic markers, including:
 
-* **Population & Age:** Tracking the distribution of residents across different life stages.
-* **Education Levels:** Visualizing the rise of higher education across different regions.
-* **Disposable Income:** Mapping economic shifts and wealth distribution.
-* **Country of Origin:** Exploring migration patterns and diversity within specific local communities.
+- **Population & Age:** Tracking the distribution of residents across different life stages.
+- **Education Levels:** Visualizing the rise of higher education across different regions.
+- **Disposable Income:** Mapping economic shifts and wealth distribution.
+- **Country of Origin:** Exploring migration patterns and diversity within specific local communities.
 
 ## Technical Implementation
 
 Built using Unreal Engine 5, the system is designed for high-performance data throughput on large-scale touch tables and multi-display walls.
 
-* **Data Architecture:** The project uses a SQL Docker container and a REST API to serve millions of data points in real-time.
-* **Visualization Techniques:** Employs dynamic material instancing and custom shaders to animate transitions between years and data filters.
-* **Synchronized Display:** Supports a "Master/Satellite" bubble UI, where a main control window on a touch table can drive high-resolution visualizations on surrounding wall monitors.
+- **Data Architecture:** The project uses a SQL Docker container and a REST API to serve millions of data points in real-time.
+- **Visualization Techniques:** Employs dynamic material instancing and custom shaders to animate transitions between years and data filters.
+- **Synchronized Display:** Supports a "Master/Satellite" bubble UI, where a main control window on a touch table can drive high-resolution visualizations on surrounding wall monitors.
 
 ## Collaboration
 
 The project is a collaborative effort between:
 
-* **Linköping University (LiU):** Lead development and research.
-* **Institute for Analytical Sociology (IAS):** Data analysis and grouping logic.
-* **Universeum & Visualization Center C:** Exhibition design and public outreach.
-* **Statistics Sweden (SCB):** Source of population register data.
+- **Linköping University (LiU):** Lead development and research.
+- **Institute for Analytical Sociology (IAS):** Data analysis and grouping logic.
+- **Universeum & Visualization Center C:** Exhibition design and public outreach.
+- **Statistics Sweden (SCB):** Source of population register data.
