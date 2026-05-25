@@ -1,7 +1,7 @@
 ---
 id: "simstad"
 name: "SimStad"
-description: "A communication server that connects applications over WebSockets"
+description: "A technical guide for SimStad, an interactive urban exhibition system combining physical 3D prints, spatial projection mapping, and web-controlled digital twins."
 image: "/content/guides/simstad/simstad.png"
 homepage: "https://visualiseringscenter.se/research-program/visual-city-platform/"
 people: ["erisu46", "erite19", "mange61", "guser40", "davbe93", "marma71"]
@@ -10,78 +10,120 @@ spaces: ["visual_city"]
 funding: ["formas", "smartbuilt"]
 ---
 
-# Overview
+# SimStad Technical Guide
 
-Read about the [protocol](/guides/simstad/protocol/).
+<Image alt="SimStad exhibit" src="simstad.png" float="right" width="50%" />
 
-About SimStad.
+This deployment guide details the hardware and software architecture of the **SimStad** exhibition platform originally developed for Visualization Center C in Norrköping. SimStad bridges the gap between deep-learning spatial analysis and public outreach, allowing urban planners, municipal tech teams, and citizens to visualize complex city datasets over a physical landscape.
 
-<Image alt="Projects" src="simstad.png" />
+The core technology behind SimStad has since laid the groundwork for the **Visual City Platform (2024–2026)**—a nationwide initiative funded by FORMAS and Smart Built Environment. Utilizing deep neural networks for automated 3D reconstruction and semantic mapping, this ecosystem is designed to help Swedish municipalities independently spin up their own digital twins using advanced visualization and image analysis methods.
 
-# Simstad documentation
+If you are a municipal IT specialist, exhibition technician, or developer looking to replicate or adapt this architecture for your own city, this documentation is for you. Learn more about the history and impact of the project on our main [SimStad Project Page](/projects/simstad/).
+
+---
+
+## System Architecture
+
+The SimStad exhibition is a modular system where map data, projection, and interactive screens communicate in real time over a localized web server.
 
 <Image alt="System overview" src="overview.png" />
 
-## TODO (innehåll)
+---
 
-- Overview
-  - Overview schematic of all the hardware
-  - Raster images, videos
-  - Image sizes that fit the 3D model
-  - Pictures of the final result
+### 3D Print
+
+<Image
+  width="30%"
+  float="right"
+  src="3d_print/print.jpg"
+  alt="3D printed tiles"
+/>
+
+The physical 3D city model is the center of the exhibit. The model in Norrköping consists of 16x12 tiles printed in white PLA plastic. The same 3D city model is used virtually in the Unreal Engine application.
+
+Read more about how we created the 3D model of Norrköping and how we printed it here:
+
+- [Documentation](/guides/simstad/3d_print).
+
+<hr className="clear-both" />
+
+### Unreal Engine application
+
+<Image
+  float="right"
+  width="30%"
+  src="unreal/DigitalTwinEditor.png"
+  alt="Unreal application"
+/>
+
+The Unreal Engine application is connected to the projectors and displays the map data onto the 3D print. It uses a copy of the 3D print model to simulate accyrate projections and realistic lighting.
+
+- [Documentation](/guides/simstad/unreal)
+- [Source code](https://github.com/c-toolbox/Digital-Twin-City-Platform-UE-Public)
+
+<hr className="clear-both" />
+
+### User interface
+
+<Image
+  float="right"
+  width="30%"
+  src="interface/home.png"
+  alt="User interface"
+/>
+
+A clean, web-based control application allowing visitors or presenters to toggle specific datasets (such as flooding vectors or noise pollution mapping).
+
+- [Documentation](/guides/simstad/interface)
+- [Source code](https://github.com/c-toolbox/SimStad-Interface)
+
+<hr className="clear-both" />
+
+### Omni Communication Server
+
+<Image
+  float="right"
+  width="30%"
+  src="omni/admin.png"
+  alt="Omni admin interface"
+/>
+
+A custom backend infrastructure operating as a local database and WebSocket hub, handling all traffic between the control interface and the Unreal Engine render node.
+
+- [Documentation](/guides/simstad/omni)
+- [Source code](https://github.com/c-toolbox/SimStad-Omni)
+
+<hr className="clear-both" />
+
+### Pixilab Blocks
+
+<Image float="right" width="30%" src="blocks/legend.png" alt="User interface" />
+
+Surrounding the exhibit are additional displays. These are used to display data legends and supplimentary videos to make the exhibit more immersive. These displays are synchronized using Pixilab Blocks. The interface sends signals to Blocks, deciding what content to be shown.
+
+- (Documentation)
+- [Purchase Blocks](https://pixilab.se/products)
+
+<hr className="clear-both" />
+
+### Live-data and plug-ins
+
+<Image
+  width="30%"
+  float="right"
+  src="plugins/traffic.png"
+  alt="Live traffic data"
+/>
+
+Modular pipeline additions that ingest external real-time data APIs (e.g., live municipal traffic feeds) and stream them straight into Unreal Engine via Network Device Interface (NDI) layers. [Explore Live Data Plugins](/guides/simstad/plugins).
+
+- [Documentation](/guides/simstad/plugins)
+- [Purchase Blocks](https://pixilab.se/products)
+
+<hr className="clear-both" />
 
 ---
 
-## The Simstad application
+## WebSocket Protocol
 
-The Simstad installation is based on two parts.
-
-- The Unreal Engine application that shows 2D datasets projected on a 3D environment, simulating light etc
-- The web interface for controlling which datasets are shown
-
-These two applications communicate via the Omni interface, sending messages over a web socket with a defined protocol.
-
-Visual City Platform
-
-Digitala tvillingar till hela Sverige
-Visual City Platform är en ny banbrytande storsatsning inom digitala tvillingar av städer, lanserat av Visual Sweden.
-Projektet har sin grund i det framgångsrika Simstad-projektet, där forskare på Linköpings universitet tagit fram ett neuralt nätverk för att skapa en digital tvilling av Norrköping. Syftet med Visual City Platform är att förse Sveriges städer med LiU-forskarnas spetskompetens inom visualisering och bildanalys, samt en mängd data och metoder, för att städerna sedan självständigt ska kunna skapa egna digitala tvillingar. Något som i förlängningen kan ge en rad positiva effekter för både samhället och näringslivet.
-En central del av projektet är användningen av AI-baserade metoder, genom djupa neurala nätverk, syntes och bildanalys. Detta gör slutresultatet starkare och gör att vissa delar av processen kan automatiseras, som till exempel kartering och 3D-rekonstruktion.
-Arbetet inom Visual Sweden City Platform kan komma att få en avgörande roll i utvecklingen av smarta och hållbara städer i Sverige.
-Projektet pågår 2024-2026 och finansieras av FORMAS och Smart built environment, i samarbete med Linköpings universitet och Visual Sweden. Andra samarbetspartners är Maxar, VTI och kommunerna Malmö, Norrköping och Linköping.
-
----
-
-## 3D print
-
-### Overview
-
-[Read more](/guides/simstad/3d_print)
-
----
-
-## Packaged installation setup
-
-You need to have a packaged version of the Unreal Engine application on the projector computer. You also need a folder with the Datasets accessible on that computer. The application is run with command line parameters using a bash script. You need to add your web token in the .env file to allow connection to the Omni system
-
----
-
-## Omni, networking, and data management
-
-How to use and connect – link to Omni guide on ImmVis. (Erik does not want us to use LiU Omni when shipping, so we’ll have to package Omni in the bundle and explain how to set that up locally)
-
-Protocol. Link to Protocol Wikipedia, or move that to ImmVis.
-
-### Syncthing
-
-Syncthing allows us to set up folders on exhibition computers to sync all images that SimStad uses. See the Omni documentation on how to set up Syncthing on a Linux webserver.
-
-#### Install Syncthing on Windows
-
-Download Syncthing. Install and set it to run in the background. Open a browser and go to 127.0.0.1:8384. Add remote device and paste the Omni Syncthing identification code. Click the new folder, click edit > Advanced > Folder Type > Receive Only.
-
----
-
-## Blocks and displays
-
-Describe Blocks and displays. How to set them up to sync with the interface and how to add content to them.
+To make the installation modular and future-proof, the communication framework between the control interface, the Omni server, and the Unreal Engine rendering pipeline relies on a clean, message-driven network protocol. If your municipality wishes to replace the frontend, substitute the rendering stack, or add custom input hardware, you can hook straight into our defined [WebSocket Protocol Guide](/guides/simstad/protocol/).

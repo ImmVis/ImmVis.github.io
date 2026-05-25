@@ -65,7 +65,7 @@ function validateData(matter: GuideData): GuideData {
 // Example: "fruits/1_apple/apple.mdx" -> "fruits/apple"
 function getSlug(mdxPath: string): string {
   mdxPath = mdxPath.replace(/\\/g, "/").replace(/^\/?content\/guides\//, "");
-  const segments = mdxPath.split("/").map((s) => s.replace(/^\d+_/, ""));
+  const segments = mdxPath.split("/");
   return segments.slice(0, -1).join("/");
 }
 
