@@ -1,0 +1,57 @@
+---
+id: "umea_urban_climate_performance"
+name: "Umeå Urban Climate Performance"
+start_date: 2025
+end_date: 2026
+description: "Interactive visualization of climate performance on single family homes and the effects of renovations and behavior changes."
+image: "./Images/umea_bird_view.png"
+homepage: ""
+people: [ "guser40", "filka05" ]
+funding: [ "infravis" ]
+---
+
+<img style={{float: "right", marginLeft: "1rem"}} width="30%" alt="Bioreactor and Livitflex Controller" src="/content/projects/umea_urban_climate_performance/Images/umea_bird_view.png" />
+
+# About
+The Umeå Urban Climate Performance application was initiated as an Infravis project, working with [Weizhou Lu](https://www.umu.se/personal/weizhuo-lu/)s team ([Kailun Feng](https://www.umu.se/personal/kailun-feng/)/[Santhan Reddy Penaka](https://www.umu.se/personal/santhan-penaka/)) at Umeå University to visualize their research about climate performance of homes in the Umeå area and disseminate the data to the public. The goal of the project was to create an interactive 3D application for touch table use, that allows the user to explore the climate performance of homes in the Umeå area and possible positive and negative effects of renovations and behaviors of the residents. The data is interesting both on individual home level, as well as neighborhood and city level, so a goal was to create a tool to explore the data on all three levels.
+
+# The data
+The data provided by Lus team covers about 7000 homes in the Umeå area, identified by an address and longitude/latitude coordinates.
+The data covers three categories of climate performance:
+- Energy use (kWh/m²/year)
+- CO₂ emission (gCO₂e/kWh/m²)
+- Climate (heat) resilience (too-hot hours/year, indoor temperatures above 26°C)¨
+All three categories have a base value, and multiple modifier values that can be both positive or negative. 
+For energy use and CO₂ emission these modifiers are shared:
+- Retrofit
+    - Window
+    - Wall
+    - Roof
+    - Floor
+- Excessive window opening
+    - Winter
+    - Spring
+    - Summer
+    - Autumn
+Retrofitting different parts of a home has positive effects, varying in impact level.
+Excessive window opening, which lets heat out of the home, has negative effects during the colder seasons, but in the summer the effects are instead positive.
+
+The modifiers for climate heat resilience is:
+- Retrofit
+    - Ventilation
+    - Smart shading device
+- Active behavior
+    - Window opening
+    - Curtain use
+    - Air conditioner use
+Naturally, these modifiers affects temperatures above 26°C, which means that the too-hot hours/year mostly accumulate during the summer months.
+
+Overall, the data shows that both renovations of the homes and the behavior of the residents affects these parameters.
+
+## Data integrity
+Since the data covers individual homes, there are some limitations to how the data can be used. The data can't be used with a public tool like OpenMaps, since this requires that the data is uploaded to OpenMaps. Rather, the data needs to handled with offline solutions.
+
+# Project goal
+The goal of the project was to create an application for users to explore the data in their own way.
+
+
