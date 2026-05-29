@@ -56,8 +56,25 @@ Allows the user to type a message and send it as a string to Unreal Engine.
 
 # Message Protocols
 
-All the above mentioned interactions are communicated to Unreal Engine through web socket using the following protocols:
+All the above mentioned interactions are communicated to Unreal Engine through web socket using a set of json messages.
+For example:
+```
+{
+  type: "vote",
+  user: "user name",
+  option: "red"
+}
+```
+The messages are handled in the _HandleMessage_ function, which is defined in _WebSocketSubsystem.cpp_.
 
+# Websocket message throttle
+By default Unreal Engine has a limit on the amount of messages it handles from WebSockets. This will make messages queue up if you send a lot, for example when you control a character each tick. The controls will then appear to lag behind the input.
+
+To solve this, the following should be added to _DefaultEngine.ini_
+```
+[WebSockets.LibWebSockets]
+ThreadTargetFrameTimeInSeconds = 0.001
+```
 # Sample levels
 
 <Image width="100%" alt="Levels" src="Images/levels.png" />
