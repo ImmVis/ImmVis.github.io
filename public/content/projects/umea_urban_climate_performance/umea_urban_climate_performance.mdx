@@ -48,5 +48,8 @@ The application uses a UV mapping technique to apply the color gradient of each 
 Applying individual colors to 7000 unique buildings would not be performant in Unreal Engine, both because it is hard to handle that many unique static meshes in UE, and because it would demand a lot of draw calls.
 A better way is to use one single mesh that covers the entire city, and then color the individual faces of the buildings.
 To do this, a UV mapping method inspired by [this video from PrismaticaDev](https://www.youtube.com/watch?v=ncwW5KNQ1Eg) was used.
-
+The core idea is that the 3D model should be UV unwrapped in a way, such that the vertices of each building should be gathered at a single point on the UV map. 
+Each point is the position of a pixel in a predetermined texture size, and thus each building is placed on the UV map in a grid-like fashion.
+You can then apply a texture to the model where each pixel holds a color, and that color will be applied to the individual building.
+This allows us to convert the spreadsheet data to texture space, by mapping the column values of the data to a 0-1 range on a gray scale texture.
 
