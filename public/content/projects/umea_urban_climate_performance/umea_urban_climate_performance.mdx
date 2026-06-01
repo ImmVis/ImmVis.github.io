@@ -22,36 +22,31 @@ The data covers three categories of climate performance:
 - CO₂ emission (gCO₂e/kWh/m²)
 - Climate (heat) resilience (too-hot hours/year, indoor temperatures above 26°C)¨
 All three categories have a base value, and multiple modifier values that can be both positive or negative. 
-For energy use and CO₂ emission these modifiers are shared:
-- Retrofit
-    - Window
-    - Wall
-    - Roof
-    - Floor
-- Excessive window opening
-    - Winter
-    - Spring
-    - Summer
-    - Autumn
-Retrofitting different parts of a home has positive effects, varying in impact level.
-Excessive window opening, which lets heat out of the home, has negative effects during the colder seasons, but in the summer the effects are instead positive.
-
-The modifiers for climate heat resilience is:
-- Retrofit
-    - Ventilation
-    - Smart shading device
-- Active behavior
-    - Window opening
-    - Curtain use
-    - Air conditioner use
-Naturally, these modifiers affects temperatures above 26°C, which means that the too-hot hours/year mostly accumulate during the summer months.
-
+Examples of modifiers are: 
+- Renovations of parts of the building such as windows and roof, which make the building more efficient
+- Behaviors such as excessive window opening, which wastes energy in colder seasons
+- At the same time, active window opening has a positive effect on indoor temperature if used correctly.
+For energy use and CO₂ emission these modifiers are shared, and climate resilience has its own set of modifiers.
 Overall, the data shows that both renovations of the homes and the behavior of the residents affects these parameters.
+It should be noted that each modifier is simulated individually, so combining two modifiers is not possible at the current state of the research.
+
+The data was provided as 3 Excel spread sheets, covering 3 different simulation years. 2030, 2050 and 2080.
 
 ## Data integrity
 Since the data covers individual homes, there are some limitations to how the data can be used. The data can't be used with a public tool like OpenMaps, since this requires that the data is uploaded to OpenMaps. Rather, the data needs to handled with offline solutions.
 
 # Project goal
-The goal of the project was to create an application for users to explore the data in their own way.
+The goal of the project was to create an application for users to explore the data on their own. By providing tools for navigating the 3D city and swapping between the different datasets, the user can explore the data both on city, neighborhood and individual address level.
+
+# City visualization
+The data is visualized by color grading all the buildings in the dataset on a 3D map. This gives the user an overview of the data and makes it easy to identify buildings with higher and lower performance.
+The base layers gives the user an overview about how the buildings are performing in an unchanged state, and the UI then lets them explore potential scenarios which can have positive and negative affects.
+The UI also provides additional detailed information about the selected building, allowing the user to compare the selected building to the city (and optionally radius) average.
+
+# UV mapping method
+The application uses a UV mapping technique to apply the color gradient of each dataset to individual buildings.
+Applying individual colors to 7000 unique buildings would not be performant in Unreal Engine, both because it is hard to handle that many unique static meshes in UE, and because it would demand a lot of draw calls.
+A better way is to use one single mesh that covers the entire city, and then color the individual faces of the buildings.
+To do this, a UV mapping method inspired by [this video from PrismaticaDev](https://www.youtube.com/watch?v=ncwW5KNQ1Eg) was used.
 
 
