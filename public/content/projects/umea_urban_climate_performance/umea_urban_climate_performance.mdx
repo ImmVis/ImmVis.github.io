@@ -10,8 +10,6 @@ people: [ "guser40", "filka05" ]
 funding: [ "infravis" ]
 ---
 
-<img style={{float: "right", marginLeft: "1rem"}} width="30%" alt="Bioreactor and Livitflex Controller" src="/content/projects/umea_urban_climate_performance/Images/umea_bird_view.png" />
-
 # About
 The Umeå Urban Climate Performance application was initiated as an Infravis project, working with [Weizhou Lu](https://www.umu.se/personal/weizhuo-lu/)s team ([Kailun Feng](https://www.umu.se/personal/kailun-feng/)/[Santhan Reddy Penaka](https://www.umu.se/personal/santhan-penaka/)) at Umeå University to visualize their research about climate performance of homes in the Umeå area and disseminate the data to the public. The goal of the project was to create an interactive 3D application for touch table use, that allows the user to explore the climate performance of homes in the Umeå area and possible positive and negative effects of renovations and behaviors of the residents. The data is interesting both on individual home level, as well as neighborhood and city level, so a goal was to create a tool to explore the data on all three levels.
 
@@ -35,21 +33,42 @@ The data was provided as 3 Excel spread sheets, covering 3 different simulation 
 ## Data integrity
 Since the data covers individual homes, there are some limitations to how the data can be used. The data can't be used with a public tool like OpenMaps, since this requires that the data is uploaded to OpenMaps. Rather, the data needs to handled with offline solutions.
 
+## Data cleanup
+The data was not perfect when we received it, and some modifications had to be made
+- The coordinates of addresses where sometimes highly inaccurate, pointing only to the general area or street instead of the exact building. This was fixed by running each address through a Google Maps API and finding more precise coordinates.
+- The addresses had a variety of formatting variation, which made it harder to work with and made the UI vary in strange ways. The data was run through a Python script to fix this.
+
 # Project goal
 The goal of the project was to create an application for users to explore the data on their own. By providing tools for navigating the 3D city and swapping between the different datasets, the user can explore the data both on city, neighborhood and individual address level.
 
 # City visualization
 The data is visualized by color grading all the buildings in the dataset on a 3D map. This gives the user an overview of the data and makes it easy to identify buildings with higher and lower performance.
-The base layers gives the user an overview about how the buildings are performing in an unchanged state, and the UI then lets them explore potential scenarios which can have positive and negative affects.
-The UI also provides additional detailed information about the selected building, allowing the user to compare the selected building to the city (and optionally radius) average.
+
+The base layers gives the user an overview about how the buildings are performing in an unchanged state, and the UI then lets them explore potential scenarios which can have positive and negative affects, by applying modifiers such as renovations or resident behaviors. The modifiers can either be applied to the whole city, or just to the current selection.
+
+The UI also provides additional detailed information about the selected building, allowing the user to compare the selected building to the city. There is also a radius selection mode, which allows you to compare the current selection to neighboring houses.
+<Image src="Images/umea_interface.png" width="100%" float="right" />
 
 # UV mapping method
 The application uses a UV mapping technique to apply the color gradient of each dataset to individual buildings.
 Applying individual colors to 7000 unique buildings would not be performant in Unreal Engine, both because it is hard to handle that many unique static meshes in UE, and because it would demand a lot of draw calls.
+
 A better way is to use one single mesh that covers the entire city, and then color the individual faces of the buildings.
 To do this, a UV mapping method inspired by [this video from PrismaticaDev](https://www.youtube.com/watch?v=ncwW5KNQ1Eg) was used.
+
+<Image src="Images/Climate_resilience_base_year2080.png" width="25%" float="right" />
 The core idea is that the 3D model should be UV unwrapped in a way, such that the vertices of each building should be gathered at a single point on the UV map. 
 Each point is the position of a pixel in a predetermined texture size, and thus each building is placed on the UV map in a grid-like fashion.
 You can then apply a texture to the model where each pixel holds a color, and that color will be applied to the individual building.
 This allows us to convert the spreadsheet data to texture space, by mapping the column values of the data to a 0-1 range on a gray scale texture.
 
+## Implementation
+This is done in practice through Python scripts, in two steps:
+1. A map of central Umeå is downloaded from OSM. By running through the coordinates of each address we find a matching mesh and UV map it to the corresponding UV index. If we find no match for an index that UV position is simply left empty. Any remaining meshes is placed on UV position (1,1) so we know to ignore them.
+2. We run through each years csv and generate a texture 
+
+## Limitations
+There are of course some limitations to this method:
+- Some addresses fall outside of the area of Umeå area we download from OSM, and thus get no color representation on the UV mapped mesh. You can however still go to those addresses and get the text based data about them. This was a limitation due to the Cesium terrains shape, as we either got clipping or floating meshes if we moved to far away from the city center.
+- Sometimes multiple addresses (e.g. Jägarvägen 19A/D) mapped to the same mesh, usually an apartment building. In those cases we mapped the first instance to the mesh and subsequent addresses point to the same mesh, if the only difference is the address letter suffix.
+- Some addresses can contain extra meshes, such as a garage. In these cases, only the closest mesh hit is used.
