@@ -1,5 +1,9 @@
-// TocHelper.ts
 import { MatterData } from "@/helpers/MdxLoader";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/free-solid-svg-icons";
+import style from "@/styles/TableOfContents.module.scss";
 
 export type TocItem = {
   title: string;
@@ -64,12 +68,6 @@ export function getTableOfContent(
   return tree;
 }
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as solidIcons from "@fortawesome/free-solid-svg-icons";
-import style from "@/styles/TableOfContents.module.scss";
-
 export function TableOfContents({
   items,
   currentPath,
@@ -77,6 +75,8 @@ export function TableOfContents({
   items: TocItem[];
   currentPath: string;
 }) {
+  const cleanPath = currentPath.split(/[?#]/)[0];
+
   return (
     <nav className={style.toc}>
       <ul>
@@ -85,7 +85,7 @@ export function TableOfContents({
             key={item.href}
             item={item}
             level={0}
-            currentPath={currentPath}
+            currentPath={cleanPath}
           />
         ))}
       </ul>
@@ -107,7 +107,7 @@ function TocNode({
   const isActive = isCurrentPage || isParentOfCurrent;
   const hasChildren = item.children && item.children.length > 0;
   const isRoot = level === 0;
-  const indentation = isRoot ? 0 : (level - 1) * 24;
+  const indentation = isRoot ? 12 : (level - 1) * 16;
 
   const [isOpen, setIsOpen] = useState(isActive);
 

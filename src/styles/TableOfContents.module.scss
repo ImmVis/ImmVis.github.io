@@ -1,6 +1,6 @@
 .toc {
-  @apply inline-block;
-  width: 200px;
+  @apply inline-block pt-10;
+  @apply w-full sm:w-64 px-4;
 
   ul {
     @apply list-none p-0 m-0;
@@ -12,11 +12,10 @@
     @apply flex items-center transition-colors duration-200;
     @apply pr-2;
 
-    @apply text-zinc-600;
+    @apply text-zinc-500;
 
     &.active {
       @apply text-black;
-      // @apply underline;
     }
 
     &.currentPage {
