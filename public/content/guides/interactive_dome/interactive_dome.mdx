@@ -56,8 +56,25 @@ Allows the user to type a message and send it as a string to Unreal Engine.
 
 # Message Protocols
 
-All the above mentioned interactions are communicated to Unreal Engine through web socket using the following protocols:
+All the above mentioned interactions are communicated to Unreal Engine through web socket using a set of json messages.
+For example:
+```
+{
+  type: "vote",
+  user: "user name",
+  option: "red"
+}
+```
+The messages are handled in the _HandleMessage_ function, which is defined in _WebSocketSubsystem.cpp_.
 
+# Websocket message throttle
+By default Unreal Engine has a limit on the amount of messages it handles from WebSockets. This will make messages queue up if you send a lot, for example when you control a character each tick. The controls will then appear to lag behind the input.
+
+To solve this, the following should be added to _DefaultEngine.ini_
+```
+[WebSockets.LibWebSockets]
+ThreadTargetFrameTimeInSeconds = 0.001
+```
 # Sample levels
 
 <Image width="100%" alt="Levels" src="Images/levels.png" />
@@ -117,7 +134,6 @@ We have created an [nDisplay config for the dome](public/content/guides/interact
 
 It's important to understand that the nDisplay config runs one instance of Unreal Engine on each node/projector, and that you have to make efforts for the nodes to be synchronized.
 In the template project we handle the websocket communication on the main node, and distribute changes to the child nodes. This can either be done with cluster messages or [sync actor components](https://dev.epicgames.com/documentation/unreal-engine/ndisplay-actor-replication-in-unreal-engine?application_version=5.2) that ensures that the parent actor is synced between nodes.
-s
 
 ## Synchronized transforms
 
@@ -141,16 +157,10 @@ If you plan to use randomness in any form in your application, it is important t
 />
 
 # Testing the application with Switchboard
+With all these considerations about the nDisplay setup, you might want a way to test your application in a desktop environment before trying it in the dome. 
+This is where [Switchboard](https://dev.epicgames.com/documentation/unreal-engine/switchboard-quick-start-for-unreal-engine) comes in. It allows you to run the application with an nDisplay config, which starts multiple nodes on the same machine, in our case a master and a child node, placed next to each other on the screen.
+You can then  compare the master and child node to see if the content on both nodes are synced.
+You can load our [desktop Switchboard json](/content/guides/interactive_dome/nDisplay/DesktopTest.zip) into Switchboard as a start point. You will have to edit the config with your own paths, pointing to your packaged application .exe and our desktop nDisplay config.
+<img style={{display: "block", margin: "1rem auto"}} width="100%" alt="Synced nodes Switchboard" src="/content/guides/interactive_dome/Images/synced_nodes.png" />
+_In this example we see that the randomly placed coins are in the same place, as well as the ball representing a user_
 
-With all these considerations about the nDisplay setup, you might want a way to test your application in a desktop environment before trying it in the dome.
-This is where Switchboard comes in. It allows you to run the application with an nDisplay config, which starts multiple nodes on the same machine, in our case a master and a child node, placed next to each other on the screen.
-You can then compare the master and child node to see if the content on both nodes are synced.
-You can load our [desktop Switchboard config](public/content/guides/interactive_dome/nDisplay/Switchboard2NodeConfig.json) into Switchboard as a start point. You will have to edit the config with your own paths, pointing to your packaged application .exe and the [desktop nDisplay config](public/content/guides/interactive_dome/nDisplay/NDC_NKPG_Kontor.ndisplay)
-
-<Image
-  width="100%"
-  alt="Synced nodes Switchboard"
-  src="Images/synced_nodes.png"
-/>
-_In this example we see that the randomly placed coins are in the same place, as
-well as the ball representing a user_
