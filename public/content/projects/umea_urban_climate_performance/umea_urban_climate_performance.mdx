@@ -16,9 +16,13 @@ The Umeå Urban Climate Performance application was initiated as an Infravis pro
 # The data
 The data provided by Lus team covers about 7000 homes in the Umeå area, identified by an address and longitude/latitude coordinates.
 The data covers three categories of climate performance:
+
+<Image src="Images/climate_categories.png" width="25%" float="right" />
+
 - Energy use (kWh/m²/year)
 - CO₂ emission (gCO₂e/kWh/m²)
 - Climate (heat) resilience (too-hot hours/year, indoor temperatures above 26°C)¨
+
 All three categories have a base value, and multiple modifier values that can be both positive or negative. 
 Examples of modifiers are: 
 - Renovations of parts of the building such as windows and roof, which make the building more efficient
@@ -44,31 +48,41 @@ The goal of the project was to create an application for users to explore the da
 # City visualization
 The data is visualized by color grading all the buildings in the dataset on a 3D map. This gives the user an overview of the data and makes it easy to identify buildings with higher and lower performance.
 
+The csv data is brought into Unreal as data tables, and is connected to a series of textures that represent the data in a material friendly format that can be applied to the 3D buildings.
+
 The base layers gives the user an overview about how the buildings are performing in an unchanged state, and the UI then lets them explore potential scenarios which can have positive and negative affects, by applying modifiers such as renovations or resident behaviors. The modifiers can either be applied to the whole city, or just to the current selection.
 
 The UI also provides additional detailed information about the selected building, allowing the user to compare the selected building to the city. There is also a radius selection mode, which allows you to compare the current selection to neighboring houses.
 <Image src="Images/umea_interface.png" width="100%" float="right" />
 
 # UV mapping method
-The application uses a UV mapping technique to apply the color gradient of each dataset to individual buildings.
+The application uses a UV mapping technique to apply the color gradient of each dataset to individual buildings using textures.
 Applying individual colors to 7000 unique buildings would not be performant in Unreal Engine, both because it is hard to handle that many unique static meshes in UE, and because it would demand a lot of draw calls.
+
+<Image src="Images/Climate_resilience_base_year2080.png" width="30%" float="right" />
 
 A better way is to use one single mesh that covers the entire city, and then color the individual faces of the buildings.
 To do this, a UV mapping method inspired by [this video from PrismaticaDev](https://www.youtube.com/watch?v=ncwW5KNQ1Eg) was used.
 
-<Image src="Images/Climate_resilience_base_year2080.png" width="25%" float="right" />
 The core idea is that the 3D model should be UV unwrapped in a way, such that the vertices of each building should be gathered at a single point on the UV map. 
 Each point is the position of a pixel in a predetermined texture size, and thus each building is placed on the UV map in a grid-like fashion.
 You can then apply a texture to the model where each pixel holds a color, and that color will be applied to the individual building.
-This allows us to convert the spreadsheet data to texture space, by mapping the column values of the data to a 0-1 range on a gray scale texture.
+This allows us to convert the spreadsheet data to texture space, by mapping the column values of the data to a 0-255 range on a gray scale texture.
+The gray scale values are then used to sample colors from a gradient.
 
 ## Implementation
-This is done in practice through Python scripts, in two steps:
+The UV mapping method done in practice through Python scripts, in two steps:
 1. A map of central Umeå is downloaded from OSM. By running through the coordinates of each address we find a matching mesh and UV map it to the corresponding UV index. If we find no match for an index that UV position is simply left empty. Any remaining meshes is placed on UV position (1,1) so we know to ignore them.
-2. We run through each years csv and generate a texture 
+2. We run through each years csv, and generate a texture for each column in the csv with numeric values. Values are mapped in a 0-255 ranged based on a min and max value. The min/max values are calculated by grouping values with the same unit across all sample years, and finding the min and max. However, we ended up using 0 as min for all values, as it made more sense for the data.
+
+The textures are then brought into Unreal Engine to be applied with a material to the mesh, which makes for an instant swapping of data by changing the texture parameter. 
+The highlight of selected buildings is done by applying a blinking effect to the material. We find the selected indices in the dataset and generate a highlight mask using a render target. This mask can then be used to only highlight selected buildings, and it doubles as a mask when we want to only apply a modifier to the selection.
+
+One would assume that we could use this runtime texture generation for all textures, but it proved very slow to draw a texture with 1000s of pixels, compared to just drawing a handful of pixels for a highlight mask. This could however be an acceptable approach if you prioritize flexibility over load speed and can accept some stutter.
 
 ## Limitations
-There are of course some limitations to this method:
+There are of course some limitations to the UV mapping method:
 - Some addresses fall outside of the area of Umeå area we download from OSM, and thus get no color representation on the UV mapped mesh. You can however still go to those addresses and get the text based data about them. This was a limitation due to the Cesium terrains shape, as we either got clipping or floating meshes if we moved to far away from the city center.
 - Sometimes multiple addresses (e.g. Jägarvägen 19A/D) mapped to the same mesh, usually an apartment building. In those cases we mapped the first instance to the mesh and subsequent addresses point to the same mesh, if the only difference is the address letter suffix.
 - Some addresses can contain extra meshes, such as a garage. In these cases, only the closest mesh hit is used.
+- If you want to add address rows to the dataset, you will need to rebuild the mesh and reimport it into Unreal Engine. Adding dataset columns also takes some manual labour as you need to add the new textures and assign them to the data table in Unreal Engine.
