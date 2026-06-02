@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 interface ImageProps {
   src: string;
@@ -29,15 +31,17 @@ const Image = ({ src, alt, width, float }: ImageProps) => {
   };
 
   return (
-    <img
-      src={finalSrc}
-      alt={alt || ""}
-      title={alt || ""}
-      style={
-        width ? ({ "--img-width": width } as React.CSSProperties) : undefined
-      }
-      className={`w-full sm:w-[var(--img-width)] rounded ${float ? floatClasses[float] : "block mx-auto mb-4"}`}
-    />
+    <Zoom>
+      <img
+        src={finalSrc}
+        alt={alt || ""}
+        title={alt || ""}
+        style={
+          width ? ({ "--img-width": width } as React.CSSProperties) : undefined
+        }
+        className={`w-full sm:w-[var(--img-width)] rounded ${float ? floatClasses[float] : "block mx-auto mb-4"}`}
+      />
+    </Zoom>
   );
 };
 
