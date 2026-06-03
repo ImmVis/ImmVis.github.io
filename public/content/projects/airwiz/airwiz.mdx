@@ -1,0 +1,30 @@
+---
+id: "airwiz"
+name: "AirWiz"
+start_date: 2024
+description: "Air traffic simulation visualization tool"
+image: "./Images/airwiz_ui.png"
+homepage: ""
+people: [ "guser40", "magba44", "jonlu41", "treli80" ]
+funding: [ "trafikverket", "wara-ps", "vinnova" ]
+initiatives: []
+---
+
+# About
+AirWiz is a tool for visualizing primarily air traffic simulations, but also other types of traffic and events. 
+It is developed as a part of the [Air Mobility](https://www.vinnova.se/p/testbed-air-mobility/) project.
+It shows an interactive 3D map which the user can more around in, covering the entire globe.
+The core content air traffic data streamed live from various systems into AirWiz, both real and simulated, combined with some novel concepts for automated air traffic control of drones.
+
+# Repositories
+- [AirWiz](https://gitlab.liu.se/ida-hcs-workgroup-magba/nrkg/airviz)
+- [Real Time Entity Server](https://gitlab.liu.se/Exploranation/City/digitaltwincity-plattform/utils/RealTimeEntityServer)
+
+# Purpose
+The purpose of this tool is to visualize data, rather then produce/simulate it directly. It is a playground for us to try out various concepts, and to create different types of visualization to explain the systems we are developing for air traffic control. It is a research tool, used in active research projects.
+
+# Traffic
+The traffic comes from various sources such as **X** and covers both air, land and water. Traffic can be represented by a variety of 3D representations, such as quadcopter drones, commercial air planes and boats. Traffic comes into Unreal Engine through ZeroMQ, which is sent from our Python server [Real Time Entity Server](https://gitlab.liu.se/Exploranation/City/digitaltwincity-plattform/utils/RealTimeEntityServer)
+
+# Real Time Entity Server
+This is a Python server that listens to MQTT servers populated with traffic data and communicates with AirWiz over ZeroMQ. It subscribes to various topics across MQTT servers and converts messages to AirWiz-friendly messages before passing them on. It can also receive commands from AirWiz, so the communication is a two way street.
