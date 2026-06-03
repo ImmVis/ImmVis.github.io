@@ -168,14 +168,44 @@
 		}
 	}
 
+	&-toc-container {
+		// Very wide screen - position ToC on the sides
+		@media (min-width: calc(1024px + 512px)) {
+		}
+
+		// Medium screen - position ToC in center
+		@media (min-width: 512px) and (max-width: calc(1024px + 511px)) {
+			@apply flex justify-between;
+			padding: 0 var(--content-padding);
+		}
+
+		@media (max-width: calc(1024px + 511px)) {
+			@apply border-0 border-b border-solid border-zinc-300;
+		}
+	}
+
 	&-toc-wrapper {
-		// Wide screen: move to the left
-		@media (min-width: calc(1024px + 300px)) {
+		// Very wide screen - position ToC on the sides
+		@media (min-width: calc(1024px + 512px)) {
 			position: absolute;
-			left: 0;
 			width: calc(50vw - 512px);
 			display: flex;
-			justify-content: center;
+		}
+
+		// Medium screen - position ToC in center
+		@media (min-width: 512px) and (max-width: calc(1024px + 511px)) {
+			// float: right;
+			width: 256px;
+			display: flex;
+		}
+
+		// Sticky state: fix to top when scrolling
+		&.sticky {
+			@media (min-width: calc(1024px + 512px)) {
+				position: fixed;
+				top: 32px;
+				z-index: 10;
+			}
 		}
 	}
 }

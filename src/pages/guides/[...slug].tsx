@@ -8,13 +8,9 @@ import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
 import { mdxComponents } from "@/components/mdxComponents";
-import {
-  TableOfContents,
-  getTableOfContent,
-  TocItem,
-} from "@/components/TableOfContents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
+import TableOfContents from "@/components/TableOfContents";
 
 // Individual guide page component
 export default function Guide({
@@ -30,10 +26,6 @@ export default function Guide({
 }) {
   const { data, content, mdxPath } = guide;
   const router = useRouter();
-
-  // Table of contents, for nested guides
-  const tocData: TocItem[] = getTableOfContent(guides, guide);
-  const showToc = tocData[0]?.children.length > 0;
 
   return (
     <>
@@ -93,12 +85,8 @@ export default function Guide({
           </div>
         </div>
 
-        {/* Table of contents */}
-        {showToc && (
-          <div className="guide-toc-wrapper">
-            <TableOfContents items={tocData} currentPath={router.asPath} />
-          </div>
-        )}
+        {/* Table of contents (nested guides and in-page headers) */}
+        <TableOfContents guides={guides} guide={guide} />
 
         {/* Markdown content */}
         <div className="guide-single-markdown mdx-content">

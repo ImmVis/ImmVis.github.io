@@ -1,16 +1,18 @@
+import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { MatterData } from "@/helpers/MdxLoader";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as solidIcons from "@fortawesome/free-solid-svg-icons";
-import style from "@/styles/TableOfContents.module.scss";
+import { TableOfContentsForPages, type TocItem } from "@/components/TableOfContentsForPages";
+import TableOfContentsForHeadings from "@/components/TableOfContentsForHeadings";
 
-export type TocItem = {
-  title: string;
-  href: string;
-  children: TocItem[];
+type HeadingItem = {
+  id: string;
+  text: string;
+  level: number;
 };
 
+// ============================================
+// Moved from TableOfContents.tsx
+// ============================================
 export function getTableOfContent(
   allGuides: MatterData[],
   currentGuide: MatterData,
@@ -68,97 +70,149 @@ export function getTableOfContent(
   return tree;
 }
 
-export function TableOfContents({
-  items,
-  currentPath,
-}: {
-  items: TocItem[];
-  currentPath: string;
-}) {
-  const cleanPath = currentPath.split(/[?#]/)[0];
-
-  return (
-    <nav className={style.toc}>
-      <ul>
-        {items.map((item) => (
-          <TocNode
-            key={item.href}
-            item={item}
-            level={0}
-            currentPath={cleanPath}
-          />
-        ))}
-      </ul>
-    </nav>
-  );
+// ============================================
+// Moved from PageTableOfContents.tsx
+// ============================================
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^\x00-\x7F]+/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
 }
 
-function TocNode({
-  item,
-  level,
-  currentPath,
+export function fetchPageHeadings(minLevel = 1, maxLevel = 2) {
+  const container =
+    typeof document !== "undefined"
+      ? document.querySelector(".mdx-content")
+      : null;
+  if (!container) return [] as HeadingItem[];
+
+  const selector = Array.from({ length: maxLevel - minLevel + 1 })
+    .map((_, i) => `h${i + minLevel}`)
+    .join(",");
+
+  const els = Array.from(container.querySelectorAll(selector));
+
+  const items: HeadingItem[] = els
+    .map((el) => {
+      const level = Number(el.tagName.charAt(1));
+      let id = (el as HTMLElement).id;
+      const text = (el as HTMLElement).innerText || "";
+
+      if (!id) {
+        id = slugify(text);
+        (el as HTMLElement).id = id;
+      }
+
+      return { id, text, level };
+    })
+    .filter((h) => h.level >= minLevel && h.level <= maxLevel);
+
+  return items;
+}
+
+// ============================================
+// Super component combining both ToCs
+// ============================================
+export default function TableOfContents({
+  guides,
+  guide,
 }: {
-  item: TocItem;
-  level: number;
-  currentPath: string;
+  guides: MatterData[];
+  guide: MatterData;
 }) {
-  const isCurrentPage = currentPath === item.href + "/";
-  const isParentOfCurrent = currentPath.startsWith(item.href + "/");
-  const isActive = isCurrentPage || isParentOfCurrent;
-  const hasChildren = item.children && item.children.length > 0;
-  const isRoot = level === 0;
-  const indentation = isRoot ? 12 : (level - 1) * 16;
+  const router = useRouter();
+  const [showPageToc, setShowPageToc] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const leftWrapperRef = useRef<HTMLDivElement>(null);
+  const rightWrapperRef = useRef<HTMLDivElement>(null);
 
-  const [isOpen, setIsOpen] = useState(isActive);
-
-  // Re-sync if path changes (e.g. clicking a link elsewhere)
+  // Compute page headings and manage showPageToc visibility
   useEffect(() => {
-    if (isActive && !isRoot) setIsOpen(true);
-  }, [isActive, isRoot]);
+    const items = fetchPageHeadings(1, 2);
+    setShowPageToc(items.length > 3);
+
+    const onMutate = () => {
+      const items2 = fetchPageHeadings(1, 2);
+      setShowPageToc(items2.length > 3);
+    };
+
+    const container =
+      typeof document !== "undefined"
+        ? document.querySelector(".mdx-content")
+        : null;
+    let obs: MutationObserver | null = null;
+    if (container) {
+      obs = new MutationObserver(onMutate);
+      obs.observe(container, { childList: true, subtree: true });
+    }
+
+    return () => {
+      if (obs) {
+        obs.disconnect();
+      }
+    };
+  }, [router.asPath]);
+
+  // Handle sticky positioning on scroll
+  useEffect(() => {
+    const containerElement = containerRef.current;
+    if (!containerElement) return;
+
+    const initialOffsetTop = containerElement.offsetTop - 32;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const isSticky = scrollY > initialOffsetTop;
+
+      if (leftWrapperRef.current) {
+        if (isSticky) {
+          leftWrapperRef.current.classList.add("sticky");
+        } else {
+          leftWrapperRef.current.classList.remove("sticky");
+        }
+      }
+
+      if (rightWrapperRef.current) {
+        if (isSticky) {
+          rightWrapperRef.current.classList.add("sticky");
+        } else {
+          rightWrapperRef.current.classList.remove("sticky");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Build table of contents for nested guides
+  const tocData: TocItem[] = getTableOfContent(guides, guide);
+  const showToc = tocData[0]?.children.length > 0;
 
   return (
-    <li className={style.node}>
-      <div
-        className={`${style.linkWrapper} ${isActive ? style.active : ""} ${isCurrentPage ? style.currentPage : ""}`}
-        style={{ paddingLeft: `${indentation}px` }} // Increased indentation
-      >
-        {!isRoot && (
-          <div className={style.iconContainer}>
-            {hasChildren ? (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsOpen(!isOpen);
-                }}
-                className={`${style.toggleBtn} ${isOpen ? style.rotated : ""}`}
-              >
-                <FontAwesomeIcon icon={solidIcons.faChevronRight} />
-              </button>
-            ) : (
-              <span className={style.leafIcon}>
-                {/* <FontAwesomeIcon icon={solidIcons.faDotCircle} /> */}
-              </span>
-            )}
-          </div>
-        )}
-
-        <Link href={item.href} className={style.link}>
-          {item.title}
-        </Link>
-      </div>
-
-      {hasChildren && (isRoot || isOpen) && (
-        <ul className={style.subTree}>
-          {item.children.map((child) => (
-            <TocNode
-              key={child.href}
-              item={child}
-              level={level + 1}
-              currentPath={currentPath}
-            />
-          ))}
-        </ul>
+    <div ref={containerRef} className="guide-toc-container">
+      {/* Table of contents for nested guides (left side) */}
+      {showToc && (
+        <div
+          className="guide-toc-wrapper left-0 justify-end"
+          ref={leftWrapperRef}
+        >
+          <TableOfContentsForPages items={tocData} currentPath={router.asPath} />
+        </div>
       )}
-    </li>
+
+      {/* In-page headers TOC (right side) */}
+      {showPageToc && (
+        <div
+          className="guide-toc-wrapper right-0 justify-start"
+          ref={rightWrapperRef}
+        >
+          <TableOfContentsForHeadings currentPath={router.asPath} />
+        </div>
+      )}
+    </div>
   );
 }
