@@ -31,26 +31,23 @@ The Python server is used as it proved difficult at the start of the project to 
 # Entities
 <Image src="Images/drone_info.png" width="40%" float="right"/>
 
-The entities are spawned in from live traffic coming from various sources such as [WARA PS](https://portal.waraps.org/), [UTM City](/projects/utm_city/) and [Air Mobility](https://www.vinnova.se/p/testbed-air-mobility), and covers both air, land and water objects. Data with coordinates are received approximately once per second, and the new coordinate is set as the target we move towards every tick. This gives is a smooth movement, instead of jumping to the next location directly. It should be noted that this means that the visualization is always a second delayed.
+Entities can be any sort of moving object, and covers both air, land and water.
+Entities are spawned in from live traffic coming from various sources such as [WARA PS](https://portal.waraps.org/), [UTM City](/projects/utm_city/) and [Air Mobility](https://www.vinnova.se/p/testbed-air-mobility). Data with coordinates are received approximately once per second, and the new coordinate is set as the target we move towards every tick. This gives is a smooth movement, instead of jumping to the next location directly. It should be noted that this means that the visualization is always a second delayed.
 
 Entities can be represented by a variety of 3D models, such as quadcopter drones, commercial air planes, robot dogs and boats. We also assign different behaviors to these types to ensure correct visuals, such as ground vehicles always staying on the ground even if we have a height mismatch, and air planes not diving under the ground.
 
 In addition to the 3D representation, entities have a 2D icon to help you follow smaller objects at a distance. Clicking an icon will jump you closer to the entity. If icons overlap they are clustered together into one icon, with a number indicating how many entities are in the cluster.
-
-# Plans
-Entities follow a predetermined plan that can be altered if changes occur in the air space, such as an area suddenly becoming of limits due to a fire etc.
-Plans are represented as a line, plotting out the path that the entity will take.
 
 # Airspace objects
 There are two types of airspace objects:
 - Constraint
 - Grid
 
-They represent the air traffic control system that is being designed through the Air Mobility project.
+They represent the air traffic control system that is being designed through the Air Mobility project, meant to automate the air traffic control of unmanned drones en masse.
 These 3D objects are generated from a series of coordinates, provided by our various online systems, which is used to produce dynamically generated meshes.
 Initially the idea was to also define these objects within the AirWiz application, but we have since pivoted towards pure visualization tool. 
 
-Constraints are concave geometries that provide a limiting area where traffic cant pass through. 
+Constraints are concave geometries that provide a limiting area where drone traffic cant pass through. 
 - In the <span style={{ color: 'green' }}>green</span> state, entities can pass through
 - In the <span style={{ color: 'red' }}>red</span> state, entities are blocked
 - In the <span style={{ color: 'orange' }}>orange</span> state, blocking is pending waiting for entities to leave the area
@@ -63,6 +60,40 @@ Grids are networks of paths that entities can take through a constraint. In the 
 - Two is <span style={{ color: 'orange' }}>orange</span>
 - More is <span style={{ color: 'red' }}>red</span>
 
-The purpose of this is to show if entities are to close to each other.
+The purpose of this is to show if drones are to close to each other.
 
 <Image src="Images/grid.png" width="100%" />
+
+# Plans
+Drones follow a predetermined plan that can be altered if changes occur in the air space, such as an area suddenly becoming of limits due to a fire etc.
+Plans are represented as an <span style={{ color: 'orange' }}>orange</span> line, plotting out the path that the entity will take.
+
+<Image src="Images/plan.png" width="75%" />
+
+# Transform location
+AirWiz has a feature that allows objects to be transformed to another location in the world. 
+This allows us to for example visualize real data from one point, in this case Gränsö, Västervik, and transform the data to show a scenario at Landvetter. 
+You can transform both the location, rotation and scale of airspace objects, to allows for scenarios in a much bigger area to be tested at a smaller location. 
+In the current state *Gränsö to Landvetter* is the only transformation we do, but the goal is to be able to transform between two arbitrary points in the future.
+
+<Image src="Images/granso_transform.png" width="100%" />
+
+<div style={{ textAlign: 'center' }}>
+  *Constraints located in Gränsö* 
+</div>
+
+<Image src="Images/landvetter_transform.png" width="100%" />
+
+<div style={{ textAlign: 'center' }}>
+  *The same constraints, transformed to Landvetter*
+</div>
+
+# Linear content
+The animation capabilities of Unreal Engine allows us to create linear content directly in Unreal Engine. In this example, we have created a visualization of how an airplane takes over control of a drone from a control tower. The footage of the drone changing connection comes from [UTM City](/projects/utm_city/) combined with some 2D animations from [Adobe After Effects](http://adobe.com/products/aftereffects).
+
+<video controls muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/airwiz/Video/JasAndDrone.mp4"
+    type="video/mp4"
+  />
+</video>
