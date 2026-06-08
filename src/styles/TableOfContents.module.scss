@@ -9,10 +9,10 @@
 
 .node {
   .linkWrapper {
-    @apply flex items-center transition-colors duration-200;
+    @apply flex items-center transition-all duration-200;
     @apply pr-2;
 
-    @apply text-zinc-500;
+    @apply text-zinc-500 hover:text-black hover:translate-x-0.5;
 
     &.active {
       @apply text-black;
@@ -24,7 +24,7 @@
   }
 
   .link {
-    @apply block py-1.5 text-sm flex-grow truncate;
+    @apply block py-1.5 text-sm flex-grow leading-4;
     color: inherit;
     text-decoration: none;
   }
