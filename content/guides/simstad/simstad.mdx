@@ -2,15 +2,15 @@
 id: "simstad"
 name: "SimStad"
 description: "A technical guide for SimStad, an interactive urban exhibition system combining physical 3D prints, spatial projection mapping, and web-controlled digital twins."
-image: "/content/guides/simstad/simstad.png"
+image: "/content/guides/simstad/spotlight.jpg"
 homepage: "https://visualiseringscenter.se/research-program/visual-city-platform/"
-people: ["erisu46", "erite19", "mange61", "guser40", "davbe93", "marma71"]
+people: ["erite19", "erisu46", "mange61", "guser40", "davbe93", "marma71"]
 projects: ["simstad"]
 spaces: ["visual_city"]
 funding: ["formas", "smartbuilt"]
 ---
 
-# SimStad Technical Guide
+# Technical Guide
 
 <Image alt="SimStad exhibit" src="simstad.png" float="right" width="50%" />
 
@@ -22,7 +22,7 @@ If you are a municipal IT specialist, exhibition technician, or developer lookin
 
 ---
 
-## System Architecture
+# System Architecture
 
 The SimStad exhibition is a modular system where map data, projection, and interactive screens communicate in real time over a localized web server.
 
@@ -30,7 +30,30 @@ The SimStad exhibition is a modular system where map data, projection, and inter
 
 ---
 
-### 3D Print
+## Omni server
+
+<Image
+  float="right"
+  width="30%"
+  src="omni/collections.png"
+  alt="Omni admin interface"
+/>
+
+Omni is the backend infrastructure and content manager for SimStad. It has a web-interface where maintainers can upload and modify data and update the exhibition.
+
+The system consists of 2 parts:
+
+- A database for SimStad's content, including rasterized maps, videos, legends, stories, etc.
+- A communication hub between devices ([see guide](/guides/omni)), primarily used in WisDome for mass-interactivity
+
+Read more here
+
+- [Documentation](/guides/simstad/omni)
+- [Source code](https://github.com/c-toolbox/SimStad-Omni)
+
+<hr className="clear-both" />
+
+## 3D Print
 
 <Image
   width="30%"
@@ -47,7 +70,7 @@ Read more about how we created the 3D model of Norrköping and how we printed it
 
 <hr className="clear-both" />
 
-### Unreal Engine application
+## Unreal Engine application
 
 <Image
   float="right"
@@ -63,7 +86,7 @@ The Unreal Engine application is connected to the projectors and displays the ma
 
 <hr className="clear-both" />
 
-### User interface
+## User interface
 
 <Image
   float="right"
@@ -79,23 +102,7 @@ A clean, web-based control application allowing visitors or presenters to toggle
 
 <hr className="clear-both" />
 
-### Omni Communication Server
-
-<Image
-  float="right"
-  width="30%"
-  src="omni/admin.png"
-  alt="Omni admin interface"
-/>
-
-A custom backend infrastructure operating as a local database and WebSocket hub, handling all traffic between the control interface and the Unreal Engine render node.
-
-- [Documentation](/guides/simstad/omni)
-- [Source code](https://github.com/c-toolbox/SimStad-Omni)
-
-<hr className="clear-both" />
-
-### Pixilab Blocks
+## Pixilab Blocks
 
 <Image float="right" width="30%" src="blocks/legend.png" alt="User interface" />
 
@@ -106,7 +113,7 @@ Surrounding the exhibit are additional displays. These are used to display data 
 
 <hr className="clear-both" />
 
-### Live-data and plug-ins
+## Live-data and plug-ins
 
 <Image
   width="30%"
@@ -121,8 +128,6 @@ Modular pipeline additions that ingest external real-time data APIs (e.g., live 
 - [Purchase Blocks](https://pixilab.se/products)
 
 <hr className="clear-both" />
-
----
 
 ## WebSocket Protocol
 
