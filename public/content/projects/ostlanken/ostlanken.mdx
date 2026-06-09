@@ -4,31 +4,73 @@ name: "Ostlänken"
 start_date: 2024
 end_date: 2024
 description: "The Ostlänken exhibition was a collaboration between Linköping University, Trafikverket, Norrköping municipality and SWECO with the goal of creating content for a townhall meeting at Visualiseringscenter C about the planned changes to city planning related to the Ostlänken high speed train railway." 
-image: "./cardiohelp_patient.png"
+image: "./Images/station_fisheye.png"
 homepage: ""
 people: [ "guser40", "erite19" ]
-funding: [ "visc", "infravis"]
+funding: [ "trafikverket" ]
 ---
 
 # About
 The Ostlänken exhibition was a collaboration between Linköping University, Visualiseringscenter C, Trafikverket, Norrköping municipality and SWECO. The  goal was to create content for a townhall meeting at Visualiseringscenter C about the planned changes to city planning related to the Ostlänken high speed train railway. The project was built in Unreal Engine 5 and produced a touch screen application, a [2D movie](https://www.youtube.com/watch?v=sJ0Yq4mUf0U) and a [dome movie](https://visualiseringscenter.se/show/ostlanken-framtidens-norrkoping/). 
 
-# Contributors
-This section lists the main contributors to the content in the Unreal Engine project, and roughly who worked on what.
+# Terrain
+Norrköping and the surrounding area was visualized in 3D using [Cesium](https://cesium.com/platform/cesium-for-unreal/). This plugin allows us to stream in geospatial data on demand, only loading what is in the direct view of the camera, with efficient LOD and culling. 
+The data for central Norrköping was provided from Norrköping municipality and the terrain outside of that area came from Google Photorealistic 3D Tiles. 
 
-## Linköping University
-The main application was built by Linköping University. This includes the pipeline for importing CAD data and displaying geographical data. The interaction and any "gameplay elements" where built by LiU, as well as the dome movie rendering that was done with our [in-house dome rendering pipeline](/guides/unreal_engine_fisheye_rendering/).
+<Image src="Images/terrain.png" width="100%" />
 
-## Norrköping municipality
-Norrköping municipality worked on the level design of the city district Butängen as well as the rail station, designed by the architect firm Wingårdhs. They also produced the [2D movie](https://www.youtube.com/watch?v=sJ0Yq4mUf0U) about the Ostlänken project.
+## Cutting the terrain
+We wanted to cut out parts of the terrain to expose other features, such as the new railway model and our custom water.
+Cesium for Unreal ships with a feature that allows you to define a cut out area with a [polygon tool](https://cesium.com/learn/unreal/unreal-clipping/), which was perfect for our use case.
+However, the area and resolution of the cut out we wanted required thousands of points, so defining it manually was not feasible. 
+The solution was to script the polygon creation using Python, basing the point placements on *.shp*-files from Norrköping municipality for the water coverage, and from SWECO for the railway footprint.
+The raw data proved to have a very high performance impact on Unreal Engine when used to cut the terrain, due to the amount of points. To solve this, QGIS was used to reduce the amount of points in the *shp* data.
+The points also had to be transformed from SWEREF to the WGS84 system that Cesium uses, otherwise you noticed a mismatch between the data and the terrain over larger distances.
 
-## SWECO
-SWECO worked on the CAD models for the high speed railway infrastructure.
+<Image src="Images/terrain_cutout.png" width="100%" />
 
-# Data
-At its core this project is about showing CAD and geographical data, both 3D and 2D, together in the context of a city that the end user can explore on their own. This section explains the types of data that were used and the source of them.
+## Trees and streetlights
+The terrain was populated with trees and streetlights using a similar method of importing *shp* data using Python scripting. From the point data a series of Instance Static Meshes was created, with a variation in trees based on type and age.
+Since each point also contained crown coverage and height, we could scale the trees for an exact match, creating natural variation in the trees. The data only contained 2D coordinates, so the Z position was determined by sampling a height map of Norrköping.
 
-## 
+<Image src="Images/trees.png" width="100%" />
 
-# Ostlänken in Unreal Engine
-This section explores how the project was built in Unreal Engine 5. It explains the technology and methods that was used to build the visualization
+## Water
+The water material was created with [Single Layer Water](https://www.youtube.com/watch?v=KLl3PZeupFM) which fakes a water with depth on a plane.
+The moving water was created using a [Flow map](https://www.youtube.com/watch?v=FvbPnndigL4), which animates the water along the forward vector of a Spline Mesh.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/ostlanken/Video/Water.mp4"
+    type="video/mp4"
+  />
+</video>
+
+# Train and tram animations
+The train and tram models were composed of an array of meshes in a Blueprint Construction script. This allowed us to define custom train wagon setups of varying lengths with a few base meshes.
+The trains were then animated along a spline track, where each wagon wheel pair snaps individually to the spline creating a natural "snake" motion of the train.
+The train object is linked to a track, and the track moves along the spline when the train world position is set. 
+An animation can then be setup with Sequencers by key framing the trains position along the spline, which could be played on demand. 
+
+The train tracks were created by importing *shp* data defining the track mid line, and generating splines with a Python script.
+The splines then had to be subdivided into a secondary spline with equal length segments, as animation along the spline otherwise caused the speed to vary.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/ostlanken/Video/Tram.mp4"
+    type="video/mp4"
+  />
+</video>
+
+# CAD data
+The CAD data in the project, such as the train station and train tracks was brought into Unreal Engine using [Datasmith](https://dev.epicgames.com/documentation/unreal-engine/datasmith-plugins-overview).
+This allows us to automate operations such as material assignment and UV mapping on thousands of objects, creating a smoother import pipeline.
+
+<Image src="Images/CAD.png" width="100%" />
+
+## Coordinate system adjustments
+Since the CAD models were defined in SWEREF and Cesium uses WGS84 some adjustments to the transform had to be done to fit the map data.
+For some more locally contained meshes it was enough to place the objects in the right location by moving the root object in the scene graph.
+Other models however spanned several kilometers and in those cases you again noticed a mismatch between the terrain and the models. 
+For some models with smaller meshes we could adjust the location of objects directly in Unreal Engine, but for the larger meshes such as the train track the mesh itself had to be transformed into WGS84 in an external program by SWECO.
+
