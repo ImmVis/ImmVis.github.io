@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
 import MiniFundingList from "@/components/MiniFundingList";
+import MiniInitiativeList from "@/components/MiniInitiativeList";
 import { mdxComponents } from "@/components/mdxComponents";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { PersonnelData, getAllPersonnels } from "@/helpers/PersonnelHelper";
@@ -14,7 +15,6 @@ import { getAllInitiatives, InitiativeData } from "@/helpers/InitiativeHelper";
 import { PublicationList } from "../publications";
 import { SpaceList } from "../spaces";
 import { GuideList } from "../guides";
-import { InitiativeList } from "../initiatives";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
@@ -50,10 +50,6 @@ export default function Project({
     data.spaces?.includes(space.data.id),
   );
 
-  const myInitiatives = initiatives?.filter((initiative) =>
-    data.initiatives?.includes(initiative.data.id),
-  );
-
   return (
     <>
       <Head>
@@ -79,35 +75,42 @@ export default function Project({
 
             {/* Links */}
             <div className="contributors">
-              <div>
-                <h3>Contributors</h3>
-                <MiniPersonnelList
-                  personnel={personnel}
-                  liuidList={data.people}
-                />
-              </div>
-              <div>
-                {data.funding.length > 0 && (
-                  <>
-                    <h3>Funding</h3>
-                    <MiniFundingList
-                      fundings={fundings}
-                      fundingIdList={data.funding}
-                    />
-                  </>
-                )}
-              </div>
-              <div>
-                {data.homepage && (
-                  <>
-                    <h3>Homepage</h3>
-                    <div className="homepage">
-                      <FontAwesomeIcon icon={faLink} fixedWidth />
-                      <a href={data.homepage}>{data.homepage}</a>
-                    </div>
-                  </>
-                )}
-              </div>
+              {data.people.length > 0 && (
+                <div>
+                  <h3>Contributors</h3>
+                  <MiniPersonnelList
+                    personnel={personnel}
+                    liuidList={data.people}
+                  />
+                </div>
+              )}
+              {data.funding.length > 0 && (
+                <div>
+                  <h3>Funding</h3>
+                  <MiniFundingList
+                    fundings={fundings}
+                    fundingIdList={data.funding}
+                  />
+                </div>
+              )}
+              {data.initiatives && data.initiatives.length > 0 && (
+                <div>
+                  <h3>Initiatives</h3>
+                  <MiniInitiativeList
+                    initiatives={initiatives}
+                    initiativeIdList={data.initiatives}
+                  />
+                </div>
+              )}
+              {data.homepage && (
+                <div>
+                  <h3>Homepage</h3>
+                  <div className="homepage">
+                    <FontAwesomeIcon icon={faLink} fixedWidth />
+                    <a href={data.homepage}>{data.homepage}</a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -140,15 +143,6 @@ export default function Project({
               <hr />
               <h1>Spaces</h1>
               <SpaceList spaces={mySpaces} />
-            </>
-          )}
-
-          {/* Initiatives */}
-          {data.initiatives && data.initiatives.length > 0 && (
-            <>
-              <hr />
-              <h1>Initiatives</h1>
-              <InitiativeList initiatives={myInitiatives} />
             </>
           )}
         </div>

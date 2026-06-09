@@ -55,35 +55,33 @@ export default function Initiative({
 
             {/* Links */}
             <div className="contributors">
-              <div>
-                <h3>Contributors</h3>
-                <MiniPersonnelList
-                  personnel={personnel}
-                  liuidList={data.people}
-                />
-              </div>
-              <div>
-                {data.funding.length > 0 && (
-                  <>
-                    <h3>Funding</h3>
-                    <MiniFundingList
-                      fundings={fundings}
-                      fundingIdList={data.funding}
-                    />
-                  </>
-                )}
-              </div>
-              <div>
-                {data.homepage && (
-                  <>
-                    <h3>Homepage</h3>
-                    <div className="homepage">
-                      <FontAwesomeIcon icon={faLink} fixedWidth />
-                      <a href={data.homepage}>{data.homepage}</a>
-                    </div>
-                  </>
-                )}
-              </div>
+              {data.people.length > 0 && (
+                <div>
+                  <h3>Contributors</h3>
+                  <MiniPersonnelList
+                    personnel={personnel}
+                    liuidList={data.people}
+                  />
+                </div>
+              )}
+              {data.funding.length > 0 && (
+                <div>
+                  <h3>Funding</h3>
+                  <MiniFundingList
+                    fundings={fundings}
+                    fundingIdList={data.funding}
+                  />
+                </div>
+              )}
+              {data.homepage && (
+                <div>
+                  <h3>Homepage</h3>
+                  <div className="homepage">
+                    <FontAwesomeIcon icon={faLink} fixedWidth />
+                    <a href={data.homepage}>{data.homepage}</a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

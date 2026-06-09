@@ -14,7 +14,10 @@ const FundingMeta = z.object({
   name: z.string(),
   icon: z.string(),
   grants: z.optional(z.array(z.string())),
-  link: z.string()
+  link: z.string(),
+  featured: z.boolean(),
+  order: z.optional(z.number()),
+  hidden: z.optional(z.boolean()),
 });
 
 // Frontmatter variables at the top of the .mdx file
@@ -30,6 +33,7 @@ export interface FundingData extends MatterData {
 export async function getAllFundings(): Promise<MatterData[]> {
   const matterList = await fetchAllFiles(path.join(".", folderPath));
   let list = matterList.map(matterData => validateData(matterData as FundingData));
+  list.sort((a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity));
   return list;
 };
 
