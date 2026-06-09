@@ -1,0 +1,102 @@
+---
+id: "medical_digital_twin"
+name: "Medical Digital Twin"
+start_date: 2022
+description: "Visualization of medical digital twins using Metahumans"
+image: "./Images/gunnar_metahuman.png"
+homepage: ""
+people: [ "guser40", "davbe93", "gunce57", "willo18" ]
+funding: [ "infravis", "visual_sweden" ]
+initiatives: ["infravis", "visual_sweden"]
+---
+
+# About
+Medical Digital Twin is a project focused on creating realistic 3D avatars of patients, to be used as a front end visualization for health communication based on machine learning models that simulate health scenarios on an individual level. 
+
+This project has been running in iterations since 2022, starting as an Infravis project and is currently funded in part as a Visual Sweden project.
+
+# Research focus
+The research of Gunnar Cedersunds team focuses on creating models for simulating health scenarios based on machine learning and patient data. This allows them to make predictions on how diet, exercise and medication will affect patients individually. As a part of this research, they are also exploring how this knowledge can be used to drive impactful behavior changes in patients. The hypothesis is that too abstract data fails to impact the patients behavior, and they want to explore how more personal and relatable types of visualization can prove more engaging to the patient and impactful to help them live a more healthy lifestyle.
+
+# Dance performance with bone load simulation
+The first project that was done within Medical Digital Twin was a shorter Infravis project with the goal of creating a 3D visualization of humans dancing, based on motion capture data. This was a complement to a master thesis work where two students where calculating bone load on the human body for a series of dance motions.
+We used the, then new and novel, Metahuman tool for Unreal Engine to create digital twins of several people that we could apply the motion capture animations to.
+The end deliverable of this project was a series of videos that shows human avatars performing motions, accompanied by a skeleton reflecting the motions with bone load data.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/medical_digital_twin/Video/MedicalTwinSkeletonDance.mp4"
+    type="video/mp4"
+  />
+</video>
+
+# Pixel stream front end application
+The second project was a development project where we created an application where you could visualize patients 3D models based on the Metahuman technology interactively and stream it to a mobile application through [Pixel Streaming](https://dev.epicgames.com/documentation/unreal-engine/pixel-streaming-in-unreal-engine). Pixel streaming allows you to run a complex rendered application on a powerful computer, and view it in a web window on your platform of choice.
+
+<Image src="Images/pixel_streaming.png" width="100%" />
+
+This was a pilot project where a prototype for the 3D application was created, along with a pipeline procedure for going from 3D scan of a person to a Metahuman twin in the application. 
+All in all twins were created for three people in this project, based on the researchers own likeness. 
+
+## Patient data
+The patient data is not stored and shown directly in the Unreal Engine application, but rather in a separate web-based application. The Metahuman avatars however are baked into the application. The idea is to stream inputs from the web application using Pixel Stream which lets you control the 3D application remotely. The tools of the application this lets you explore the data in the context of your digital twin, using the body as an interface by for example selecting an organ on the 3D body to view data about it in the web application.
+
+## Metahuman avatars
+The application is built in Unreal Engine and is centred around the Metahuman realistic human avatar technology. It allows you to swap between different avatars which you can use as an interface to explore patient data.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/medical_digital_twin/Video/MedicalTwinAvatars.mp4"
+    type="video/mp4"
+  />
+</video>
+
+To crete the Metahuman patient avatars we employed a 3D scanning method, where the test persons face was scanned and turned into a 3D mesh. The mesh was then turned into a Metahuman using Unreal Engines Mesh to Metahuman pipeline.
+
+<Image src="Images/scan_to_metahuman.png" width="100%" />
+
+## Weight Adjustment
+You can adjust the weight of avatars by applying a morph target animation to the avatar, interpolating the mesh to an overweight/underweight version of it. The morph target was generated using the MeshMorpher plugin for Unreal Engine.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/medical_digital_twin/Video/MedicalTwinWeight.mp4"
+    type="video/mp4"
+  />
+</video>
+
+## Exercise animations
+You can have the avatars perform different exercises such as running and doing pushups, for work out and rehab purposes. This can show you potential progress if you do real life exercises and hopefully motivate the patient. It is currently using premade animations, but a future goal is to create motion capture data from medical professionals.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/medical_digital_twin/Video/MedicalTwinAnimations.mp4"
+    type="video/mp4"
+  />
+</video>
+
+## Transparent mode
+In the transparent mode you can view the bodies organs, and select with them to get information from the back end simulations in the web application. The goal is to make your digital twin an interface to understand what is happening in your own body.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/medical_digital_twin/Video/MedicalTwinTransparent.mp4"
+    type="video/mp4"
+  />
+</video>
+
+## Changing context
+You can change environment to explore your twin data in different contexts, such as a doing exercises at the gym or a medical examination at the hospital.
+
+<video controls autoPlay muted loop playsInline style={{ maxWidth: "100%" }}>
+  <source
+    src="/content/projects/medical_digital_twin/Video/MedicalTwinChangingContext.mp4"
+    type="video/mp4"
+  />
+</video>
+
+# Scaling up and automating Metahuman generation
+With the launch of UE5.7 a bunch of new Metahuman tools were introduced into UE. You can now generate a Metahuman Face using a video source, cutting out the need for a 3D scanner for generating Metahuman twins.
+Another improvement is bringing the Metahuman pipeline into the editor, whereas it had been an external web tool previously. This, along with exposing the Metahuman tools to Python scripting allows for Metahumans to be generated form patient data and a mobile phone video.
+
+
