@@ -7,9 +7,190 @@ people: ["mange61", "guser40"]
 funding: ["formas", "smartbuilt"]
 ---
 
-# Omni
+# Omni-SimStad API Documentation
 
-- Omni / Network
-  - How to use and connect
-  - (Erik does not want us to use LiU Omni when shipping, so we’ll have to package Omni in the bundle and explain how to set that up locally)
-  - Protocol
+The **Omni-SimStad** Django application serves as the core database manager and state engine for the public SimStad exhibit. It acts as a specialized subsystem under the umbrella of the larger [Omni Backend Ecosystem](https://www.google.com/search?q=https://example.com/omni-docs-stub), which coordinates multi-display, interactive installations.
+
+While administrative stakeholders (engineers and pedagogues) use the Django Admin panel to alter spatial layers, legends, and metadata, the frontend exhibit nodes and interactive screens query this API in real time to fetch data payloads. Additionally, specific server-rendered routes are consumed by external hardware—such as **PixiLab Blocks** monitors—to dynamically output active legends.
+
+---
+
+## 1. Architectural Overview & Context
+
+```
+   ┌────────────────────────────────────────────────────────┐
+   │                  OMNI BACKEND SYSTEM                   │
+   │  (Unified ecosystem for multi-display infrastructure)  │
+   └───────────────────────────┬────────────────────────────┘
+                               │
+                               ▼
+ ┌──────────────────────────────────────────────────────────────┐
+ │                    OMNI-SIMSTAD SERVER                       │
+ ├──────────────────────────────┬───────────────────────────────┤
+ │     Django Admin Panel       │         REST API              │
+ │  (Engineers & Pedagogues)    │  (Exhibition Interfaces)      │
+ └──────────────────────────────┴──────────────┬────────────────┘
+                                               │
+                       ┌───────────────────────┴───────────────────────┐
+                       ▼                                               ▼
+         ┌───────────────────────────┐                   ┌───────────────────────────┐
+         │ Interactive Exhibit Nodes │                   │   PixiLab Blocks Screens  │
+         │   (Cities / Scenarios)    │                   │   (Dynamic HTML Legends)  │
+         └───────────────────────────┘                   └───────────────────────────┘
+
+```
+
+The server manages a hierarchical data matrix optimizing geographic, temporal, and spatial visualization sequences. The core engine models map data via discrete raster types (Images, Videos, Vector Flows, and Live Network Device Interface (NDI) streams) structured across predefined exhibition domains.
+
+---
+
+## 2. API Endpoint Registry
+
+All endpoints expect a base target matching your environment routing and return standardized JSON arrays or object payloads unless specified otherwise.
+
+### Exhibition Hierarchy & Configuration
+
+| Method | Endpoint | Description | Payload Type |
+| --- | --- | --- | --- |
+| `GET` | `/get_cities/` | Fetches all active exhibition city instances. | Array |
+| `GET` | `/get_city/<str:city_key>/` | Retrieves complete structural configuration for a targeted city. | Object |
+| `GET` | `/get_collections/` | Fetches collection groupings that tie scenarios into coherent themes. | Array |
+| `GET` | `/get_collection/<str:collection_key>/` | Retrieves data and scenario lists mapped to a single theme. | Object |
+
+### Spatial & Layer Content Engines
+
+| Method | Endpoint | Description | Payload Type |
+| --- | --- | --- | --- |
+| `GET` | `/get_scenarios/` | Fetches global scenarios list across all installations. | Array |
+| `GET` | `/get_scenario/<str:scenario_key>/` | Pulls a scenario configuration along with its layered rendering matrix. | Object |
+| `GET` | `/get_rasters/` | Lists comprehensive image, video, and stream metadata assets. | Array |
+| `GET` | `/get_raster/<str:raster_key>/` | Pulls explicit system-paths, thumbnails, and key properties for a raster. | Object |
+
+### Legends, Tags, and Localizations
+
+| Method | Endpoint | Description | Payload Type |
+| --- | --- | --- | --- |
+| `GET` | `/get_legends/` | Fetches tabular legend objects. | Array |
+| `GET` | `/get_legend/<str:legend_key>/` | Pulls entries, color hex arrays, and symbols for a legend. | Object |
+| `GET` | `/get_symbols/` | Fetches list of all validated UI symbology graphics. | Array |
+| `GET` | `/get_symbol/<str:symbol_key>/` | Pulls a single symbology asset file link. | Object |
+| `GET` | `/get_tags/` | Returns structural classification tags used to organize rasters. | Array |
+| `GET` | `/get_tag/<str:tag_key>/` | Returns a specific tag resource object. | Object |
+| `GET` | `/get_localization/` | Compiles a full map of interface-agnostic key-value strings for UI rendering. | Object |
+
+### Dynamic Screen Routing
+
+| Method | Endpoint | Description | Response Type |
+| --- | --- | --- | --- |
+| `GET` | `/legend/<str:scenario_key>/` | Server-rendered view outputting the current map legend layout. | HTML |
+| `GET` | `/legend/<str:scenario_key1>/<str:scenario_key2>/` | Server-rendered comparison view displaying a side-by-side or combined legend layout. | HTML |
+
+---
+
+## 3. Core Data Object Mappings
+
+When interacting with the API, returned objects follow specific structural conventions based on the relational schema of the backend:
+
+### City
+
+Defines a geographic coordinate canvas based on the Swedish coordinate system system (**SWEREF 99 TM**), tracking UI orientation parameters and fallback loops.
+
+* `key` *(String)*: Unique alphanumeric system handle.
+* `name` *(String)*: Public exhibit title.
+* `service` *(Integer/ID)*: Reference ID linking the client node to its real-time WebSocket communication broker.
+* `min_x` / `max_x` / `min_y` / `max_y` *(Float)*: Bounding box limits for geographic tracking.
+* `orientation` *(String)*: Camera layout orientation relative to the physical city mockup table (`north`, `east`, `south`, `west`).
+* `raster_width` / `raster_height` *(Integer)*: Resolution specifications of the display canvas in pixels.
+* `default_blocks_video` *(String)*: Path to video loops rendered on standby when the client connection sits idle.
+
+### Scenario & Layers
+
+Scenarios determine exactly how informational visual maps parse onto screen components. The scenario specifies a layout behavior: `stacked` (where layers blend together using specific attributes) or `sequential` (which provisions a timeline/slider matrix based on `sequence_labels`).
+
+A Scenario object exposes a nested sequence of **Layer** configurations sorted by `order`. Every layer object includes specialized parameters based on its `type`:
+
+```json
+{
+  "key": "traffic-evolution-2026",
+  "name": "Traffic Evolution Analysis",
+  "layer_display_mode": "sequential",
+  "sequence_title": "Select Target Horizon Year",
+  "layers": [
+    {
+      "type": "image",
+      "order": 1,
+      "opacity": 0.85,
+      "emission": 0.2,
+      "crop_type": "slice",
+      "crop_data": {
+        "type": "slice",
+        "slice": { "min_u": 0.0, "max_u": 0.5, "min_v": 0.0, "max_v": 1.0 }
+      },
+      "raster": "base-map-layer"
+    },
+    {
+      "type": "flow",
+      "order": 2,
+      "opacity": 1.0,
+      "flow_scale": 1.5,
+      "flow_speed": 2.0,
+      "raster": "vector-velocity-map",
+      "flow_texture": "particle-noise-texture"
+    },
+    {
+      "type": "ndi",
+      "order": 3,
+      "ndi_stream": "LIVE_SIM_FEED_01",
+      "ndi_machine": "RENDER_NODE_LEFT"
+    }
+  ]
+}
+
+```
+
+> ### ⚠️ Layer Validation Constants
+> 
+> 
+> * **Image Layers**: Require a `raster` asset whose `media_type` is validated strictly as `image`.
+> * **Flow Layers**: Require a primary base `raster` (`image`) and an accompanying `flow_texture` (`image`) to calculate vector paths.
+> * **Movie Layers**: Require a `raster` asset whose `media_type` is validated strictly as `video`.
+> * **Color Layers**: Generate flat vector solid shapes based on hex codes parsed through the `color` attribute.
+> * **NDI Layers**: Leverage live network streams and require `ndi_stream` fields filled to bypass storage loops entirely.
+> 
+> 
+
+### Raster Assets
+
+The `Raster` engine handles standard mapping layers and automatically generates minimaps and thumbnails upon modification:
+
+* `media_type`: Disambiguates whether the core asset follows the `image` or `video` schema validation loop.
+* `image` / `video`: Native paths targeting static resource allocations.
+* `minimap` / `thumbnail`: Automatically generated scaling outputs used for rendering local UI navigation assets on client panels.
+
+---
+
+## 4. Hardware Integrations (PixiLab Blocks Monitors)
+
+To accommodate structural screens that frame map models, Omni-SimStad uses explicit server-side templates via specialized endpoints:
+
+### Single Legend Canvas
+
+```http
+GET /legend/<scenario_key>/
+
+```
+
+Parses the `legend` or `legend_image` property bound to a requested Scenario. If utilizing custom elements, it reads related nested `LegendEntry` values, delivering matching symbols and hexadecimal color indicators straight to digital displays.
+
+### Dual Comparison Canvas
+
+```http
+GET /legend/<scenario_key1>/<scenario_key2>/
+
+```
+
+Processes dual scenario configurations to construct side-by-side matrices or composite comparative layouts on displays configured around multi-option interactives.
+
+---
+
+Ready to move on to the second part? Share your `admin.py` file whenever you're set, and we can draft the documentation for the administrative tools used by your engineers and pedagogues.

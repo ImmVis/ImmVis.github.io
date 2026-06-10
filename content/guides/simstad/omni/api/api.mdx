@@ -1,0 +1,163 @@
+---
+id: "api"
+name: "API"
+description: "Bla bla"
+image: "/content/guides/simstad/simstad.png"
+people: ["mange61"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Omni-SimStad Admin Portal Guide
+
+The **Omni-SimStad Control Panel** provides engineers and pedagogues with a secure environment to modify exhibition states, update localized strings, and provision cartographic data layers.
+
+The control panel implements deep ordering rules (`django-adminsortable2`) and inline localization components (`django-modeltranslation`) across English (`en`) and Swedish (`sv`).
+
+---
+
+## 1. Exhibition Structural Hierarchies
+
+Data layout structures are managed downstream through a clear structural hierarchy:
+
+City Exhibit -> Featured Themes (Collections) -> Dynamic Scenarios -> Target Render Layers
+
+### Managing Cities (Exhibitions)
+
+Each `City Exhibit` entry correlates to a physical interactive table installation inside the exhibition gallery.
+
+- **Coordinates & Mapping**: Spatial bounds are explicitly formatted using the Swedish National Grid system (**SWEREF 99 TM**). Altering `min_x`, `max_x`, `min_y`, and `max_y` changes the boundary metrics used by frontend coordinates.
+- **Orientation Controls**: The `Orientation` property adapts interface viewpoints to match the physical orientation of user panels positioned around the town physical model layout (`North`, `East`, `South`, `West`).
+- **Featured Collections**: You can prioritize featured themes on the home screen directly within the city layout view using the grab handles to change display sorting.
+
+### Managing Collections (Themes)
+
+Collections package individual scenarios into clean public thematic clusters (e.g., _Sustainable Transportation Elements_, _Historical Grid Evolutions_).
+
+- Filter by city using the right sidebar to avoid layout configuration overlap.
+- Upload a high-resolution cover image; an inline visual preview confirms whether it renders safely without UI sizing issues.
+
+---
+
+## 2. Deep Dive: Scenarios & Composited Layers
+
+Scenarios determine how computational maps display spatial data assets on user consoles.
+
+### Scenario Display Mechanics
+
+When creating or editing a Scenario, you must establish its primary canvas presentation structure using the **Layer Display Mode**:
+
+- **Stacked Mode**: Renders all defined sub-layers concurrently, blending visual elements together sequentially based on their `order` index values.
+- **Sequential Mode**: Bundles components onto an interactive timeline slider widget. This mode leverages localized `Sequence Labels` (e.g., "1950", "2000", "2026") to switch active visual layers on the map framework.
+
+---
+
+### Layer Architectural Types & Configuration Matrix
+
+Layers are nested inside Scenarios. Clicking the layer type selector updates active inputs via internal layout scripts (`layer.js`). You must configure specific matching parameters based on your selected layer mode:
+
+| Layer Type | Required Target Attributes                | Behavioral Description                                                                                                |
+| ---------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Image**  | `Raster` (Media Type: `image`)            | Renders standard static geographic datasets, structural zoning shapes, or underlying street maps.                     |
+| **Flow**   | `Raster` + `Flow Texture` + `Scale/Speed` | Renders moving vector fields. Calculated using a base raster color vector overlay wrapped with a noise texture asset. |
+| **Movie**  | `Raster` (Media Type: `video`)            | Streams looping video structures over the map layout at configurable playback speed rates (`movie_speed`).            |
+| **Color**  | `Solid Color Hex`                         | Generates a uniform vector tint overlay utilizing a pop-up field palette picker.                                      |
+| **NDI**    | `NDI Stream Name` + `NDI Machine`         | Accesses live over-the-network video feeds directly, bypassing local server file directories.                         |
+
+```
+┌────────────────────────────────────────────────────────┐
+│                   SCENARIO RENDERING                   │
+├────────────────────────────────────────────────────────┤
+│ Layer 3: NDI Layer (Live Simulator Feed)              │
+├────────────────────────────────────────────────────────┤
+│ Layer 2: Flow Layer (Dynamic Vector Particle Movement) │
+├────────────────────────────────────────────────────────┤
+│ Layer 1: Image Layer (Base SWEREF 99 Map Canvas)       │
+└────────────────────────────────────────────────────────┘
+
+```
+
+### Advanced Adjustments & Spatial Cropping
+
+Open the **Advanced** and **Cropping** tabs to perform micro-adjustments on individual layers:
+
+- **Opacity ($0.0 \rightarrow 1.0$)**: Sets layer transparency limits.
+- **Emission ($0.0 \rightarrow N$)**: Adjusts self-illumination strengths, allowing glowing elements (like night windows or data nodes) to stand out.
+- **Locked Order**: In **Sequential Mode**, checking this option locks a layer (e.g., a baseline topography map) to keep it visible across all timeline slider steps.
+- **Slice Cropping**: Uses horizontal and vertical coordinates ($u, v$ bounds from $0.0$ to $1.0$) to trim rectangular map sections.
+- **Circle Cropping**: Pinpoints a center point coordinate (`crop_center_u`, `crop_center_v`) and applies a radial clip (`crop_radius`) to focus the display on a specific circular area.
+
+---
+
+## 3. Automation and Asset Bulk Pipelines
+
+The asset pipeline includes built-in automation routines to save management time for engineers and pedagogues.
+
+### Rasters and Automatic Optimization Tools
+
+The `Raster` section manages static assets and dynamic video files. To speed up workflow, look for the **Bulk Upload Rasters** button in the top right corner of the list page.
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  BULK RASTER UPLOADER                                            │
+├──────────────────────────────────────────────────────────────────┤
+│  Target City: [ Stockholm Exhibit    v ]                         │
+│  Assign Tags: [ [x] Infrastructure  [x] 2026 Planning ]          │
+│  Drop Files:  [ file1.png, file2.mp4, file3.png  ]               │
+├──────────────────────────────────────────────────────────────────┤
+│  [ >> Execute Parallel Asset Processing Pipeline << ]            │
+└──────────────────────────────────────────────────────────────────┘
+
+```
+
+When you click save, the server triggers an automatic backend processing loop:
+
+1. **Filename Standardization**: Cleans asset files, forcing lowercase extensions matching your database target key identifiers.
+2. **Key-Collision Guard**: Auto-generates clean, incremental unique system keys if filenames conflict.
+3. **Automated Layout Generation**: Processes underlying imagery or video frames to automatically populate `minimap` and `thumbnail` fields, ensuring assets render quickly on frontend operator tablets.
+
+---
+
+## 4. Map Legend Management Systems
+
+Map legend elements can be configured manually via structural panels or imported instantly using structured configuration keys.
+
+### JSON Import Configuration Engine
+
+For maps containing numerous data categories, use the **Import Legend from JSON** pipeline instead of building entries row by row.
+
+```json
+[
+  {
+    "text": "Residential High-Density Zones",
+    "color": "#FF5733",
+    "type": "rectangle"
+  },
+  {
+    "text": "Protected Ecological Wetland",
+    "color": "#2ECC71",
+    "type": "circle"
+  }
+]
+```
+
+When you paste this structured array into the utility window, the system processes your layout choices sequentially:
+
+- Parses nested keys and maps the text fields to matching language rows (`text_en` / `text_sv`).
+- Extracts color codes directly into hex fields.
+- Searches database symbols for a matching identifier (e.g., checking for type names like `"rectangle"` or `"circle"`). If no exact match is found, it safely falls back to your first active default asset icon.
+
+---
+
+## 5. UI Localization Mapping
+
+The **Localized Strings** workspace acts as a central glossary for user interface elements that aren't tied to any single database object (such as instructional buttons, system reset prompts, and slider headers).
+
+- Each entry contains an immutable system tracking code (`key`) alongside bilingual text areas (`text_en` and `text_sv`).
+- Modifying these translation blocks updates text displays instantly across all external frontend screen connections without requiring app restarts or software reinstalls.
+
+---
+
+### Related Documentation Modules
+
+- [Omni Core Infrastructure Framework Guide](https://www.google.com/search?q=https://example.com/omni-docs-stub)
+- [PixiLab Blocks Node Configuration Standards](https://www.google.com/search?q=https://example.com/omni-docs-stub/pixilab)
