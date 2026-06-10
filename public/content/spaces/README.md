@@ -13,6 +13,7 @@ The following fields in the header are recognized:
  - `description` (string): A brief overview summarizing the purpose of the space and what it showcases. To ensure clean layouts on listing pages, this should be limited to a single paragraph.
  - `image` (string): A URL or relative file path to a high-quality, representative image of the space.
  - `homepage` (string, optional): The URL to the external official website for the space, if applicable (e.g., if the main landing page is hosted elsewhere).
+ - `initiatives` (array{string}, optional): The list of ids to initiatives to link to
  - `funding` (array{string}): A list of IDs for the foundations, partners, or funding bodies that supported the creation or ongoing operation of the space.
  - `hidden` (boolean, optional): Set to `true` if the space should be omitted from the public listing page.
 

@@ -3,12 +3,14 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import MiniFundingList from "@/components/MiniFundingList";
 import MiniPersonnelList from "@/components/MiniPersonnelList";
+import MiniInitiativeList from "@/components/MiniInitiativeList";
 import { mdxComponents } from "@/components/mdxComponents";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
 import { getAllSpaces, getSpace, SpaceData } from "@/helpers/SpaceHelper";
 import { getAllGuides, GuideData } from "@/helpers/GuideHelper";
 import { getAllPersonnels, PersonnelData } from "@/helpers/PersonnelHelper";
+import { getAllInitiatives, InitiativeData } from "@/helpers/InitiativeHelper";
 import { GuideList } from "../guides";
 import { ProjectList } from "../projects";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,12 +23,14 @@ export default function Space({
   fundings,
   projects,
   guides,
+  initiatives,
 }: {
   space: SpaceData;
   personnel: PersonnelData[];
   fundings: FundingData[];
   projects: ProjectData[];
   guides: GuideData[];
+  initiatives: InitiativeData[];
 }) {
   const { data, content } = space;
 
@@ -78,6 +82,15 @@ export default function Space({
                   <MiniFundingList
                     fundings={fundings}
                     fundingIdList={data.funding}
+                  />
+                </div>
+              )}
+              {data.initiatives && data.initiatives.length > 0 && (
+                <div>
+                  <h3>Initiatives</h3>
+                  <MiniInitiativeList
+                    initiatives={initiatives}
+                    initiativeIdList={data.initiatives}
                   />
                 </div>
               )}
@@ -143,6 +156,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
       fundings: await getAllFundings(),
       projects: await getAllProjects(),
       guides: await getAllGuides(),
+      initiatives: await getAllInitiatives(),
     },
   };
 }

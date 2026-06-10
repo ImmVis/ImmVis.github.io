@@ -7,8 +7,10 @@ import { mdxComponents } from "@/components/mdxComponents";
 import { getAllPersonnels, PersonnelData } from "@/helpers/PersonnelHelper";
 import { FundingData, getAllFundings } from "@/helpers/FundingHelper";
 import { ProjectData, getAllProjects } from "@/helpers/ProjectHelper";
+import { getAllSpaces, SpaceData } from "@/helpers/SpaceHelper";
 import { getAllInitiatives, getInitiative, InitiativeData } from "@/helpers/InitiativeHelper";
 import { ProjectList } from "../projects";
+import { SpaceList } from "../spaces";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,16 +20,22 @@ export default function Initiative({
   personnel,
   fundings,
   projects,
+  spaces,
 }: {
   initiative: InitiativeData;
   personnel: PersonnelData[];
   fundings: FundingData[];
   projects: ProjectData[];
+  spaces: SpaceData[];
 }) {
   const { data, content } = initiative;
 
   const myProjects = projects.filter((project) =>
     project.data.initiatives?.includes(data.id),
+  );
+
+  const mySpaces = spaces.filter((space) =>
+    space.data.initiatives?.includes(data.id),
   );
 
   return (
@@ -36,8 +44,8 @@ export default function Initiative({
         <title>{`${data.name} - ImmVis`}</title>
       </Head>
 
-      <main className="project-single">
-        <div className="project-single-profile">
+      <main className="initiative-single">
+        <div className="initiative-single-profile">
           {/* Left initiative info */}
           <div className="left">
             <Image
@@ -87,7 +95,7 @@ export default function Initiative({
         </div>
 
         {/* Markdown content */}
-        <div className="project-single-markdown mdx-content">
+        <div className="initiative-single-markdown mdx-content">
           <MDXRemote {...content} components={mdxComponents} />
 
           {/* Projects */}
@@ -96,6 +104,15 @@ export default function Initiative({
               <hr />
               <h1>Projects</h1>
               <ProjectList projects={myProjects} />
+            </>
+          )}
+
+          {/* Spaces */}
+          {mySpaces.length > 0 && (
+            <>
+              <hr />
+              <h1>Spaces</h1>
+              <SpaceList spaces={mySpaces} />
             </>
           )}
         </div>
@@ -125,6 +142,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
       personnel: await getAllPersonnels(),
       fundings: await getAllFundings(),
       projects: await getAllProjects(),
+      spaces: await getAllSpaces(),
     },
   };
 }

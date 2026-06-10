@@ -9,7 +9,7 @@ function InitiativeItem({ post }: { post: InitiativeData }) {
 
   return (
     <Link href={`/initiatives/${post.slug}`} className="flex">
-      <div className="project-box">
+      <div className="initiative-box">
         <Image width={512} height={256} alt={data.image} src={data.image} />
         <p role="name">{data.name}</p>
         <p role="brief">{data.start_date}</p>
@@ -24,7 +24,7 @@ export function InitiativeList({ initiatives }: { initiatives: InitiativeData[] 
   initiatives = initiatives.filter(page => !page.data.hidden);
 
   return (
-    <div className="project-list">
+    <div className="initiative-list">
       {initiatives.map(post =>
         <InitiativeItem key={post.slug} post={post} />
       )}
@@ -39,7 +39,7 @@ export default function InitiativePage({ initiatives }: { initiatives: Initiativ
         <title>Initiatives - ImmVis</title>
       </Head>
 
-      <main className="project-page">
+      <main className="initiative-page">
         <h1>Initiatives</h1>
         <p>Here is a list of initiatives and activities that the group are undertaking. These can involved larger software development initiatives or small, contained, research initiatives and everything in between. Each initiative on this webpage contains more information to show who worked on it, who funded the initiative, and additionally provides supplemental material that explains what that initiative is about, links to software archives, etc.</p>
 
