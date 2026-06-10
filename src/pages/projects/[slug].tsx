@@ -42,8 +42,8 @@ export default function Project({
     publication.data.projects?.includes(data.id),
   );
 
-  const myGuides = guides.filter((guide) =>
-    guide.data.projects?.includes(data.id),
+  const myGuides = guides?.filter((guide) =>
+    data.guides?.includes(guide.data.id),
   );
 
   const mySpaces = spaces?.filter((space) =>
@@ -129,7 +129,7 @@ export default function Project({
           )}
 
           {/* Guides */}
-          {myGuides.length > 0 && (
+          {data.guides && data.guides.length > 0 && (
             <>
               <hr />
               <h1>Guides</h1>
