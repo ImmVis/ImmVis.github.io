@@ -2,6 +2,22 @@
   @apply inline-block py-10;
   @apply w-full sm:w-64 px-4;
 
+  .tocHeader {
+    @apply flex items-center justify-between px-3 py-2 mb-2;
+  }
+
+  .tocHeaderInteractive {
+    @apply cursor-pointer;
+  }
+
+  .chevron {
+    @apply text-zinc-600 transition-transform duration-200;
+
+    &.rotated {
+      @apply rotate-180;
+    }
+  }
+
   ul {
     @apply list-none p-0 m-0;
   }
@@ -19,7 +35,7 @@
     }
 
     &.currentPage {
-      @apply text-black bg-zinc-300 rounded-lg;
+      @apply text-black bg-zinc-300 rounded;
     }
   }
 

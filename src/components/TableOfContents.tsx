@@ -1,7 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { MatterData } from "@/helpers/MdxLoader";
-import { TableOfContentsForPages, type TocItem } from "@/components/TableOfContentsForPages";
+import {
+  TableOfContentsForPages,
+  type TocItem,
+} from "@/components/TableOfContentsForPages";
 import TableOfContentsForHeadings from "@/components/TableOfContentsForHeadings";
 
 type HeadingItem = {
@@ -119,24 +122,30 @@ export function fetchPageHeadings(minLevel = 1, maxLevel = 2) {
 export default function TableOfContents({
   guides,
   guide,
+  pageTocItems,
+  showPageToc = true,
+  showHeadings = true,
 }: {
-  guides: MatterData[];
-  guide: MatterData;
+  guides?: MatterData[];
+  guide?: MatterData;
+  pageTocItems?: TocItem[];
+  showPageToc?: boolean;
+  showHeadings?: boolean;
 }) {
   const router = useRouter();
-  const [showPageToc, setShowPageToc] = useState(false);
+  const [showHeadingsToc, setShowHeadingsToc] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const leftWrapperRef = useRef<HTMLDivElement>(null);
   const rightWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Compute page headings and manage showPageToc visibility
+  // Compute page headings and manage showHeadingsToc visibility
   useEffect(() => {
     const items = fetchPageHeadings(1, 2);
-    setShowPageToc(items.length > 3);
+    setShowHeadingsToc(items.length > 2);
 
     const onMutate = () => {
       const items2 = fetchPageHeadings(1, 2);
-      setShowPageToc(items2.length > 3);
+      setShowHeadingsToc(items2.length > 2);
     };
 
     const container =
@@ -188,29 +197,37 @@ export default function TableOfContents({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Build table of contents for nested guides
-  const tocData: TocItem[] = getTableOfContent(guides, guide);
-  const showToc = tocData[0]?.children.length > 0;
+  // Build table of contents for nested guides or a custom page TOC list
+  const tocData: TocItem[] =
+    pageTocItems ?? (guides && guide ? getTableOfContent(guides, guide) : []);
+  const showToc =
+    showPageToc && tocData.some((item) => item.children?.length > 0);
 
   return (
-    <div ref={containerRef} className="guide-toc-container">
-      {/* Table of contents for nested guides (left side) */}
+    <div ref={containerRef} className="page-toc-container">
+      {/* Page-level TOC (left side) */}
       {showToc && (
         <div
-          className="guide-toc-wrapper left-0 justify-end"
+          className="page-toc-wrapper left-0 justify-end"
           ref={leftWrapperRef}
         >
-          <TableOfContentsForPages items={tocData} currentPath={router.asPath} />
+          <TableOfContentsForPages
+            items={tocData}
+            currentPath={router.asPath}
+          />
         </div>
       )}
 
       {/* In-page headers TOC (right side) */}
-      {showPageToc && (
+      {showHeadings && showHeadingsToc && (
         <div
-          className="guide-toc-wrapper right-0 justify-start"
+          className="page-toc-wrapper right-0 justify-start"
           ref={rightWrapperRef}
         >
-          <TableOfContentsForHeadings currentPath={router.asPath} />
+          <TableOfContentsForHeadings
+            currentPath={router.asPath}
+            showPageToc={showPageToc}
+          />
         </div>
       )}
     </div>

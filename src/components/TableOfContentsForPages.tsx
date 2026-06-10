@@ -19,20 +19,58 @@ export function TableOfContentsForPages({
   currentPath: string;
 }) {
   const cleanPath = currentPath.split(/[?#]/)[0];
+  const [isWideScreen, setIsWideScreen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateLayout = () => {
+      const wide = window.innerWidth >= 1536;
+      setIsWideScreen(wide);
+      if (wide) {
+        setIsCollapsed(false);
+      }
+    };
+
+    updateLayout();
+    window.addEventListener("resize", updateLayout);
+
+    return () => window.removeEventListener("resize", updateLayout);
+  }, []);
+
+  const showToggle = !isWideScreen;
+  const shouldShowContent = isWideScreen || !isCollapsed;
 
   return (
     <nav className={style.toc}>
-      <span className="font-bold pb-3 block">Pages</span>
-      <ul>
-        {items.map((item) => (
-          <Entry
-            key={item.href}
-            item={item}
-            level={0}
-            currentPath={cleanPath}
+      <div
+        className={`${style.tocHeader} ${showToggle ? style.tocHeaderInteractive : ""}`}
+        role={showToggle ? "button" : undefined}
+        tabIndex={showToggle ? 0 : undefined}
+        aria-expanded={showToggle ? !isCollapsed : undefined}
+        onClick={showToggle ? () => setIsCollapsed((prev) => !prev) : undefined}
+      >
+        <span className="font-bold">Pages</span>
+        {showToggle && (
+          <FontAwesomeIcon
+            icon={solidIcons.faChevronUp}
+            className={`${style.chevron} ${shouldShowContent ? "" : style.rotated}`}
           />
-        ))}
-      </ul>
+        )}
+      </div>
+      {shouldShowContent && (
+        <ul>
+          {items.map((item) => (
+            <Entry
+              key={item.href}
+              item={item}
+              level={0}
+              currentPath={cleanPath}
+            />
+          ))}
+        </ul>
+      )}
     </nav>
   );
 }

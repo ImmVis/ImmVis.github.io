@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 import style from "@/styles/TableOfContents.module.scss";
 
 type HeadingItem = {
@@ -51,13 +53,38 @@ export default function TableOfContentsForHeadings({
   minLevel = 1,
   maxLevel = 2,
   currentPath,
+  showPageToc = true,
 }: {
   minLevel?: number;
   maxLevel?: number;
   currentPath?: string;
+  showPageToc?: boolean;
 }) {
   const [headings, setHeadings] = useState<HeadingItem[]>([]);
   const [selectedHash, setSelectedHash] = useState<string>("");
+  const [isWideScreen, setIsWideScreen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateLayout = () => {
+      const wide = window.innerWidth >= 1536;
+      const sideBySide = window.innerWidth >= 512;
+      setIsWideScreen(wide);
+
+      if (showPageToc) {
+        setIsCollapsed(!sideBySide);
+      } else {
+        setIsCollapsed(true);
+      }
+    };
+
+    updateLayout();
+    window.addEventListener("resize", updateLayout);
+
+    return () => window.removeEventListener("resize", updateLayout);
+  }, [showPageToc]);
 
   useEffect(() => {
     const items = getHeadings(minLevel, maxLevel);
@@ -99,20 +126,42 @@ export default function TableOfContentsForHeadings({
 
   if (!headings || headings.length === 0) return null;
 
+  const shouldRender = showPageToc || isWideScreen;
+  if (!shouldRender) return null;
+
+  const showToggle = !isWideScreen;
+  const shouldShowContent = isWideScreen || !isCollapsed;
+
   return (
     <nav className={style.toc}>
-      <span className="font-bold pb-3 block">Sections</span>
-      <ul>
-        {headings.map((h) => (
-          <HeadingNode
-            key={h.id}
-            heading={h}
-            minLevel={minLevel}
-            currentHash={selectedHash}
-            onSelect={(hash: string) => setSelectedHash(hash)}
+      <div
+        className={`${style.tocHeader} ${showToggle ? style.tocHeaderInteractive : ""}`}
+        role={showToggle ? "button" : undefined}
+        tabIndex={showToggle ? 0 : undefined}
+        aria-expanded={showToggle ? !isCollapsed : undefined}
+        onClick={showToggle ? () => setIsCollapsed((prev) => !prev) : undefined}
+      >
+        <span className="font-bold">Sections</span>
+        {showToggle && (
+          <FontAwesomeIcon
+            icon={solidIcons.faChevronUp}
+            className={`${style.chevron} ${shouldShowContent ? "" : style.rotated}`}
           />
-        ))}
-      </ul>
+        )}
+      </div>
+      {shouldShowContent && (
+        <ul>
+          {headings.map((h) => (
+            <HeadingNode
+              key={h.id}
+              heading={h}
+              minLevel={minLevel}
+              currentHash={selectedHash}
+              onSelect={(hash: string) => setSelectedHash(hash)}
+            />
+          ))}
+        </ul>
+      )}
     </nav>
   );
 }

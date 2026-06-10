@@ -17,6 +17,7 @@ import { SpaceList } from "../spaces";
 import { GuideList } from "../guides";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
+import TableOfContents from "@/components/TableOfContents";
 
 // Individual project page component
 export default function Project({
@@ -114,6 +115,8 @@ export default function Project({
             </div>
           </div>
         </div>
+
+        <TableOfContents showPageToc={false} />
 
         {/* Markdown content */}
         <div className="project-single-markdown mdx-content">
