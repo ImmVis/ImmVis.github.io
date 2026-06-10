@@ -97,6 +97,30 @@ You can change environment to explore your twin data in different contexts, such
 
 # Scaling up and automating Metahuman generation
 With the launch of UE5.7 a bunch of new Metahuman tools were introduced into UE. You can now generate a Metahuman Face using a video source, cutting out the need for a 3D scanner for generating Metahuman twins.
-Another improvement is bringing the Metahuman pipeline into the editor, whereas it had been an external web tool previously. This, along with exposing the Metahuman tools to Python scripting allows for Metahumans to be generated form patient data and a mobile phone video.
+Another improvement is bringing the Metahuman pipeline into the editor, whereas it had been an external web tool previously. This, along with exposing the Metahuman tools to Python scripting allows for Metahumans to be generated from patient data and a mobile phone video.
+
+<Image src="Images/metahuman_video_pipeline.png" width="100%" />
+
+
+# Rehabilitation visualization
+The current development focus is rehabilitation visualization. A motion capture recording of a user performing an exercise is processed into joint angles and warning signals, which are then streamed into Unreal Engine. In Unreal, a patient avatar can reproduce the exercise while feedback is overlaid on top of the rendered scene.
+
+## Objective
+The objective is to support a workflow where:
+- A motion capture video is recorded on a phone
+- The motion is processed into clinically relevant joint values
+- A 3D avatar replays the exercise with feedback overlays
+- The resulting video can be sent back to the same phone as a clearer and more motivating form of feedback
+
+## Implementation
+The project is currently moving toward a modular pipeline with small, well-defined runtime services:
+- A Python application for loading motion capture sessions, synchronizing video, computing rules, and streaming data
+- Unreal Engine subsystems that receive angle and warning values as a clean black-box interface for Blueprint and Control Rig
+- A separate Unreal Engine recording subsystem for capturing rendered feedback videos
+- A headless execution path so the same processing pipeline can later run autonomously on a server
+
+This makes it possible to prototype interactive research tools now, while also preparing for a more automated future pipeline where new incoming recordings can be processed, rendered, and returned to users with minimal manual intervention.
+
+<Image src="Images/rehab_motion_capture.png" width="100%" />
 
 
