@@ -3,7 +3,7 @@ id: "ostlanken"
 name: "Ostlänken"
 start_date: 2024
 end_date: 2024
-description: "The Ostlänken exhibition was a collaboration between Linköping University, Trafikverket, Norrköping municipality and SWECO with the goal of creating content for a townhall meeting at Visualiseringscenter C about the planned changes to city planning related to the Ostlänken high speed train railway." 
+description: "The Ostlänken exhibition was at Visualiseringscenter C shows the planned changes to city planning related to the Ostlänken high speed train railway." 
 image: "./Images/station_fisheye.png"
 homepage: ""
 people: [ "guser40", "erite19" ]
@@ -12,7 +12,7 @@ spaces: ["visual_city", "wisdome"]
 ---
 
 # About
-The Ostlänken exhibition was a collaboration between Linköping University, Visualiseringscenter C, Trafikverket, Norrköping municipality and SWECO. The  goal was to create content for a townhall meeting at Visualiseringscenter C about the planned changes to city planning related to the Ostlänken high speed train railway. The project was built in Unreal Engine 5 and produced a touch screen application, a [2D movie](https://www.youtube.com/watch?v=sJ0Yq4mUf0U) and a [dome movie](https://visualiseringscenter.se/show/ostlanken-framtidens-norrkoping/), as well as some new content for the [Simstad](/projects/simstad/) installation. 
+The Ostlänken exhibition was a collaboration between Linköping University, Visualiseringscenter C, Trafikverket, Norrköping municipality and SWECO. The  goal was to create content for a town hall meeting at Visualiseringscenter C about the planned changes to city planning related to the Ostlänken high speed train railway. The project was built in Unreal Engine 5 and produced a touch screen application, a [2D movie](https://www.youtube.com/watch?v=sJ0Yq4mUf0U) and a [dome movie](https://visualiseringscenter.se/show/ostlanken-framtidens-norrkoping/), as well as some new content for the [Simstad](/projects/simstad/) installation. 
 
 # Terrain
 Norrköping and the surrounding area was visualized in 3D using [Cesium](https://cesium.com/platform/cesium-for-unreal/). This plugin allows us to stream in geospatial data on demand, only loading what is in the direct view of the camera, with efficient LOD and culling. 
@@ -77,7 +77,7 @@ For some more locally contained meshes it was enough to place the objects in the
 Other models however spanned several kilometers and in those cases you again noticed a mismatch between the terrain and the models. 
 For some models with smaller meshes we could adjust the location of objects directly in Unreal Engine, but for the larger meshes such as the train track the mesh itself had to be transformed into WGS84 in an external program by SWECO.
 
-# Linear content rendering
+# Linear content
 As part of the town hall meeting, we created a dome movie about the Ostlänken project in Norrköping that was seen of over 600 people, as well as a flat movie for web publishing. The movies was rendered in the same Unreal Engine environment as the rest of the project, using Sequencer and Movie Render Queue
 
 ## Flat movie
@@ -106,7 +106,7 @@ To ensure that the terrain is properly loaded before a frame is rendered, you ne
 
 Another problem that can occur is if you use a custom aspect ratio, other then the typical 16:9 aspect ratio. In those cases, you need to [inform the CesiumCameraManager about your custom aspect ratio](https://community.cesium.com/t/tiles-not-loading-at-edge-of-render-area/26884/5?u=simstad).
 
-An annoying problem that occurred is that the render would freeze on specific frames and get stuck there. we suspect that it was caused by Cesium, but the only solution we could find was to restart the render for close to the freezing frame to get through it.
+An annoying problem that occurred is that the render would freeze on specific frames and get stuck there. We suspect that it was caused by Cesium, but the only solution we could find was to restart the render for close to the freezing frame to get through it.
 
 # Simstad content
 As part of the town hall meeting, we also created new content for the [Simstad](/projects/simstad/) installation. 
