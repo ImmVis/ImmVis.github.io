@@ -8,6 +8,7 @@ image: "./Images/station_fisheye.png"
 homepage: ""
 people: [ "guser40", "erite19" ]
 funding: [ "trafikverket" ]
+spaces: ["visual_city", "wisdome"]
 ---
 
 # About
@@ -66,6 +67,8 @@ The splines then had to be subdivided into a secondary spline with equal length 
 The CAD data in the project, such as the train station and train tracks was brought into Unreal Engine using [Datasmith](https://dev.epicgames.com/documentation/unreal-engine/datasmith-plugins-overview).
 This allows us to automate operations such as material assignment and UV mapping on thousands of objects, creating a smoother import pipeline.
 
+The station model came from Wingårdhs architects who won the design competition for the station. The new concept for the Butängen area was created by Norrköping municipality. The railway and other infrastructure models was provided by SWECO and other subcontractors. 
+
 <Image src="Images/CAD.png" width="100%" />
 
 ## Coordinate system adjustments
@@ -74,3 +77,40 @@ For some more locally contained meshes it was enough to place the objects in the
 Other models however spanned several kilometers and in those cases you again noticed a mismatch between the terrain and the models. 
 For some models with smaller meshes we could adjust the location of objects directly in Unreal Engine, but for the larger meshes such as the train track the mesh itself had to be transformed into WGS84 in an external program by SWECO.
 
+# Linear content rendering
+As part of the town hall meeting, we created a dome movie about the Ostlänken project in Norrköping that was seen of over 600 people, as well as a flat movie for web publishing. The movies was rendered in the same Unreal Engine environment as the rest of the project, using Sequencer and Movie Render Queue
+
+## Flat movie
+The flat movie was created by Erick Arango at Norrköping municipality.
+
+<div className="w-full aspect-video">
+  <iframe
+    src="https://www.youtube.com/embed/sJ0Yq4mUf0U"
+    title="YouTube video player"
+    className="w-full h-full"
+    allowFullScreen
+  />
+</div>
+
+## Dome movie
+
+<Image src="Images/station_fisheye.png" width="40%" float="right" />
+
+The dome movie was rendered in Unreal Engine using our custom [Fisheye render plugin](/guides/unreal_engine_fisheye_rendering/) pipeline.
+A few specific problems arose due to the fact that we were using a Cesium terrain. Since Cesium loads terrain tiles dynamically, it is important to ensure that the whole terrain in view is loaded before rendering a frame.
+This is even more important with our render pipeline since we stitch together multiple images, so any difference between the images become very obvious.
+
+In the first iteration of the dome movie, we based it on the same camera sequences as the flat movie, but in a later iteration we recreated it with sequences more suitable for the dome experience.
+
+To ensure that the terrain is properly loaded before a frame is rendered, you need to tell Sequencer to wait for Cesium to finish loading. Cesium has added a feature for this, which is enabled by [placing the Sequencer asset in the level](https://community.cesium.com/t/can-this-be-used-in-sequencer/25763/2?u=simstad) you are rendering.
+
+Another problem that can occur is if you use a custom aspect ratio, other then the typical 16:9 aspect ratio. In those cases, you need to [inform the CesiumCameraManager about your custom aspect ratio](https://community.cesium.com/t/tiles-not-loading-at-edge-of-render-area/26884/5?u=simstad).
+
+An annoying problem that occurred is that the render would freeze on specific frames and get stuck there. we suspect that it was caused by Cesium, but the only solution we could find was to restart the render for close to the freezing frame to get through it.
+
+# Simstad content
+As part of the town hall meeting, we also created new content for the [Simstad](/projects/simstad/) installation. 
+A new scenario called "Urban development" was added, showcasing how the Ostlänken project would change the city of Norrköping around the new station area.
+Affected tiles of the 3D print was also updated with new models.
+
+<Image src="Images/simstad_print.jpg" width="100%" />
