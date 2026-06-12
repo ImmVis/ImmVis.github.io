@@ -99,13 +99,13 @@ export default function Initiative({
           <MDXRemote {...content} components={mdxComponents} />
 
           {/* Projects */}
-          {myProjects.length > 0 && (
+          {/* {myProjects.length > 0 && (
             <>
               <hr />
               <h1>Projects</h1>
               <ProjectList projects={myProjects} />
             </>
-          )}
+          )} */}
 
           {/* Spaces */}
           {mySpaces.length > 0 && (
