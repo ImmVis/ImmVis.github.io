@@ -11,13 +11,17 @@ funding: ["formas", "smartbuilt"]
 
 # Technical Guide
 
-<Image alt="SimStad exhibit" src="simstad.png" float="right" width="50%" />
+<Image alt="SimStad exhibit" src="simstad.png" float="right" width="40%" />
 
-This deployment guide details the hardware and software architecture of the **SimStad** exhibition platform originally developed for Visualization Center C in Norrköping. SimStad bridges the gap between deep-learning spatial analysis and public outreach, allowing urban planners, municipal tech teams, and citizens to visualize complex city datasets over a physical landscape.
+This deployment guide details the hardware and software architecture of the SimStad exhibition originally developed for Visualization Center C in Norrköping.
 
-The core technology behind SimStad has since laid the groundwork for the **Visual City Platform (2024–2026)**—a nationwide initiative funded by FORMAS and Smart Built Environment. Utilizing deep neural networks for automated 3D reconstruction and semantic mapping, this ecosystem is designed to help Swedish municipalities independently spin up their own digital twins using advanced visualization and image analysis methods.
+SimStad bridges the gap between spatial analysis and public outreach, allowing municipalities and urban planners to visualize data about their city over a physical landscape.
 
-If you are a municipal IT specialist, exhibition technician, or developer looking to replicate or adapt this architecture for your own city, this documentation is for you. Learn more about the history and impact of the project on our main [SimStad Project Page](/projects/simstad/).
+<ImageButton
+  title="Project page"
+  href="/projects/simstad"
+  image="/content/projects/simstad/simstad.png"
+/>
 
 ---
 
@@ -45,10 +49,16 @@ The system consists of 2 parts:
 - A database for SimStad's content, including rasterized maps, videos, legends, stories, etc.
 - A communication hub between devices ([see guide](/guides/omni)), primarily used in WisDome for mass-interactivity
 
-Read more here
-
-- [Documentation](/guides/simstad/omni)
-- [Source code](https://github.com/c-toolbox/SimStad-Omni)
+<ImageButton
+  title="Read more"
+  href="/guides/simstad/omni"
+  image="omni/collections.png"
+/>
+<ImageButton
+  title="Source code"
+  href="https://github.com/c-toolbox/SimStad-Omni"
+  image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+/>
 
 <hr className="clear-both" />
 
@@ -65,7 +75,11 @@ The physical 3D city model is the center of the exhibit. The model in Norrköpin
 
 Read more about how we created the 3D model of Norrköping and how we printed it here:
 
-- [Documentation](/guides/simstad/3d_print).
+<ImageButton
+  title="Read more"
+  href="/guides/simstad/3d_print"
+  image="3d_print/print.jpg"
+/>
 
 <hr className="clear-both" />
 
@@ -80,8 +94,16 @@ Read more about how we created the 3D model of Norrköping and how we printed it
 
 The Unreal Engine application is connected to the projectors and displays the map data onto the 3D print. It uses a copy of the 3D print model to simulate accyrate projections and realistic lighting.
 
-- [Documentation](/guides/simstad/unreal)
-- [Source code](https://github.com/c-toolbox/Digital-Twin-City-Platform-UE-Public)
+<ImageButton
+  title="Read more"
+  href="/guides/simstad/unreal"
+  image="unreal/DigitalTwinEditor.png"
+/>
+<ImageButton
+  title="Source code"
+  href="https://github.com/c-toolbox/Digital-Twin-City-Platform-UE-Public"
+  image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+/>
 
 <hr className="clear-both" />
 
@@ -96,8 +118,16 @@ The Unreal Engine application is connected to the projectors and displays the ma
 
 A clean, web-based control application allowing visitors or presenters to toggle specific datasets (such as flooding vectors or noise pollution mapping).
 
-- [Documentation](/guides/simstad/interface)
-- [Source code](https://github.com/c-toolbox/SimStad-Interface)
+<ImageButton
+  title="Read more"
+  href="/guides/simstad/interface"
+  image="unreal/DigitalTwinEditor.png"
+/>
+<ImageButton
+  title="Source code"
+  href="https://github.com/c-toolbox/SimStad-Interface"
+  image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+/>
 
 <hr className="clear-both" />
 
@@ -107,8 +137,16 @@ A clean, web-based control application allowing visitors or presenters to toggle
 
 Surrounding the exhibit are additional displays. These are used to display data legends and supplimentary videos to make the exhibit more immersive. These displays are synchronized using Pixilab Blocks. The interface sends signals to Blocks, deciding what content to be shown.
 
-- (Documentation)
-- [Purchase Blocks](https://pixilab.se/products)
+<ImageButton
+  title="Pixilab Blocks"
+  href="https://pixilab.se/products"
+  image="blocks/legend.png"
+/>
+<ImageButton
+  title="Source code"
+  href="https://github.com/c-toolbox/SimStad-Interface"
+  image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+/>
 
 <hr className="clear-both" />
 
@@ -123,8 +161,11 @@ Surrounding the exhibit are additional displays. These are used to display data 
 
 Modular pipeline additions that ingest external real-time data APIs (e.g., live municipal traffic feeds) and stream them straight into Unreal Engine via Network Device Interface (NDI) layers. [Explore Live Data Plugins](/guides/simstad/plugins).
 
-- [Documentation](/guides/simstad/plugins)
-- [Purchase Blocks](https://pixilab.se/products)
+<ImageButton
+  title="Read more"
+  href="/guides/simstad/plugins"
+  image="plugins/traffic.png"
+/>
 
 <hr className="clear-both" />
 

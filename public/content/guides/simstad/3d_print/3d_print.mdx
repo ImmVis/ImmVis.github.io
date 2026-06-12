@@ -57,13 +57,13 @@ Before running automated geometry processing, your input assets must share consi
 - **Data Prep & Translation:** FME, Blender, QGIS, or Autodesk-based GIS tools
 - **Slicing Automation:** PrusaSlicer (Command Line Interface)
 
-### Step 1: Geometry & Building Import (FBX)
+### Step 1: Geometry & Building Import
 
 Import your building datasets into Houdini. When handling large municipal environments (often **30,000+ distinct FBX models**), ensure that your processing nodes preserve the global **georeferencing attributes**. Verify that all external structural files match the same target coordinate system projection before execution to avoid positional drifting.
 
-### Step 2: Terrain Data Extraction (GeoTIFF / BigTIFF)
+### Step 2: Terrain Data Extraction
 
-Incorporate high-resolution altitude rasters into your layout.
+Incorporate high-resolution altitude rasters into your layout. While GeoTIFF/BigTIFF altitude rasters are preferred, the pipeline can flexibly ingest alternative 3D spatial data formats.
 
 1. Read the georeferenced raster metadata and extract the individual pixel elevation data.
 2. Convert the raster array directly into a heightfield or a 3D polygon mesh layer.
@@ -75,7 +75,7 @@ To isolate your processing window, define an extraction polygon inside your GIS 
 
 ### Step 4: Physical Scaling
 
-Scale your entire georeferenced dataset down to your real-world target footprint measured in millimeters. Your $X$ and $Y$ axis configurations must scale down uniformly to maintain geographic truth, but the vertical $Z$ axis should remain isolated. This allows you to scale terrain height independently to emphasize subtle ridge features or steep urban elevation if your deployment space requires it.
+Scale your entire georeferenced dataset down to your real-world target footprint measured in millimeters. Your X and Y axis configurations must scale down uniformly to maintain geographic truth, but the vertical Z axis should remain isolated. This allows you to scale terrain height independently to emphasize subtle ridge features or steep urban elevation if your deployment space requires it.
 
 ---
 
@@ -85,7 +85,7 @@ Standard architectural structures contain non-manifold geometry, interior walls,
 
 ### Step 1: Volumization & Extrusion
 
-Extrude the edges of your raw terrain mesh straight down along the negative $Z$ axis to give the canvas a robust, structural base layer.
+Extrude the edges of your raw terrain mesh straight down along the negative $Z$ axis to give the canvas a robust, structural base layer, and ensure all building geometries are structurally integrated into this base layout.
 
 ### Step 2: Implicit VDB Volume Conversion
 
@@ -125,11 +125,11 @@ Isolate and clip each coordinate square out of the global mesh using your grid v
 
 ### Bottom Plate Identification Tags
 
-To make assembly straightforward, assign a coordinate identification string to every piece based on its grid coordinates ($X, Y$). Procedurally extrude this text block inside the bottom surface of the tile model. Sinking the alphanumeric tag into the print base guarantees the identification marking remains permanently readable without distorting the layout alignment or creating structural instability on the display bed.
+To make assembly straightforward, assign a coordinate identification string to every piece based on its grid coordinates (X, Y). Procedurally extrude this text block inside the bottom surface of the tile model. Sinking the alphanumeric tag into the print base guarantees the identification marking remains permanently readable without distorting the layout alignment or creating structural instability on the display bed.
 
 ### Model Preparation & Automated Export
 
-For each grid element, reset the local boundary translation relative to the origin coordinate ($0,0,0$) and verify normal directions across all faces. Run a final mesh safety sweep to clean up non-manifold artifacts or holes.
+For each grid element, reset the local boundary translation relative to the origin coordinate (0,0,0) and verify normal directions across all faces. Run a final mesh safety sweep to clean up non-manifold artifacts or holes.
 
 You can configure an automated file writer loop within Houdini to batch export every processed block out as an individual asset, employing a systematic naming format:
 tile_XX_YY.stl
@@ -152,7 +152,11 @@ done
 
 ---
 
-## 5. Material Selection and Post-Processing
+## 5. Material Selection
+
+Always use a **matte white filament** for the structural prints. Standard gloss or semi-gloss plastics generate specular hot spots under bright projector lenses, scattering light reflections across the model and washing out neighboring visualization layers.
+
+### Optional treatment
 
 <Image
   width="30%"
@@ -161,157 +165,16 @@ done
   alt="Test with different filaments and coating"
 />
 
-The surface finish of your physical model determines the final projection clarity, contrast, and image sharpness.
+We tested four distinct surface treatments under the projectors:
 
-### Filament Selection Guidelines
+- **Surface A (Base filament):** Raw print using our base matte white filament. This is what SimStad uses today.
+- **Surface B (Clas Ohlson filament):** Raw print using a different white filament.
+- **Surface C (Base + Coating):** Our base filament treated with one coat of sandable spray filler and one coat of flat white paint.
+- **Surface D (Clas Ohlson + Coating):** The Clas Ohlson filament treated with the identical spray filler and paint combination.
 
-Always use a **matte white filament** for the structural prints. Standard gloss or semi-gloss plastics generate specular hot spots under bright projector lenses, scattering light reflections across the model and washing out neighboring visualization layers.
+Leaving the filament untreated results in a noticeably blurry projection. Applying **one layer of sandable spray filler** followed by a uniform layer of **flat white paint** bridges the layer gaps. This post-processing step yields sharper edges and better contrast.
 
-### Surface Optimization & Coatings
+### Assembly tips
 
-As shown in the evaluation image above, surface treatments significantly impact projection resolution and image definition:
-
-- **Surface A / B (Raw Filament):** Displaying raw PLA lines leaves the final projection looking blurry, with a clear loss of color accuracy and structural definition.
-- **Surface C / D (Coated Finish):** Treating your raw prints with **one layer of sandable spray filler** followed by a uniform layer of **flat white paint** fills in the layer ridges. This step produces significantly sharper edges, deep visual contrast, and clean data lines across the canvas.
-
-### Final Bench Setup & Assembly Tips
-
-- **Post-Print Tooling:** Expect to perform light sanding and scrap away excess plastic or support strings along the edges of your blocks after printing to ensure a flush fit.
-- **Physical Fixture System:** Build a rigid border frame or mechanical channel enclosure directly around your assembled tile matrix. This structure locks the individual prints together tightly, preventing shifting or drift over long operational cycles.
-- **Sourcing Alternatives:** If your layout design is fixed and your team does not expect to print structural or architectural updates to your city tiles, outsourcing the physical print phase to a commercial 3D production firm can save significant time.
-
----
----
----
-
-# The raw text that David sent to me
-
-Förbearbetning
-Verktyg
-SideFX Houdini, FME, Blender
-GIS-programvara (t.ex. Autodesk-baserat verktyg) eller QGIS, FME
-PrusaSlicer (kommandoradsverktyg) eller annan slicer
-Import
-Steg
-
-1. Import av geometri (FBX)
-   Importera ett stort antal (30k+) FBX-modeller i Houdini.
-   Säkerställ att samtliga objekt behåller korrekt georeferering (världskoordinater).
-   Verifiera att alla dataset använder samma koordinatsystem.
-2. Import av terrängdata (BigTIFF / GeoTIFF)
-   Terrängdata kan komma från en georefererad rasterbild, exempelvis BigTIFF (GeoTIFF).
-   Bilden innehåller höjdinformation där pixelvärden representerar höjd.
-   Annan 3D data
-   Arbetsflöde:
-   Läs in bilden och extrahera höjdvärden.
-   Konvertera rasterdata till en höjdrepresentation (höjdfält eller polygonmesh).
-   Bevara georefereringen:
-   Pixelstorlek → fysisk skala
-   Ursprung → korrekt position i världskoordinater
-   Anpassa terrängens koordinatsystem till övrig geometri.
-3. Klippning till område (extent)
-   Datasetet begränsas till ett specifikt område:
-   Området definieras i ett GIS-verktyg (godtycklig polygonform).
-   Importera denna form till Houdini och använd den för att:
-   Ta bort geometri utanför området
-   Begränsa både terräng och objekt konsekvent
-4. Skalning till fysisk modell
-   Skala hela datasetet till önskad fysisk storlek i millimeter.
-   Säkerställ att:
-   X/Y-skala är konsekvent
-   Z-skala (höjd) kan justeras separat vid behov
-   Kontrollera slutlig storlek mot planerad utskriftsyta.
-   Bearbetning
-   Verktyg
-   SideFX Houdini (procedurbaserat och volymbaserat arbetssätt)
-5. Skapa en sammanhängande volym
-   Mål: Slå samman terräng och objekt till en enda solid och utskrivbar kropp.
-   Steg
-   a) Volymisering
-   Säkerställ att all geometri representerar volymer:
-   Terräng extruderas nedåt för att skapa en solid bas
-   Byggnader integreras i samma struktur
-   b) Volymbaserad sammanslagning
-   Omvandla geometri till en implicit volymrepresentation
-   Slå samman alla delar till en enda volym:
-   Resultatet blir en enhetlig kropp utan interna skarvar
-   c) Återuppbyggnad till mesh
-   Konvertera volymen tillbaka till polygonmesh:
-   Ger en homogen topologi
-   Mjukar upp övergångar mellan element
-   d) Vattentäthet
-   Säkerställ att modellen är:
-   Sluten (utan hål)
-   Topologiskt korrekt (manifold)
-   Fri från självskärningar
-6. Uppdelning i utskrivbara brickor
-   Mål
-   Dela upp modellen i delar som passar skrivarytan.
-   a) Definiera brickstorlek
-   Antingen:
-   Fast storlek (t.ex. 200 × 200 mm)
-   Eller dynamisk uppdelning baserad på total storlek
-   Skapa ett rutnät som täcker hela modellen
-   b) Klippning per bricka
-   Extrahera varje del baserat på rutnätet:
-   Varje bricka blir en separat sluten volym
-   Skarpa kanter mellan brickor
-   c) Identifiering
-   Tilldela varje bricka ett unikt ID:
-   Baserat på position i rutnätet
-   d) Märkning
-   Skapa en fysisk märkning:
-   ID extruderas som text på undersidan
-   Säkerställ att märkningen:
-   Inte påverkar passform
-   Är läsbar efter utskrift
-7. Förberedelse för export
-   För varje bricka:
-   Centrera modellen i origo
-   Säkerställ korrekt normalriktning
-   Validera geometrin:
-   Inga hål
-   Ingen icke-manifold geometri
-   Ingen självskärning
-8. Export
-   Exportera varje bricka som .STL
-   Filnamn ska innehålla ID:
-   bricka_XX_YY.stl
-   Export kan automatiseras via Houdinis procedurbaserade system
-9. Automatiserad generering av G-kod (PrusaSlicer)
-   Verktyg
-   PrusaSlicer (kommandoradsversion)
-   Grundprincip
-   Varje STL-fil omvandlas automatiskt till g-kod via kommandoraden.
-   gcode är det som de flesta 3D skrivare läser
-
-Things that I've written that I wanted to include
-
-About the 3d print.
-
-- 3D print
-  - Creating of acquiring the 3D model
-  - Slicing the model into squares
-  - Printing material
-    - Reflectivity, cost, etc, what we use
-    - Optional finish/coating
-  - 3D printing tips
-
-A 3D model or a surface is needed to project the image on.
-
-If a 3D printed model is used make sure it´s matte white
-
-If your projection area is bigger than the printer build area, then you need to cut the 3D model into tiles which should be marked with an ID, so it is easy to place the tiles correctly. It can be part of the tile on the bottom, so it can never be lost.
-
-For the best results, merge the terrain with the buildings, so the whole model looks like one uniform volume.
-
-Make sure that there is a fixture around all tiles so that it can't move.
-
-There will be a need for some sanding and removing excess plastic when the print is done.
-
-Outsourcing a 3D print to a professional company can be a very smart option if no update to tiles is expected.
-
-Email reply regarding the filaments and optional spray coating. It includes an image I'll add here "filler.png".
-
-It may be a bit hard to see in a photo. But here are four different surfaces under our projector. A is the filament we used. B is the Clas Ohlson filament. C and D are the same filaments but with one coat of spray filler and one coat of white paint.
-A is pretty blurry. But C and D is a lot sharper with more contrast.
+- **Sanding:** Expect to perform light sanding and scrape away excess plastic or support strings along the edges of your blocks after printing to ensure a flush fit.
+- **Fixture:** Build a rigid border frame or mechanical channel enclosure directly around your assembled tile matrix. This structure locks the individual prints together tightly, preventing shifting or drift over long operational cycles.
