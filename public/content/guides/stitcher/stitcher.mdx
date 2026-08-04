@@ -3,32 +3,112 @@ id: "stitcher"
 name: "Stitcher Tool"
 description: "Tool for stitching together images into fisheye frames"
 image: "/content/guides/stitcher/stitch_example.png"
-homepage: ""
+homepage: "https://c-toolbox.github.io/C-Stitch/"
 people: [ "erisu46" ]
 spaces: ["wisdome"]
 initiatives: [ "visc", "wisdome" ]
 funding: []
 ---
 
-# About
-Tool for stitching together images into fisheye frames
+# C-Stitch — Cubemap Stitcher for Fisheye/Fulldome Output
 
-# Download the tool
-[v20251007](/content/guides/stitcher/Stitcher20251007.zip)
+## About C-Stitch
 
-# Using the stitcher
-Start by opening _Stitcher_GUI.exe_. There are only a few settings that you have to adjust for the basic setup.
-## Resolution
-Set the cubemap resolution to the size of your images. If you are rendering for full dome size, your images should be 4096x4096.
-Your output resolution should be twice that of the input resolution, so 8192x8192 given our example.
+C-Stitch is an open-source Qt/Kirigami rewrite of the SGCT cubemap stitcher. It takes four cubemap faces, or separate left and right eye cubemaps, and renders fisheye/fulldome still-image sequences through the SGCT OpenGL pipeline.
 
-## Stereo
-If you have rendered in stereo you should check Stereoscopic (3D) input. This will turn on image input for the right eye as well.
+![C-Stitch main window](/content/guides/stitcher/c-stitch-ui.png)
 
-## Image input
-Click the ... next to Left/Right/Top/Bottom to add a link to each corresponding folder with image frames. Make the selection by selecting the first image in each folder.
-You should see the stop index adjusting automatically to the last image index when selecting the first image.
-If you have selected stereo, do the same for the right eye.
+C-Stitch follows the C-Slice application model: the UI is the master process, and pressing **Stitch** launches the same executable in `--node` mode for high-performance rendering.
 
-## Output
-Filename is the name that your fisheye frames will have. Set the path to your desired folder. If you are using stereo it is probably a good idea to divide the folders as such: /myPath/Left and /myPath/Right. 
+### Main Features
+
+- Stitch left, right, top, and bottom cubemap faces into fisheye/fulldome images
+- Run stereo as separate left-eye and right-eye node jobs for independent decode, render, readback, and saving
+- Use off-axis stereo controls for eye separation and dome diameter
+- Choose fisheye field of view values beyond the classic 180 degree case
+- Decode images with Wuffs and render with SGCT/OpenGL
+- Save PNG, JPEG, and TGA output through a local threaded stb writer
+- Index numbered image sequences before long stitch jobs
+
+### Backend
+
+C-Stitch is based on these open source projects:
+
+- [SGCT](https://sgct.github.io/) for the OpenGL rendering and projection pipeline
+- [Qt](https://www.qt.io/) and [KDE Frameworks](https://develop.kde.org/products/frameworks/) for the master UI and settings
+- [Wuffs](https://github.com/google/wuffs) for image decoding
+- [stb](https://github.com/nothings/stb) for local image writing
+
+### Version
+
+Current project version: **1.0.0**
+
+## Download
+
+### C-Stitch v1.0.0 (Latest Open-Source Version)
+
+Get the latest release of C-Stitch from GitHub:
+
+- **[Download C-Stitch v1.0.0](https://github.com/c-toolbox/C-Stitch/releases)** — Pre-built Windows installer with all required runtime dependencies
+
+### Legacy Version
+
+For compatibility with existing workflows, the previous version is still available:
+
+- **[Download Legacy Stitcher (v20251007)](/content/guides/stitcher/Stitcher20251007.zip)**
+
+## Using C-Stitch
+
+### Cubemap Input Layout
+
+C-Stitch expects four cubemap faces per eye: left, right, top, and bottom. In stereo mode, C-Stitch can launch both eye jobs, only the left-eye job, or only the right-eye job. Mono mode launches one job with no active eye separation.
+
+Image sequences are detected from numbered filenames such as `Frame_0000.png`, and C-Stitch can adopt the detected start and stop frame range automatically.
+
+Cubemap folders can be arranged with short face directory names:
+
+- `LL`, `LR`, `LT`, `LB` — for the left-eye or mono left/right/top/bottom faces
+- `RL`, `RR`, `RT`, `RB` — for the right-eye left/right/top/bottom faces
+
+When automatic face detection is enabled, selecting one numbered image from this layout fills the matching sibling face paths that contain the same filename and indexes the sequence range. If all right-eye face folders are present, stereo mode is enabled automatically.
+
+### Stitch Workflow
+
+1. **Choose cubemap faces** — Select the four cubemap faces for mono output, or the needed left-eye and/or right-eye face sets for stereo output
+2. **Select stereo mode** — Choose mono, both stereo eyes, left stereo eye only, or right stereo eye only
+3. **Set projection values** — Configure fisheye FOV in degrees, dome diameter in meters, eye separation in meters, resolution in pixels, and cubemap resolution in pixels
+4. **Index the sequence** — Scan numbered files to detect the frame range before stitching
+5. **Choose output settings** — Select output directory, filename stem, format, and threaded loading/encoding counts
+6. **Verify or Stitch** — Press **Verify** to validate inputs or **Stitch** to render the sequence
+
+The UI launches `C-Stitch.exe --node` for the actual OpenGL stitch operation.
+
+### Rendering Controls
+
+Important rendering controls include:
+
+- **Stereo output** — Eye selection, fisheye field of view, dome diameter, eye separation, output resolution, cubemap texture resolution, MSAA, FXAA, and cubic filtering
+- **Per-face rotation** — For left, right, top, and bottom faces
+- **Input sequence** — Start/stop frame range, output start frame, step size, and texture loading retry behavior
+- **Output options** — PNG compression level, JPEG quality, output format, loading threads, and encoding threads
+
+### Settings & Performance
+
+C-Stitch preferences are stored with KDE KConfig. The settings dialog can load saved startup values, reset to defaults, copy values from the current UI state, and save new startup values.
+
+Key performance settings:
+
+- **Loading threads / eye** — Controls Wuffs face-loader workers (constrained to multiples of four)
+- **Encoding threads / eye** — Controls the local stb save queue
+- Stereo mode runs each eye independently, so these counts apply per eye
+
+## External Resources
+
+For more detailed documentation, visit the official C-Stitch documentation:
+
+- **[Main Documentation](https://c-toolbox.github.io/C-Stitch/)** — Home page with all guides
+- **[Install Guide](https://c-toolbox.github.io/C-Stitch/install)** — Installation instructions for Windows and building from source
+- **[Setup Guide](https://c-toolbox.github.io/C-Stitch/setup)** — Configuration and cubemap input setup
+- **[Workflow Guide](https://c-toolbox.github.io/C-Stitch/workflow)** — Detailed stitching workflow
+- **[Settings Reference](https://c-toolbox.github.io/C-Stitch/settings)** — All available settings and options
+- **[GitHub Repository](https://github.com/c-toolbox/C-Stitch)** — Source code and releases
