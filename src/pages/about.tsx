@@ -8,7 +8,7 @@ import * as solidIcons from "@fortawesome/free-solid-svg-icons";
 
 
 export default function About({ personnel }: { personnel: PersonnelData[] }) {
-  const ids = ["petwe33", "alebo68", "erisu46"];
+  const ids = ["erisu46", "marro71", "petwe33"];
   const contacts = ids.map((id) =>
     personnel.find((person) => id == person.data.id)
   );
@@ -47,10 +47,9 @@ export default function About({ personnel }: { personnel: PersonnelData[] }) {
             and Virtual Reality (AR/VR).
           </p>
           <p>
-            Part of the group is also C-tech, with technical director Erik
-            Sundén, providing technical support and maintenance of the dome
-            and related equipment and systems at Norrköping Visualization
-            Center C.
+            Members of the group are also part of C-tech, which provides technical support 
+            and maintenance of the infrastructure in the spaces (such as the dome) at Norrköping 
+            Visualization Center C.
           </p>
           <p>
             Our vision is to create systems and software that enable the user
@@ -63,28 +62,6 @@ export default function About({ personnel }: { personnel: PersonnelData[] }) {
             the data and content even though the user change devices or systems for
             visualization.
           </p>
-
-          <h2>Research projects </h2>
-          <ul>
-            <li>
-              With the CUAS project (Collaborative Unmanned Aircraft Systems) members of the group work with augmented reality to create efficient interaction methods for collaboration and navigation of unmanned aircrafts and drones through the use of handheld devices.
-            </li>
-            <li>
-              Visualization and analysis of heterogeneous data, including provenance and persistence of data, is a challenging task growing ever more relevant as sensors and technical systems creates huge amounts of streaming data in a variety of forms.
-            </li>
-          </ul>
-          <h2>Development projects</h2>
-          <ul>
-            <li>
-              AVA (Aeronautic Visualization and Analysis) comprises of infrastructure and software ecosystem for the visualization and analysis of air traffic management.
-            </li>
-            <li>
-              SGCT (Simple Graphics Cluster Toolkit) is a software component to synchronize visualization across a computer cluster with multiple projectors.
-            </li>
-            <li>
-              DomePres is a system to easily create immersive presentation with standard tools such as PowerPoint and Keynote.
-            </li>
-          </ul>
         </div>
 
         <h2 className={style.subtitle}>Contact</h2>
