@@ -87,3 +87,24 @@ There are of course some limitations to the UV mapping method:
 - Sometimes multiple addresses (e.g. Jägarvägen 19A/D) mapped to the same mesh, usually an apartment building. In those cases we mapped the first instance to the mesh and subsequent addresses point to the same mesh, if the only difference is the address letter suffix.
 - Some addresses can contain extra meshes, such as a garage. In these cases, only the closest mesh hit is used.
 - If you want to add address rows to the dataset, you will need to rebuild the mesh and reimport it into Unreal Engine. Adding dataset columns also takes some manual labour as you need to add the new textures and assign them to the data table in Unreal Engine.
+
+# Web application
+Alongside the touch table application, a lighter web version was developed during the same project period, built with JavaScript and CesiumJS instead of Unreal Engine. The goal was to make the data explorable directly in a browser. Since a public web tool has a much wider and less controlled audience than a touch table, the underlying data was anonymized and generalized before being used in this version — see [Data generalization](#data-generalization) below.
+
+<Image src="Images/web_app_interface.png" width="100%" float="right" />
+
+## Differences from the touch table application
+The web application covers the same three climate performance categories (energy use, CO₂ emission, and climate/heat resilience) and the same set of renovation and behavior modifiers, but is scoped down in a few ways:
+
+- Only the 2030 simulation year is included, rather than all three (2030, 2050, 2080).
+- Only a single building can be selected at a time. There is no area/radius selection mode — the selected building is instead compared directly to a precomputed city-wide average.
+- Modifiers still cannot be combined with each other, consistent with the original research data.
+
+## Data generalization
+Since the web application is public-facing rather than running on a controlled touch table, the dataset was generalized before use. Rather than exposing exact, individual performance figures, the data has been adjusted to a lower level of detail, while still preserving the overall spatial and statistical patterns across the city.
+## Implementation
+The web application loads building geometry and climate data together from a single GeoJSON file, using the same attribute keys as the Excel-based dataset used in the touch-table version. This avoids the UV-mapping workaround described above: rather than baking data into textures, each building is rendered as its own geometry instance within one merged Cesium primitive, with a color attribute that can be updated directly. Buildings are extruded to a height based on their number of levels, taken from OpenStreetMap building data.
+
+Colors are assigned from fixed-range scales, one per data category (energy use, CO₂ emission, resilience), each divided into eight color-graded steps. Buildings with no data for the selected attribute are shown in gray. Average values for each attribute are precomputed once when the data loads, and per-building values are cached, so switching between attributes or selecting a building doesn't require re-reading the dataset each time.
+
+Selecting a building is done by clicking directly on it, or by searching an address, which flies the camera to the location and automatically selects the building at the center of the view. The selected building is highlighted with a pulsating color effect, and an info panel shows its values for the current attribute plotted on the same color scale as the legend, alongside a marker for the city-wide average — giving a quick visual comparison between the selected building and the city as a whole.
