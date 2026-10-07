@@ -184,6 +184,29 @@ p, li {
 		@apply rounded p-4;
 		overflow-x: auto;
 	}
+
+	/* Inline code elements (excludes code blocks managed by Shiki) */
+	:not(pre) > code {
+		@apply font-mono text-[0.875em] font-medium text-zinc-900;
+		background-color: rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		border-radius: 0.25rem;
+		padding: 0.15em 0.35em;
+		word-break: break-word;
+	}
+
+	/* Prevent Shiki pre blocks from inheriting inline code styles */
+	pre {
+		@apply rounded p-4 my-4;
+		overflow-x: auto;
+
+		code {
+			background: transparent;
+			border: none;
+			padding: 0;
+			font-size: 0.875rem;
+		}
+	}
 }
 
 /* page table-of-contents layout */
