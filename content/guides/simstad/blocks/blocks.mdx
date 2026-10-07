@@ -1,0 +1,196 @@
+---
+id: "blocks"
+name: "Blocks"
+description: "Configuration and operation of PIXILAB Blocks displays for SimStad legends, wall video, and audio."
+image: "legend.png"
+people: ["mange61"]
+funding: ["formas", "smartbuilt"]
+---
+
+# PIXILAB Blocks
+
+<Image
+  width="40%"
+  float="right"
+  src="pixilab.jpg"
+  alt="System overview of Pixilab Blocks"
+/>
+
+PIXILAB Blocks is a local-server platform for managing media, interactive content, and connected audiovisual equipment. It is used in museums across Sweden and in several exhibitions and public spaces at Visualization Center C.
+
+SimStad uses Blocks for supplementary content around the physical city model. Three small screens display information and legends for the selected dataset, while four vertical wall displays show synchronized background video. Blocks can support other display layouts; these numbers describe the installation in Norrköping.
+
+<ImageButton
+  title="PIXILAB Blocks"
+  href="https://pixilab.se/products"
+  image="pixilab.png"
+/>
+
+<hr className="clear-both" />
+
+
+## Omni and Legends
+
+<Image
+  width="30%"
+  float="right"
+  src="byggnadsar.png"
+  alt="Single SimStad scenario legend displayed in Swedish"
+/>
+
+Once Omni has been installer and a few [Scenarios and Legends](/guides/simstad/omni) have been created, Omni will generate a legend page for every Scenario.
+
+The rendered page shows the Scenario description on the left. On the right, it displays the Scenario's attached Legend and its entries. If no Legend is attached, Omni instead attempts to display the Scenario's `legend_image`.
+
+### Single scenario
+
+<Image
+  width="30%"
+  float="right"
+  src="stadskarta1930.png"
+  alt="Two SimStad scenario legends displayed in comparison mode"
+/>
+
+Open a Scenario by its key: [&lt;OMNI_URL&gt;/legend/&lt;SCENARIO_KEY&gt;/](#)
+
+Swedish is used by default. Set the `language` query parameter to `en` for English or `sv` for Swedish: [&lt;OMNI_URL&gt;/legend/&lt;SCENARIO_KEY&gt;/?language=en](#)
+
+### Comparison mode
+
+<Image
+  width="30%"
+  float="right"
+  src="trafikmangder_trafikbuller.png"
+  alt="Two SimStad scenario legends displayed in comparison mode"
+/>
+
+When a visitor enables comparison mode in the Interface, the legend page receives two Scenario keys: [&lt;OMNI_URL&gt;/legend/&lt;SCENARIO_1&gt;/&lt;SCENARIO_2&gt;/?direction=tb](#)
+
+The `direction` parameter controls the orientation of the two legends. Supported values are `tb` (top to bottom), `bt`, `lr`, and `rl`. The Interface chooses the direction for each physical screen so visitors on the left, front, and right of the city model see correctly oriented content.
+
+See [Scenarios](/guides/simstad/omni/scenarios) and [Legends](/guides/simstad/omni/legends) in Omni for instructions on creating Legend entries and images.
+
+<hr className="clear-both" />
+
+## Connecting the Interface to Blocks
+
+Whenever the selected dataset changes, the Interface sends an HTTP POST request to Blocks. These requests update the legend URLs on the small displays, start wall-display content, or change the audio state.
+
+Configure the base endpoint in the Interface's [**config.json**](/guides/simstad/interface#configuration):
+
+```json
+{
+  "BLOCKS_URL": "<YOUR_BLOCKS_URL>/rest/script/invoke/WebTask"
+}
+```
+
+The Interface uses two WebTask resources:
+
+| Resource | JSON request body | Purpose |
+| --- | --- | --- |
+| `/start` | `{ "task": "TASK_NAME" }` | Starts a Blocks Task, for example to change wall video or audio. |
+| `/set` | `{ "realmVar": "REALM_VARIABLE_NAME", "value": "NEW_VALUE" }` | Sets the Realm Variable containing a legend URL. |
+
+The resulting endpoints are therefore `BLOCKS_URL/start` and `BLOCKS_URL/set`. Read more about WebTask in PIXILAB's [documentation](https://pixilab.se/docs/blocks/app-note/basic-interaction-from-a-custom-web-page).
+
+### Prerequisite
+
+Blocks does not provide the external Realm Variable update endpoint by default. PIXILAB has provided us with an upgraded WebTask script that is used to update Realm variables externally.
+
+**Download the [SimStad WebTask script](/content/guides/simstad/blocks/WebTask.zip) and ask the Blocks server administrator to install it**. Restrict access to the endpoint to the exhibition network because it can alter live display state.
+
+<hr className="clear-both" />
+
+## Configure legend displays
+
+### Register displays and variables
+
+1. Register each legend display in Blocks and place them in one Spot Group. The Norrköping group is named `VISUAL-CITY-TABLE` and contains three displays.
+2. Give each display a unique ID and assign one Fixed Tag: `left`, `forward`, or `right`. Follow the PIXILAB documentation for display registration, roles, and Fixed Tags; the Norrköping Spot Group uses the inherited Creator role.
+3. Open the **Task** page and create a group for the SimStad Realm Variables if needed.
+4. Add three string Realm Variables: `SimStad_URL_Left`, `SimStad_URL_Forward`, and `SimStad_URL_Right`.
+5. For initial testing, set each variable to a valid legend page such as `&lt;OMNI_URL&gt;/legend/default/`.
+
+The Interface updates these variables while the exhibition runs.
+
+### Create the legend Block
+
+<Image
+  width="35%"
+  float="right"
+  src="legend_block.png"
+  alt="Completed SimStad legend Block configuration in Blocks"
+/>
+
+1. Open the **Display** page and create a **Block > Book** named `SimStadLegends`.
+2. Inside the Book, add a **Tag Selector**.
+3. Inside the Tag Selector, add one **Web** child for each legend screen.
+4. Tag the Web children `left`, `forward`, and `right` to match the displays' Fixed Tags.
+5. Enable **Dynamic URL** on every Web child and set its Binding to **Realm**.
+6. Bind each child to its matching Realm Variable, for example `left` to `SimStad_URL_Left`.
+7. Return to the Blocks home page and assign `SimStadLegends` to the legend-display Spot Group.
+
+Every display receives the same Book. The Tag Selector selects the Web child matching that display's Fixed Tag, and each child loads the URL held by its Realm Variable.
+
+<hr className="clear-both" />
+
+## Configure wall-display video
+
+<Image
+  width="35%"
+  float="right"
+  src="wall_displays.jpg"
+  alt="Four vertical wall displays mounted beside the SimStad city model"
+/>
+
+The Norrköping installation uses four vertical displays, each playing one section of a synchronized composition.
+
+### Create a synchronized video Block
+
+1. Create a Spot Group for the wall displays.
+2. Register each display and give it a Fixed Tag such as `window1`, `window2`, and so on.
+3. On the **Display** page, select **Block > Add Composition** and give the composition a descriptive name, such as `SimStad_Idle`.
+4. Inside the composition, add a **Synchronizer**, then a **Tag Selector** inside the Synchronizer.
+5. Add each display's MP4 segment as a **Media File** inside the Tag Selector. Enable looping where appropriate.
+6. Tag every Media File with its target display's Fixed Tag, for example `window3` for the third display.
+7. Assign the completed composition to the wall-display Spot Group and verify that all segments play on the correct displays and remain synchronized.
+
+Create a separate composition for each group of videos the Interface needs to select.
+
+### Create a video Task
+
+<Image
+  width="35%"
+  float="right"
+  src="legend_task.png"
+  alt="Blocks Task configured to assign a video Block to a Spot Group"
+/>
+
+1. Open the **Task** page and add a Task whose name matches the command expected by the Interface, for example `SimStad_Idle`.
+2. Add a **do** statement.
+3. Set its target to **Spot**, select the wall-display group, and select its `block` property.
+4. Set the value to the full name of the composition, for example `MyGroup/SimStad_Idle`.
+5. Run the Task with the play button and confirm that the Spot Group switches to the expected composition.
+
+For a short event such as a thunderstorm, create a separate composition and Task. After assigning the event composition, add a **wait** statement for its duration, followed by another **do** statement that restores the idle composition.
+
+<hr className="clear-both" />
+
+## Configure audio controls
+
+The Interface's mute control starts Blocks Tasks that set the wall displays' volume.
+
+1. On the **Task** page, create a playback Task such as `SimStad_PlayAudio` and a corresponding mute Task.
+2. Add one **do** statement for each wall display.
+3. For each statement, select **Spot**, the wall Spot Group, the target display, and its `volume` property.
+4. Set the volume to `1` in the playback Task and `0` in the mute Task.
+5. Run both Tasks from Blocks and verify every display before testing the Interface button.
+
+The audio Task IDs are currently configured in the Interface source rather than in `config.json`. Update the Task IDs used by `setBlocksAudio` in `BlocksManager.ts` so they exactly match the Tasks created in Blocks, then rebuild the Interface.
+
+
+---
+
+## Alternatives to Blocks
+
+Blocks is optional. A straightforward replacement is a small web server that implements the `/start` and `/set` POST endpoints described above. Set `BLOCKS_URL` in the Interface's [config.json](/guides/simstad/interface#configuration) to this server, parse the incoming task and Realm Variable commands, and use them to select the content shown on each connected display. Legend screens can render the supplied Omni legend URL in an iframe.

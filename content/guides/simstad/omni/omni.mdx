@@ -1,196 +1,111 @@
 ---
 id: "omni"
 name: "Omni"
-description: "Bla bla"
-image: "/content/guides/simstad/simstad.png"
+description: "Installation and administration of the Omni communication and content server for SimStad."
+image: "/content/guides/simstad/omni/collections.png"
 people: ["mange61", "guser40"]
 funding: ["formas", "smartbuilt"]
 ---
 
-# Omni-SimStad API Documentation
+# Omni
 
-The **Omni-SimStad** Django application serves as the core database manager and state engine for the public SimStad exhibit. It acts as a specialized subsystem under the umbrella of the larger [Omni Backend Ecosystem](https://www.google.com/search?q=https://example.com/omni-docs-stub), which coordinates multi-display, interactive installations.
+Omni is the backend for the [SimStad exhibition](/guides/simstad). It has two responsibilities:
 
-While administrative stakeholders (engineers and pedagogues) use the Django Admin panel to alter spatial layers, legends, and metadata, the frontend exhibit nodes and interactive screens query this API in real time to fetch data payloads. Additionally, specific server-rendered routes are consumed by external hardware—such as **PixiLab Blocks** monitors—to dynamically output active legends.
+- **Communication:** a WebSocket service connects the visitor [Interface](/guides/simstad/interface) to the [Unreal Engine application](/guides/simstad/unreal).
+- **Content management:** a Django database and admin site store the cities, map media, stories, legends, translations, and other exhibition content used by the Interface.
 
----
+The communication framework can also be used independently of SimStad. See the [general Omni guide](/guides/omni) for the WebSocket protocol and integration details.
 
-## 1. Architectural Overview & Context
-
-```
-   ┌────────────────────────────────────────────────────────┐
-   │                  OMNI BACKEND SYSTEM                   │
-   │  (Unified ecosystem for multi-display infrastructure)  │
-   └───────────────────────────┬────────────────────────────┘
-                               │
-                               ▼
- ┌──────────────────────────────────────────────────────────────┐
- │                    OMNI-SIMSTAD SERVER                       │
- ├──────────────────────────────┬───────────────────────────────┤
- │     Django Admin Panel       │         REST API              │
- │  (Engineers & Pedagogues)    │  (Exhibition Interfaces)      │
- └──────────────────────────────┴──────────────┬────────────────┘
-                                               │
-                       ┌───────────────────────┴───────────────────────┐
-                       ▼                                               ▼
-         ┌───────────────────────────┐                   ┌───────────────────────────┐
-         │ Interactive Exhibit Nodes │                   │   PixiLab Blocks Screens  │
-         │   (Cities / Scenarios)    │                   │   (Dynamic HTML Legends)  │
-         └───────────────────────────┘                   └───────────────────────────┘
-
-```
-
-The server manages a hierarchical data matrix optimizing geographic, temporal, and spatial visualization sequences. The core engine models map data via discrete raster types (Images, Videos, Vector Flows, and Live Network Device Interface (NDI) streams) structured across predefined exhibition domains.
+<ImageButton
+	title="Source code"
+	href="https://github.com/c-toolbox/SimStad-Omni"
+	image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+/>
 
 ---
 
-## 2. API Endpoint Registry
+## Install Omni locally
 
-All endpoints expect a base target matching your environment routing and return standardized JSON arrays or object payloads unless specified otherwise.
+Omni requires Python 3.10 and Pipenv. Clone the repository and create its environment:
 
-### Exhibition Hierarchy & Configuration
+```shell
+git clone https://github.com/c-toolbox/SimStad-Omni.git
+cd SimStad-Omni
+python -m pipenv install
+python -m pipenv shell
+python manage.py migrate --run-syncdb
+python manage.py createsuperuser
+python manage.py runserver
+```
 
-| Method | Endpoint | Description | Payload Type |
-| --- | --- | --- | --- |
-| `GET` | `/get_cities/` | Fetches all active exhibition city instances. | Array |
-| `GET` | `/get_city/<str:city_key>/` | Retrieves complete structural configuration for a targeted city. | Object |
-| `GET` | `/get_collections/` | Fetches collection groupings that tie scenarios into coherent themes. | Array |
-| `GET` | `/get_collection/<str:collection_key>/` | Retrieves data and scenario lists mapped to a single theme. | Object |
+The superuser account is required to administer exhibition content. Once the development server is running, open [http://localhost:8000/admin/](http://localhost:8000/admin/) and sign in with that account.
 
-### Spatial & Layer Content Engines
+WebSocket communication also requires [**Redis**](https://redis.io/). Install Redis for the normal configuration, or use Django Channels' in-memory channel layer for local development as described in the repository README. The in-memory option is not suitable for a multi-process production deployment.
 
-| Method | Endpoint | Description | Payload Type |
-| --- | --- | --- | --- |
-| `GET` | `/get_scenarios/` | Fetches global scenarios list across all installations. | Array |
-| `GET` | `/get_scenario/<str:scenario_key>/` | Pulls a scenario configuration along with its layered rendering matrix. | Object |
-| `GET` | `/get_rasters/` | Lists comprehensive image, video, and stream metadata assets. | Array |
-| `GET` | `/get_raster/<str:raster_key>/` | Pulls explicit system-paths, thumbnails, and key properties for a raster. | Object |
-
-### Legends, Tags, and Localizations
-
-| Method | Endpoint | Description | Payload Type |
-| --- | --- | --- | --- |
-| `GET` | `/get_legends/` | Fetches tabular legend objects. | Array |
-| `GET` | `/get_legend/<str:legend_key>/` | Pulls entries, color hex arrays, and symbols for a legend. | Object |
-| `GET` | `/get_symbols/` | Fetches list of all validated UI symbology graphics. | Array |
-| `GET` | `/get_symbol/<str:symbol_key>/` | Pulls a single symbology asset file link. | Object |
-| `GET` | `/get_tags/` | Returns structural classification tags used to organize rasters. | Array |
-| `GET` | `/get_tag/<str:tag_key>/` | Returns a specific tag resource object. | Object |
-| `GET` | `/get_localization/` | Compiles a full map of interface-agnostic key-value strings for UI rendering. | Object |
-
-### Dynamic Screen Routing
-
-| Method | Endpoint | Description | Response Type |
-| --- | --- | --- | --- |
-| `GET` | `/legend/<str:scenario_key>/` | Server-rendered view outputting the current map legend layout. | HTML |
-| `GET` | `/legend/<str:scenario_key1>/<str:scenario_key2>/` | Server-rendered comparison view displaying a side-by-side or combined legend layout. | HTML |
+For a deployed installation, use the server address instead of `localhost` and follow your organization's Django deployment, HTTPS, backup, and access-control practices. The Interface computer must be able to reach Omni's HTTP API and WebSocket endpoint.
 
 ---
 
-## 3. Core Data Object Mappings
+## Media synchronization
 
-When interacting with the API, returned objects follow specific structural conventions based on the relational schema of the backend:
+Omni stores uploaded and generated files below the Django `MEDIA_ROOT`, normally in its `media` folder. `MEDIA_URL` exposes those files over HTTP, but the installed Interface and Unreal Engine application still require local copies at their expected paths.
 
-### City
-
-Defines a geographic coordinate canvas based on the Swedish coordinate system system (**SWEREF 99 TM**), tracking UI orientation parameters and fallback loops.
-
-* `key` *(String)*: Unique alphanumeric system handle.
-* `name` *(String)*: Public exhibit title.
-* `service` *(Integer/ID)*: Reference ID linking the client node to its real-time WebSocket communication broker.
-* `min_x` / `max_x` / `min_y` / `max_y` *(Float)*: Bounding box limits for geographic tracking.
-* `orientation` *(String)*: Camera layout orientation relative to the physical city mockup table (`north`, `east`, `south`, `west`).
-* `raster_width` / `raster_height` *(Integer)*: Resolution specifications of the display canvas in pixels.
-* `default_blocks_video` *(String)*: Path to video loops rendered on standby when the client connection sits idle.
-
-### Scenario & Layers
-
-Scenarios determine exactly how informational visual maps parse onto screen components. The scenario specifies a layout behavior: `stacked` (where layers blend together using specific attributes) or `sequential` (which provisions a timeline/slider matrix based on `sequence_labels`).
-
-A Scenario object exposes a nested sequence of **Layer** configurations sorted by `order`. Every layer object includes specialized parameters based on its `type`:
-
-```json
-{
-  "key": "traffic-evolution-2026",
-  "name": "Traffic Evolution Analysis",
-  "layer_display_mode": "sequential",
-  "sequence_title": "Select Target Horizon Year",
-  "layers": [
-    {
-      "type": "image",
-      "order": 1,
-      "opacity": 0.85,
-      "emission": 0.2,
-      "crop_type": "slice",
-      "crop_data": {
-        "type": "slice",
-        "slice": { "min_u": 0.0, "max_u": 0.5, "min_v": 0.0, "max_v": 1.0 }
-      },
-      "raster": "base-map-layer"
-    },
-    {
-      "type": "flow",
-      "order": 2,
-      "opacity": 1.0,
-      "flow_scale": 1.5,
-      "flow_speed": 2.0,
-      "raster": "vector-velocity-map",
-      "flow_texture": "particle-noise-texture"
-    },
-    {
-      "type": "ndi",
-      "order": 3,
-      "ndi_stream": "LIVE_SIM_FEED_01",
-      "ndi_machine": "RENDER_NODE_LEFT"
-    }
-  ]
-}
-
-```
-
-> ### ⚠️ Layer Validation Constants
-> 
-> 
-> * **Image Layers**: Require a `raster` asset whose `media_type` is validated strictly as `image`.
-> * **Flow Layers**: Require a primary base `raster` (`image`) and an accompanying `flow_texture` (`image`) to calculate vector paths.
-> * **Movie Layers**: Require a `raster` asset whose `media_type` is validated strictly as `video`.
-> * **Color Layers**: Generate flat vector solid shapes based on hex codes parsed through the `color` attribute.
-> * **NDI Layers**: Leverage live network streams and require `ndi_stream` fields filled to bypass storage loops entirely.
-> 
-> 
-
-### Raster Assets
-
-The `Raster` engine handles standard mapping layers and automatically generates minimaps and thumbnails upon modification:
-
-* `media_type`: Disambiguates whether the core asset follows the `image` or `video` schema validation loop.
-* `image` / `video`: Native paths targeting static resource allocations.
-* `minimap` / `thumbnail`: Automatically generated scaling outputs used for rendering local UI navigation assets on client panels.
+File synchronization is therefore essential for Omni to work with the other SimStad applications. Share the complete media folder with the Interface and `media/rasters` with Unreal's `DigitalTwin/Datasets` folder. Follow the [Synchronization guide](/guides/simstad/syncthing) to configure Syncthing, direct local paths, or Windows directory junctions before testing exhibition content.
 
 ---
 
-## 4. Hardware Integrations (PixiLab Blocks Monitors)
+## Admin website
 
-To accommodate structural screens that frame map models, Omni-SimStad uses explicit server-side templates via specialized endpoints:
+<Image
+	src="collections/admin.png"
+	alt="Omni administration site showing the Communication and SimStad sections"
+/>
 
-### Single Legend Canvas
+The admin site is divided into two applications.
 
-```http
-GET /legend/<scenario_key>/
+### Communication
 
-```
+- [**Services**](/guides/simstad/omni/services) create the host and client tokens used by Unreal Engine and the Interface.
+- **Live sessions** show currently connected applications.
+- **Session logs** record completed sessions and are useful when investigating restarts or connection problems.
 
-Parses the `legend` or `legend_image` property bound to a requested Scenario. If utilizing custom elements, it reads related nested `LegendEntry` values, delivering matching symbols and hexadecimal color indicators straight to digital displays.
+For a SimStad installation, create one Service before creating the City Exhibit.
 
-### Dual Comparison Canvas
+### SimStad content
 
-```http
-GET /legend/<scenario_key1>/<scenario_key2>/
+The SimStad models form a hierarchy. Configure them in this order so that each required dependency already exists:
 
-```
-
-Processes dual scenario configurations to construct side-by-side matrices or composite comparative layouts on displays configured around multi-option interactives.
+1. [City Exhibits](/guides/simstad/omni/city_exhibits) define the map extent, output resolution, orientation, communication Service, and featured Collections.
+1. [Collections](/guides/simstad/omni/collections) group related Scenarios into chapters shown on the Interface home screen.
+1. [Scenarios](/guides/simstad/omni/scenarios) combine Rasters into layers and add the visitor-facing story and Legend.
+1. [Rasters](/guides/simstad/omni/rasters) store the map images and videos projected onto the city model.
+1. [Legends](/guides/simstad/omni/legends) explain colors and symbols used by datasets.
+1. [Legend Symbols](/guides/simstad/omni/symbols) provide reusable graphics for Legend entries.
+1. [Localized Strings](/guides/simstad/omni/localized_strings) define shared Interface labels and information text in Swedish and English.
+1. [Tags](/guides/simstad/omni/tags) provide optional categories for organizing Rasters.
 
 ---
 
-Ready to move on to the second part? Share your `admin.py` file whenever you're set, and we can draft the documentation for the administrative tools used by your engineers and pedagogues.
+## Media folder structure
+
+Omni stores uploaded media and generated previews under `MEDIA_ROOT`, normally the project's `media` folder:
+
+```text
+media/
+├── collections/    Collection preview images
+├── legends/        Legend images attached to Scenarios
+├── legendsymbols/  Symbols used in generated Legends
+├── minimaps/       Reduced-size versions of Rasters
+├── rasters/        Full-resolution Rasters
+└── thumbnails/     Small Raster thumbnails
+```
+
+The Interface requires the complete folder because it uses Collection images, Legends, Symbols, previews, and full media. Unreal Engine only requires the contents of `rasters`, which must be available in its `DigitalTwin/Datasets` folder. See the [Synchronization guide](/guides/simstad/syncthing) for local and multi-computer configurations.
+
+---
+
+## API reference
+
+The Interface loads content from Omni's HTTP API. Exhibition maintainers normally manage that content through the admin site and do not need to call the API directly. See the [Omni API reference](/guides/simstad/omni/api) when developing another Interface or troubleshooting the data returned by Omni.
+
+Legend pages are the main browser-facing exception. They render a Scenario description and Legend for display on surrounding screens. Their URLs and PIXILAB setup are documented in the [Blocks guide](/guides/simstad/blocks#omni-and-legends).

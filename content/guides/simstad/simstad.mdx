@@ -52,7 +52,7 @@ The system consists of 2 parts:
 <ImageButton
   title="Read more"
   href="/guides/simstad/omni"
-  image="omni/collections.png"
+  image="/content/guides/omni/thumbnail.png"
 />
 <ImageButton
   title="Source code"
@@ -121,7 +121,7 @@ A clean, web-based control application allowing visitors or presenters to toggle
 <ImageButton
   title="Read more"
   href="/guides/simstad/interface"
-  image="unreal/DigitalTwinEditor.png"
+  image="omni/tags/tags.png"
 />
 <ImageButton
   title="Source code"
@@ -138,14 +138,14 @@ A clean, web-based control application allowing visitors or presenters to toggle
 Surrounding the exhibit are additional displays. These are used to display data legends and supplimentary videos to make the exhibit more immersive. These displays are synchronized using Pixilab Blocks. The interface sends signals to Blocks, deciding what content to be shown.
 
 <ImageButton
-  title="Pixilab Blocks"
-  href="https://pixilab.se/products"
-  image="blocks/legend.png"
+  title="Read more"
+  href="/guides/simstad/blocks"
+  image="blocks/byggnadsar.png"
 />
 <ImageButton
-  title="Source code"
-  href="https://github.com/c-toolbox/SimStad-Interface"
-  image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+  title="Pixilab Blocks"
+  href="https://pixilab.se/products"
+  image="blocks/pixilab.png"
 />
 
 <hr className="clear-both" />
@@ -172,3 +172,17 @@ Modular pipeline additions that ingest external real-time data APIs (e.g., live 
 ## WebSocket Protocol
 
 To make the installation modular and future-proof, the communication framework between the control interface, the Omni server, and the Unreal Engine rendering pipeline relies on a clean, message-driven network protocol. If your municipality wishes to replace the frontend, substitute the rendering stack, or add custom input hardware, you can hook straight into our defined [WebSocket Protocol Guide](/guides/simstad/protocol/).
+
+<hr className="clear-both" />
+
+## Synchronization
+
+Omni manages the exhibition media, while the Interface and Unreal Engine application read local copies from their own expected folders. Keeping those files synchronized is essential: communication may succeed even when a receiving application has missing or outdated media.
+
+The [Synchronization guide](/guides/simstad/syncthing) explains how to distribute Omni's media with Syncthing, configure direct paths when applications share a computer, and link Unreal's `DigitalTwin/Datasets` folder to Omni's Rasters.
+
+<ImageButton
+  title="Read more"
+  href="/guides/simstad/syncthing"
+  image="syncthing/logo.png"
+/>
