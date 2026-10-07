@@ -36,7 +36,15 @@ We are using a atmosphere light system called Ultra Dynamic Sky. As this is a pi
 # Loading datasets
 Since the datasets are often high resolution, the time to load a dataset from disk can be quite high. To smooth out the user experience the datasets are loaded into memory on startup, and can then be shown as decals on demand.
 
-The datasets are loaded from a folder named Datasets. The folder has to be located in the root folder of either the Unreal Engine project, or the packaged version of the application under /DigitalTwin. The system also supports subfolders so you can organize your data. Folder redirectors also works, so you can have another folder location on your computer that you are referencing, for example a Google Drive synced folder.
+The datasets are loaded from `DigitalTwin/Datasets` in the Unreal Engine project or packaged application. The contents of Omni's `media/rasters` folder must be mirrored into this directory; otherwise the Interface can request valid Raster keys that Unreal cannot display.
+
+This synchronization is a required part of a SimStad installation. Use Syncthing when Omni and Unreal run on separate computers, or a Windows directory junction when they share one computer.
+
+<ImageButton
+  title="Synchronization guide"
+  href="/guides/simstad/syncthing"
+  image="/content/guides/simstad/syncthing/logo.png"
+/>
 
 # Web communication
 The Unreal Engine application is controlled using an external interface, and commands from that interface are handled through the WebSocketSubsystem in C++. By setting your custom token on both sides of the communication, you ensure a safe line between the two without interference from other connections. The token is read from file on startup, and you set it by pasting the UUID into the .env file in the root folder of the project. You also need to add the file to your packaged project folder.

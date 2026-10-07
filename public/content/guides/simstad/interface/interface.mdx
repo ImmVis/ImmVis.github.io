@@ -1,66 +1,139 @@
 ---
 id: "interface"
 name: "Interface"
-description: "Bla bla"
+description: "Installation, configuration, and operation of the SimStad visitor interface."
 image: "/content/guides/simstad/simstad.png"
 people: ["mange61"]
 funding: ["formas", "smartbuilt"]
 ---
 
-# Interface
+# SimStad Interface
 
-- Interface
-  - Overview and link to Protocol in case you want to remake it
-  - Set up your own data and scenarios
-  - Installing and setting omni token
-  - How to update and maintain content
+The SimStad Interface is the touchscreen application that visitors use to explore stories, themes, and map data on the physical 3D city model. It retrieves exhibition content from Omni and sends the visitor's choices to [Unreal Engine](/guides/simstad/unreal/) and [Blocks](/guides/simstad/blocks/).
 
-The SimStad installation includes an interactive web interface that visitors use to explore stories, themes, and data shown on the physical 3D city model.
+Communication with Unreal Engine is described in the [SimStad WebSocket protocol](/guides/simstad/protocol).
 
-## Technical description (might not be needed?)
+<Image
+  src="home.png"
+  alt="SimStad home screen with collections, map, and time controls"
+/>
 
-The interface is built in TypeScript, using Phaser, a lightweight JavaScript framework normally used for 2D games.
+<hr className="clear-both" />
 
-### Installation
+## Download and installation
 
-Describe cloning the source from (gitlab link) and following the README instructions. Once the system is built, copy the /dist/interface.exe over to the interface computer. Ensure the raster folder needs to be present in the same folder as the exe.
+Download a packaged build from the [SimStad Interface releases](https://github.com/c-toolbox/SimStad-Interface/releases), or clone the [source repository](https://github.com/c-toolbox/SimStad-Interface) and follow its README to build the application.
 
-## Content structure
+To install a packaged build:
 
-SimStad organizes its material into a hierarchy consisting of Cities, Collections, Scenarios, and Rasters.
+1. Create a folder on the interface computer, for example `C:\SimStad`.
+2. Copy `interface.exe` and `config.json` from `dist` into that folder. The two files must remain next to each other.
+3. Synchronize Omni's media folder to the interface computer. It may be stored anywhere on that computer.
+4. Set `MEDIA_PATH` in `config.json` to the local media folder.
+5. Configure the Omni connection, city, idle behavior, and optional Blocks connection as described below.
+6. Start `interface.exe` and confirm that the home screen loads the expected collections and map images.
 
-### City
+When running from source, keep `config.json` in the project root. A built copy is also placed in `dist` next to `interface.exe`.
 
-A City represents one full SimStad installation. It contains:
+### Synchronizing media
 
-- The geospatial boundaries of the city model
-- All datasets, scenarios, and collections related to that city
-- Network communication settings
+The Interface reads raster images, videos, thumbnails, and other generated media from a local folder. This folder must contain the complete media folder used by Omni; API access alone does not transfer these files.
 
-### Collections
+This is a required part of the installation. When Omni and the Interface run on different computers, use Syncthing or another mirroring solution to keep the folders synchronized. When they run on the same computer, `MEDIA_PATH` can point directly to Omni's local media folder.
 
-A Collection acts as a chapter or theme, grouping together a set of related scenarios. These are seen on the starting page of the interface and helps guide visitors by providing a storyline or theme to follow. Each collection has:
+<ImageButton
+  title="Synchronization guide"
+  href="/guides/simstad/syncthing"
+  image="/content/guides/simstad/syncthing/logo.png"
+/>
 
-- A name and cover image
-- A set of scenarios presented in a custom order
 
-### Scenarios
+## Configuration
 
-A Scenario represents a single topic within a collection. When a Scenario is selected, it sends a signal to Unreal Engine and the Blocks displays to display a particular dataset. A Scenario includes:
+The application loads `config.json` at startup. The following example configures a local media folder and local Omni server without connecting to Blocks or Unreal Engine:
 
-- A descriptive text for explaining the topic and the data source
-- A list of rasters that are layered on the 3D model
-- A legend, explaining the colors or symbols
-- Interactive elements, such as buttons or sliders
+```json
+{
+  "MEDIA_PATH": "C:\\SimStad\\media",
+  "BLOCKS_URL": "http://blocks.example/rest/script/invoke/WebTask",
+  "OMNI_URL": "http://localhost:8000",
+  "OMNI_TOKEN": "YOUR_OMNI_CLIENT_TOKEN",
+  "CITY_ID": "norrkoping",
+  "IDLE_RASTER": "IdleMovie",
+  "IDLE_TIME": 300,
+  "IDLE_FADE": 10,
+  "ONLINE": false
+}
+```
 
-### Rasters
+| Setting | Description |
+| --- | --- |
+| `MEDIA_PATH` | Absolute path to the synchronized Omni media folder on the Windows interface computer. Backslashes must be escaped as `\\` in JSON. See [Synchronization](/guides/simstad/syncthing). |
+| `BLOCKS_URL` | URL of the Pixilab Blocks WebTask endpoint. Omit it when Blocks is not used. See [Pixilab Blocks](/guides/simstad#pixilab-blocks). |
+| `OMNI_URL` | Base URL of the Omni server, such as `http://localhost:8000` or the deployed HTTPS URL. Omni is still used when `ONLINE` is `false`. |
+| `OMNI_TOKEN` | Omni service token for the interface's `client` role. Do not use the Unreal application's `host` token. See [Omni WebSocket communication](/guides/simstad/protocol#omni-websocket-communication). |
+| `CITY_ID` | The `key` of the [City Exhibit configured in Omni](/guides/simstad/omni/city_exhibits). Only content assigned to this exhibit is loaded. For the Norrköping installation, the key is `norrkoping`. |
+| `IDLE_RASTER` | The Omni Raster `key` for the video shown in attraction mode. The Norrköping installation uses an MP4 raster with the key `IdleMovie`. |
+| `IDLE_TIME` | Number of seconds without interaction before the interface resets. |
+| `IDLE_FADE` | Number of seconds used to fade to black before the reset. |
+| `ONLINE` | When `true`, enables the Blocks integration and WebSocket communication with Unreal Engine. Set it to `false` during local development to avoid affecting a running exhibition; Omni content is still downloaded. |
 
-A Raster is a single dataset represented as an image. It can be an image or a video. Rasters are used in combination in a Scenario, or can be shown individually in the interface debug mode.
+Create the client token, City Exhibit, Collections, Scenarios, and Rasters by following the [Omni administration guide](/guides/simstad/omni). Treat service tokens as credentials and do not commit a production token in a public repository.
 
-### Legends
+## Visitor experience
 
-- bla
+### Attraction mode and home
 
-### Tags
+While no one is using the exhibit, the application remains in **attraction mode** and plays the configured idle raster. Touching the screen opens the home page. After the period set by `IDLE_TIME`, the application fades out, resets the exhibition, and returns to attraction mode.
 
-- bla
+The home page displays the [Collections configured for the selected City Exhibit](/guides/simstad/omni/collections). A collection is a chapter or theme containing an ordered set of scenarios. Selecting one opens its first scenario; visitors can then move between the individual scenario pages in that collection.
+
+### Scenario pages
+
+Every public page follows the same overall layout. The content on the left changes with the selected collection or scenario. The right side contains the interactive map and time controls, with utility controls in the bottom-right corner.
+
+**Interactive map.** Touching a location on the map places a point light at the corresponding position on the physical 3D model.
+
+**Comparison mode.** Select the pin control to keep the current dataset, then navigate to another scenario. The interface displays the pinned dataset and the newly selected dataset together for comparison.
+
+**Time controls.** Two wheel controls set the date and hour of the day. These values simulate the corresponding sun position and lighting on the 3D model.
+
+**Utility controls.** The information button opens information about the installation. Reset returns the application to attraction mode, mute controls audio from Pixilab Blocks, and language switches the interface between Swedish and English.
+
+## Advanced mode
+
+<Image
+  float="right"
+  width="15%"
+  src="advanced.png"
+  alt="The C-logo in the info window"
+/>
+
+Advanced mode provides maintenance and presentation tools that are hidden from visitors. **Click the information button and tap the C-logo three times**. The logo spins to confirm that advanced mode is active, and three navigation buttons become available.
+
+{/* Add the advanced-mode activation screenshot here when it is available. */}
+
+### Exhibition
+
+The green home button returns to the normal public exhibition. Advanced mode remains available until the application is reset.
+
+### Layers
+
+<Image
+  src="layers.png"
+  alt="Advanced layers page with tagged rasters and the active layer stack"
+/>
+
+The blue layers button opens all raster files available to the selected City Exhibit, organized by their [Omni Tags](/guides/simstad/omni/tags). This includes datasets that are not part of the public Collections and Scenarios.
+
+On this page, the normal time controls are extended with layer controls. The active layers are shown as an ordered stack, similar to layers in an image editor. Operators can add or remove datasets and change their rendering order on the 3D model.
+
+### Debug controls
+
+The red debug button opens the technical controls. These include connection status and commands for reloading textures, restarting or resetting the system, testing live traffic data, and enabling debug views. Because these actions affect the running installation, this page should only be used by maintainers.
+
+## Updating exhibition content
+
+Collections, Scenarios, Layers, Legends, translations, and Raster metadata are maintained through [Omni](/guides/simstad/omni), rather than in the Interface application. After adding or replacing Raster files, allow the media folder to finish synchronizing before testing the content on the Interface computer.
+
+Use advanced mode to verify new rasters and layer combinations without adding them to the public visitor flow. If updated media does not appear, first confirm the synchronization status and `MEDIA_PATH`, then use the debug controls to reload textures.

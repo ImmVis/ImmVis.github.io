@@ -1,0 +1,44 @@
+---
+id: "symbols"
+name: "Symbols"
+description: "Create and reuse image symbols in SimStad map legends."
+image: "symbols.png"
+people: ["mange61"]
+funding: ["formas", "smartbuilt"]
+---
+
+# Legend Symbols
+
+<Image
+  src="admin.png"
+  alt="Omni admin view of Legend Symbols"
+/>
+
+Legend Symbols are small reusable images displayed beside entries in a [Legend](/guides/simstad/omni/legends). They are useful when a color alone cannot explain the data, or when the map uses a recognizable shape or icon.
+
+Omni does not provide any symbols by default as of now. You can download a starting kit of symbols here:
+
+<ImageButton
+  title="Download"
+  href="/content/guides/simstad/omni/symbols/legendsymbols.zip"
+  image="/content/guides/simstad/omni/symbols/symbols.png"
+/>
+
+## Fields
+
+After creating a new Legend Symbol under **Simstad > Symbols** in Omni Admin, add its details here.
+
+| Field | Description |
+| --- | --- |
+| **Key** | Short identifier used when selecting and retrieving the Symbol. |
+| **Image** | Image displayed next to a Legend entry. |
+
+Use consistent image dimensions across the complete Symbol set so entries align cleanly. The Norrköping installation uses images that are **128 × 64 pixels**, which is a good starting point for another installation. Transparent images are useful when the Symbol should sit over the Legend background without a visible rectangle.
+
+Once you have created a new Legend Symbol, you can use it in a Legend.
+
+<ImageButton
+  title="Legends"
+  href="/guides/simstad/omni/legends"
+  image="/content/guides/simstad/omni/legends/legends.png"
+/>
