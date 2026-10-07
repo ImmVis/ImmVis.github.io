@@ -17,6 +17,7 @@ const SpaceMeta = z.object({
   people: z.array(z.string()),
   initiatives: z.optional(z.array(z.string())),
   funding: z.array(z.string()),
+  external: z.optional(z.boolean()),
   hidden: z.optional(z.boolean()),
 });
 

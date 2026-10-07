@@ -44,15 +44,24 @@ export default function SpacePage({ spaces }: { spaces: SpaceData[] }) {
         <h1>Spaces</h1>
         <p>
           This page showcases our state-of-the-art interactive laboratories and
-          public exhibition spaces. From digital twin urban planning models in
-          Norrköping to hands-on ecosystem simulators in Gothenburg, these
-          environments bridge the gap between complex research data and
-          immersive visual exploration.
+          public exhibition spaces. These environments bridge the gap between
+          complex research data and immersive visual exploration.
         </p>
 
         <hr />
 
-        <SpaceList spaces={spaces} />
+        <SpaceList spaces={spaces.filter((space) => !space.data.external)} />
+
+        <h1>Partnering spaces</h1>
+        <p>
+          This page showcases our state-of-the-art interactive laboratories and
+          public exhibition spaces. These environments bridge the gap between
+          complex research data and immersive visual exploration.
+        </p>
+
+        <hr />
+
+        <SpaceList spaces={spaces.filter((space) => !!space.data.external)} />
       </main>
     </>
   );
