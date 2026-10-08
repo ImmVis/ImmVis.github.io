@@ -1,23 +1,60 @@
 ---
 id: "plugins"
 name: "Plug-ins"
-description: "Bla bla"
-image: "/content/guides/simstad/simstad.png"
+description: "Extend SimStad with live data visualizations streamed to Unreal Engine over NDI."
+image: "/content/guides/simstad/plugins/traffic.png"
 people: ["mange61", "guser40"]
 funding: ["formas", "smartbuilt"]
 ---
 
 # Plug-ins
 
-- Plug-ins (David NDI tech)
-  - How to create your own data stream plugin
-  - How to access and setup our TrafikLab example
-  - Headless web -> NDI
-  - Local python flask on localhost:5000, but it’s headless
-  - TrafficOverlayNDI, all NDI protocol units can detect this
-  - NDI UE SDK
-  - Add to autostart script
-  - https://opendata.samtrafiken.se/gtfs-rt/sl/VehiclePositions.pb?{API_KEY}
-    - sl – SL I Stockholm
-    - otraf – Östgötatrafiken
-    - See full list here: link
+SimStad can display live or dynamically generated visualizations as [NDI](https://ndi.video/) video layers. This provides an open extension point: a plug-in may collect data, render it with any suitable technology, and publish the result as an NDI stream. Unreal Engine then composites that stream onto the city model like any other [Scenario Layer](/guides/simstad/omni/scenarios#layer-types).
+
+A plug-in does not need to be part of Omni or the Unreal project. It only needs to:
+
+1. Produce a visual output matching the map projection and aspect ratio.
+1. Publish that output as a named NDI stream available on the exhibition network.
+1. Use the same stream name in an NDI Layer in Omni.
+
+The computer receiving the stream requires the NDI runtime, and the Unreal project requires its NDI integration. See the [Unreal guide](/guides/simstad/unreal#ndi) for the project dependency and the [Layer protocol](/guides/simstad/protocol/layer#ndi-layer) for the message format.
+
+---
+
+## TrafiklabNDI
+
+<Image alt="Live traffic on the 3d print" src="closeup.jpg" float="right" width="40%" />
+
+TrafiklabNDI is the current reference plug-in. It visualizes real-time buses, trams, and trains from [Trafiklab's regional public transport data](https://www.trafiklab.se/sv/api/gtfs-datasets/gtfs-regional/) and projects them onto SimStad's physical city model.
+
+The application consists of a small Python server and a web visualization. The server reads GTFS and GTFS-Realtime data, sends vehicle updates to the web page, and a headless browser captures that page and publishes it as an NDI video stream. This keeps data retrieval and rendering outside Unreal while still allowing the result to be used as a normal live Layer.
+
+<ImageButton
+  title="Source code and setup"
+  href="https://github.com/c-toolbox/SimStad-TrafiklabNDI"
+  image="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+/>
+
+### Requirements
+
+- An NDI 6 SDK or runtime on the computer running the streamer.
+- Trafiklab API access for both live GTFS-Realtime positions and static GTFS route data. The keys are not included in the repository. Register the required API products with [Trafiklab](https://www.trafiklab.se/) and review their current subscription, pricing, quota, and license terms.
+- Projection bounds configured for the city model.
+- Current `routes.txt` and `trips.txt` files for the selected regional operator.
+
+The source can be run with Python or packaged as Windows executables for an exhibition deployment. Build instructions, environment variables, command-line options, data URLs, and troubleshooting are maintained in the repository README.
+
+### Connect the stream to SimStad
+
+1. Install the NDI runtime and build or download the TrafiklabNDI applications as described in the repository.
+1. Configure the Trafiklab API keys, regional operator, projection bounds, resolution, and operating hours.
+1. Start the server and NDI streamer. The Norrköping installation uses the stream name `TrafficOverlayNDI`.
+1. In Omni Admin, open the relevant Scenario and add a Layer with type **NDI**.
+1. Set **Ndi stream** to the exact published stream name, for example `TrafficOverlayNDI`.
+1. Leave **Ndi machine** blank when the stream runs on the Unreal computer. Set it to the source computer name when the stream is published by another machine on the network.
+1. Save the Scenario and verify that Unreal can discover and display the stream.
+
+NDI discovery depends on the exhibition network. The source and Unreal computers must be able to discover each other, and local firewalls must allow NDI traffic. For a permanent installation, configure the server and streamer to start automatically and keep their operating hours aligned.
+
+TrafiklabNDI defaults to Norrköping and Östgötatrafiken, but the same approach can be adapted to other Trafiklab regional feeds by changing the operator, static schedule data, and projection bounds.
+
