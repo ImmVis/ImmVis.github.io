@@ -22,24 +22,17 @@ Communication with Unreal Engine is described in the [SimStad WebSocket protocol
 
 ## Download and installation
 
-Download a packaged build from the [SimStad Interface releases](https://github.com/c-toolbox/SimStad-Interface/releases), or clone the [source repository](https://github.com/c-toolbox/SimStad-Interface) and follow its README to build the application.
+Before setting up the Interface, complete the [Omni setup](/guides/simstad/omni). Create a City Exhibit and add a few Rasters, Scenarios, and Collections so that the Interface has content to display. The Interface also uses [localized strings configured in Omni](/guides/simstad/omni/localized_strings), so add the required translations before testing the complete visitor experience.
 
-To install a packaged build:
+### Run the Interface locally
 
-1. Create a folder on the interface computer, for example `C:\SimStad`.
-2. Copy `interface.exe` and `config.json` from `dist` into that folder. The two files must remain next to each other.
-3. Synchronize Omni's media folder to the interface computer. It may be stored anywhere on that computer.
-4. Set `MEDIA_PATH` in `config.json` to the local media folder.
-5. Configure the Omni connection, city, idle behavior, and optional Blocks connection as described below.
-6. Start `interface.exe` and confirm that the home screen loads the expected collections and map images.
+1. Clone the [SimStad Interface repository](https://github.com/c-toolbox/SimStad-Interface).
+2. [Synchronize Omni's media folder](/guides/simstad/syncthing) to the computer running the Interface. When Omni and the Interface run on the same computer, the Interface can use Omni's media folder directly.
+3. Update `config.json` in the repository root using the settings described below.
+4. Run `npm run dev`.
+5. Confirm that the home screen loads the expected Collections and Raster media. You can now test the Interface locally and adjust its design.
 
-When running from source, keep `config.json` in the project root. A built copy is also placed in `dist` next to `interface.exe`.
-
-### Synchronizing media
-
-The Interface reads raster images, videos, thumbnails, and other generated media from a local folder. This folder must contain the complete media folder used by Omni; API access alone does not transfer these files.
-
-This is a required part of the installation. When Omni and the Interface run on different computers, use Syncthing or another mirroring solution to keep the folders synchronized. When they run on the same computer, `MEDIA_PATH` can point directly to Omni's local media folder.
+The Interface reads Raster images, videos, thumbnails, and other generated media from a local folder. API access alone does not transfer these files, so `MEDIA_PATH` must point to a complete local copy of Omni's media folder.
 
 <ImageButton
   title="Synchronization guide"
@@ -48,14 +41,14 @@ This is a required part of the installation. When Omni and the Interface run on 
 />
 
 
-## Configuration
+### Configuration
 
-The application loads `config.json` at startup. The following example configures a local media folder and local Omni server without connecting to Blocks or Unreal Engine:
+The application loads `config.json` at startup. For an initial local setup, configure it as follows:
 
 ```json
 {
   "MEDIA_PATH": "C:\\SimStad\\media",
-  "BLOCKS_URL": "http://blocks.example/rest/script/invoke/WebTask",
+  "BLOCKS_URL": "",
   "OMNI_URL": "http://localhost:8000",
   "OMNI_TOKEN": "YOUR_OMNI_CLIENT_TOKEN",
   "CITY_ID": "norrkoping",
@@ -69,16 +62,29 @@ The application loads `config.json` at startup. The following example configures
 | Setting | Description |
 | --- | --- |
 | `MEDIA_PATH` | Absolute path to the synchronized Omni media folder on the Windows interface computer. Backslashes must be escaped as `\\` in JSON. See [Synchronization](/guides/simstad/syncthing). |
-| `BLOCKS_URL` | URL of the Pixilab Blocks WebTask endpoint. Omit it when Blocks is not used. See [Pixilab Blocks](/guides/simstad#pixilab-blocks). |
-| `OMNI_URL` | Base URL of the Omni server, such as `http://localhost:8000` or the deployed HTTPS URL. Omni is still used when `ONLINE` is `false`. |
-| `OMNI_TOKEN` | Omni service token for the interface's `client` role. Do not use the Unreal application's `host` token. See [Omni WebSocket communication](/guides/simstad/protocol#omni-websocket-communication). |
-| `CITY_ID` | The `key` of the [City Exhibit configured in Omni](/guides/simstad/omni/city_exhibits). Only content assigned to this exhibit is loaded. For the Norrköping installation, the key is `norrkoping`. |
-| `IDLE_RASTER` | The Omni Raster `key` for the video shown in attraction mode. The Norrköping installation uses an MP4 raster with the key `IdleMovie`. |
+| `BLOCKS_URL` | URL of the Pixilab Blocks WebTask endpoint. Leave this empty for initial local testing. See [Pixilab Blocks](/guides/simstad#pixilab-blocks). |
+| `OMNI_URL` | Base URL where Omni is running. Use an absolute deployed address or a local address such as `http://localhost:8000`. Omni is still used when `ONLINE` is `false`. |
+| `OMNI_TOKEN` | The `CLIENT_TOKEN` generated by the [Omni Service](/guides/simstad/omni/services) used for this installation. Do not use the Unreal application's `host` token. See [Omni WebSocket communication](/guides/simstad/protocol#omni-websocket-communication). |
+| `CITY_ID` | The `key` of the [City Exhibit you created in Omni](/guides/simstad/omni/city_exhibits). Only content assigned to this exhibit is loaded. |
+| `IDLE_RASTER` | The `key` of the first [Omni Raster](/guides/simstad/omni/rasters) to show in attraction mode. This can be changed to a dedicated idle video later. |
 | `IDLE_TIME` | Number of seconds without interaction before the interface resets. |
 | `IDLE_FADE` | Number of seconds used to fade to black before the reset. |
 | `ONLINE` | When `true`, enables the Blocks integration and WebSocket communication with Unreal Engine. Set it to `false` during local development to avoid affecting a running exhibition; Omni content is still downloaded. |
 
-Create the client token, City Exhibit, Collections, Scenarios, and Rasters by following the [Omni administration guide](/guides/simstad/omni). Treat service tokens as credentials and do not commit a production token in a public repository.
+Treat service tokens as credentials and do not commit a production token to a public repository.
+
+### Build and deploy
+
+Once the Interface works locally:
+
+1. Run `npm run build` to create the packaged Interface.
+2. Copy the contents of `dist/win/simstad-interface` to the exhibition computer.
+3. Set up [Syncthing](/guides/simstad/syncthing) on that computer so it receives Omni's media folder.
+4. Review the deployed `config.json`, then start `SimStad Interface.exe` and confirm that the expected Collections and Raster media load.
+
+Every build copies the `config.json` from the repository root into `dist`. The exhibition computer will usually need a different configuration from the development computer, especially a different `OMNI_TOKEN`, so update the deployed copy as needed after building.
+
+Create two [Services in Omni](/guides/simstad/omni/services): one for development and debugging, and one for the public exhibition. Configure each Interface and Unreal application with the client and host tokens from the same Service. This keeps local testing separate from the live exhibit and prevents development commands from affecting the public installation.
 
 ## Visitor experience
 
