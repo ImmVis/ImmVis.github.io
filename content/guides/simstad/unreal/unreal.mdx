@@ -26,9 +26,9 @@ The Unreal Engine application is a C++ project, and thus need to be built using 
 The application has some dependencies that you either need to install or resolve references to them.
 
 ## NDI
-We are using a framework called NDI to stream webpages and other sources as a layer. This uses proprietary code and can therefore not be distributed by our project. The plugin for Unreal Engine is free though and you just need to download it as your own legal entity. Follow this link, and make sure that the project has access to the files .
+SimStad uses NDI to display live video sources, including web visualizations, as Layers. The NDI runtime and Unreal Engine integration contain proprietary components and cannot be distributed with the project; install them separately for the organization operating the exhibition.
 
-This allows you to create scripts externally that publish NDI streams to the network, which UE can then listen to. For example, a headless Chrome page that shows live traffic. All you need on the UE side is to provide the stream name. You can also provide a computer name, otherwise UE assumes that the stream comes from the same computer that runs UE.
+External applications publish a named NDI stream that Unreal discovers on the exhibition network. The Layer request supplies the stream name and may also specify the source computer; when no computer is specified, SimStad expects the stream on the Unreal computer. See the [Plug-ins guide](/guides/simstad/plugins) for the full workflow and the TrafiklabNDI reference implementation.
 
 ## Ultra Dynamic Sky
 We are using a atmosphere light system called Ultra Dynamic Sky. As this is a piece of purchased content from the Epic Marketplace, we are not allowed to distribute the content freely. If you want you can buy it and add to the _folder_, and then make sure that the correct light level is used. The plugin provides a more complex and visually pleasing light scenario but is not necessary for the functionality of the project. You can opt out of it by setting up your scene with a free alternative , and make sure that the code is handling the light change request from the web connection.
