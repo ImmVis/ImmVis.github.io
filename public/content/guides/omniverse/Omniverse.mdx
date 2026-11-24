@@ -1,0 +1,77 @@
+---
+id: "omniverse"
+name: "Omniverse"
+description: "Guide for setting up Omniverse connections using Nucleus"
+image: "/content/guides/omniverse/Images/omniverse_logo.png"
+homepage: "https://www.nvidia.com/en-us/omniverse/"
+people: ["guser40"]
+spaces: []
+initiatives: ["visual_sweden"]
+funding: []
+---
+
+# What is Omniverse?
+Omniverse is a collection of systems for rendering 3D, simulating physics and robots and much more...
+
+# What is USD?
+USD stands for Universal Scene Description. Originally developed by Pixar and now maintained as OpenUSD, it is a framework for describing, assembling and exchanging 3D scenes between different applications.
+
+USD is more than just a file format. It supports geometry, materials, lighting, cameras, scene hierarchy, animation and more. It also allows multiple scene files to be combined, referenced and layered without necessarily having to merge all their contents into one file.
+
+USD is designed to make collaboration between different 3D applications and workflows easier. It is increasingly supported by applications such as Blender, Unreal Engine, Maya and many others.
+
+Common USD file extensions include .usd, .usda and .usdc.
+
+# Prerequisites
+
+Before setting up Omniverse, make sure your computer meets the hardware and software requirements for the applications you intend to use.
+
+- **GPU:** A compatible NVIDIA GPU is recommended for Omniverse Kit applications and real-time rendering.
+- **GPU drivers:** Install up-to-date NVIDIA drivers.
+- **Disk space:** Make sure you have enough space for the application, assets and cache files.
+- **Network:** A network connection is required to download applications, extensions and assets, and to connect to a Nucleus server.
+
+Check the [official NVIDIA documentation](https://docs.omniverse.nvidia.com/avp/latest/requirements.html) for the latest system requirements.
+
+
+# Setting up Omniverse
+Some older guides recommend downloading the Omniverse launcher for installing USD composer and other Omniverse application. However, this method has been deprecated and the deafault method is now to set it up using Kit app template.
+
+# Kit app template
+1. Download the repository from [Kit App Template](https://github.com/NVIDIA-Omniverse/kit-app-template)
+2. Follow this [video guide](https://www.youtube.com/watch?v=UPhgP6UKgvM) for installing USD composer as an app and launch it.
+
+# USD composer
+USD composer allows you to open and modify USD files. You can start exploring by looking at the examples in the Configurator Samples tab, or find your own files in the Content tab. USD files can be opened directly, or added to any other scene to create combined assemblies.
+
+# Nucleus
+
+Nucleus is a collaboration and asset-sharing service within the Omniverse ecosystem. It allows multiple users and compatible applications to access, share and collaborate on USD-based scenes and assets.
+
+Instead of exchanging files manually, assets can be stored on a shared Nucleus server. Applications connected to the server can access shared content, and compatible workflows can synchronize changes.
+
+## Connecting to Nucleus
+
+1. Open USD Composer.
+2. Navigate to the Content Browser.
+3. Locate the Nucleus or server connection interface.
+4. Connect to the appropriate server using its address.
+5. Log in using your credentials, if required.
+
+Contact gustav.eriksson@liu.se to obtain access credentials and information about the Nucleus server used in this project.
+
+## LiU server
+LiU has a Nucleus server set up, hosted on X
+
+## Access to files
+Contact gustav.eriksson@liu.se for connection credentials to our Nucleus server.
+
+# Simio
+Simio can be connected to Omniverse using the [Simio Omniverse Connector plugin](https://github.com/SimioLLC/OmniverseConnector).
+Following this guide you should already have Omniverse installed, so you should focus on Step 2 and 4 of the guide, for setting up the connection in Simio.
+The core idea of the Simio Omniverse connection is to sync creation, deletion and transform changes of Simio entities to the Nucleus server. You can then view the changes live in Omniverse USD Composer.
+
+# Other applications with USD support
+- Unreal Engine 
+- SketchUp
+- Revit
