@@ -21,12 +21,10 @@ Omniverse is built around NVIDIA's **Omniverse Kit** framework, which allows dev
 In this guide, we will primarily use Omniverse for visualizing simulation environments created in Simio. By connecting Simio to Omniverse through a connector and a Nucleus server, we can synchronize simulation entities and visualize changes in a shared 3D environment.
 
 # What is USD?
-USD stands for Universal Scene Description. Originally developed by Pixar and now maintained as OpenUSD, it is a framework for describing, assembling and exchanging 3D scenes between different applications.
+[USD](https://openusd.org/release/index.html) stands for Universal Scene Description. Originally developed by Pixar and now maintained as OpenUSD, it is a framework for describing, assembling and exchanging 3D scenes between different applications.
 
 USD is more than just a file format. It supports geometry, materials, lighting, cameras, scene hierarchy, animation and more. It also allows multiple scene files to be combined, referenced and layered without necessarily having to merge all their contents into one file.
-
 USD is designed to make collaboration between different 3D applications and workflows easier. It is increasingly supported by applications such as Blender, Unreal Engine, Maya and many others.
-
 Common USD file extensions include .usd, .usda and .usdc.
 
 # Prerequisites
@@ -50,9 +48,10 @@ Some older guides recommend downloading the Omniverse launcher for installing US
 
 # USD composer
 USD composer allows you to open and modify USD files. You can start exploring by looking at the examples in the Configurator Samples tab, or find your own files in the Content tab. USD files can be opened directly, or added to any other scene to create combined assemblies.
+<Image width="100%" alt="Stadium in USD composer" src="Images/stadium_usd_composer.png" />
+
 
 # Nucleus
-
 Nucleus is a collaboration and asset-sharing service within the Omniverse ecosystem. It allows multiple users and compatible applications to access, share and collaborate on USD-based scenes and assets.
 
 Instead of exchanging files manually, assets can be stored on a shared Nucleus server. Applications connected to the server can access shared content, and compatible workflows can synchronize changes.
@@ -77,6 +76,21 @@ Contact gustav.eriksson@liu.se for connection credentials to our Nucleus server.
 Simio can be connected to Omniverse using the [Simio Omniverse Connector plugin](https://github.com/SimioLLC/OmniverseConnector).
 Following this guide you should already have Omniverse installed, so you should focus on Step 2 and 4 of the guide, for setting up the connection in Simio.
 The core idea of the Simio Omniverse connection is to sync creation, deletion and transform changes of Simio entities to the Nucleus server. You can then view the changes live in Omniverse USD Composer.
+
+## Omniverse example
+<Image width="100%" alt="Simio viewport" src="Images/simio_viewport.png" />
+Following the steps in the guide from Simio, you should be able to open the `omniverse_step_element_example_samplewarehouse.spfx` file provided in the guide. Its a pretty simple setup, but it gives you an overview of the key components for adding an Omniverse link and syncing your simulations to a server. 
+
+## Connecting to the Nucleus server
+**Describe here how connect Simio to the Nucleus server**
+
+## Setting up simulation sync
+<Image width="100%" alt="Simio model entity logic" src="Images/simio_model_entity.png" />
+Looking at the ModelEntity processes, we can see the Omniverse logic being set up `OnCreated`.
+The `CreatePrim` function is called, and then a loop updates `SetPrimPositionAndOrientation` once every second.
+`OnDestroying` sends a call that removes the Prim that was initially created.
+All these steps make sure that your Simio simulation stays in sync with the Omniverse server.
+
 
 # Other applications with USD support
 - Unreal Engine 
