@@ -21,11 +21,16 @@ Omniverse is built around NVIDIA's **Omniverse Kit** framework, which allows dev
 In this guide, we will primarily use Omniverse for visualizing simulation environments created in Simio. By connecting Simio to Omniverse through a connector and a Nucleus server, we can synchronize simulation entities and visualize changes in a shared 3D environment.
 
 # What is USD?
-[USD](https://openusd.org/release/index.html) stands for Universal Scene Description. Originally developed by Pixar and now maintained as OpenUSD, it is a framework for describing, assembling and exchanging 3D scenes between different applications.
+USD stands for Universal Scene Description. Originally developed by Pixar and now maintained as OpenUSD, it is a framework for describing, assembling and exchanging 3D scenes between different applications.
 
 USD is more than just a file format. It supports geometry, materials, lighting, cameras, scene hierarchy, animation and more. It also allows multiple scene files to be combined, referenced and layered without necessarily having to merge all their contents into one file.
 USD is designed to make collaboration between different 3D applications and workflows easier. It is increasingly supported by applications such as Blender, Unreal Engine, Maya and many others.
 Common USD file extensions include .usd, .usda and .usdc.
+<ImageButton
+  title="OpenUSD official site"
+  href="https://openusd.org/release/index.html"
+  image="https://openusd.org/images/piper-banner.jpg"
+/>
 
 # Prerequisites
 
@@ -36,8 +41,13 @@ Before setting up Omniverse, make sure your computer meets the hardware and soft
 - **Disk space:** Make sure you have enough space for the application, assets and cache files.
 - **Network:** A network connection is required to download applications, extensions and assets, and to connect to a Nucleus server.
 
-Check the [official NVIDIA documentation](https://docs.omniverse.nvidia.com/avp/latest/requirements.html) for the latest system requirements.
+Check the official NVIDIA documentation for the latest system requirements.
 
+<ImageButton
+  title="Omniverse system requirements"
+  href="https://docs.omniverse.nvidia.com/avp/latest/requirements.html"
+  image="Images/omniverse_logo.png"
+/>
 
 # Setting up Omniverse
 Some older guides recommend downloading the Omniverse launcher for installing USD composer and other Omniverse application. However, this method has been deprecated and the deafault method is now to set it up using Kit app template.
@@ -45,6 +55,12 @@ Some older guides recommend downloading the Omniverse launcher for installing US
 # Kit app template
 1. Download the repository from [Kit App Template](https://github.com/NVIDIA-Omniverse/kit-app-template)
 2. Follow this [video guide](https://www.youtube.com/watch?v=UPhgP6UKgvM) for installing USD composer as an app and launch it.
+
+<ImageButton
+  title="Kit App Template Repository"
+  href="https://github.com/NVIDIA-Omniverse/kit-app-template"
+  image="Images/omniverse_logo.png"
+/>
 
 # USD composer
 USD composer allows you to open and modify USD files. You can start exploring by looking at the examples in the Configurator Samples tab, or find your own files in the Content tab. USD files can be opened directly, or added to any other scene to create combined assemblies.
